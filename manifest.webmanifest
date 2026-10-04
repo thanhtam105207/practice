@@ -1,7 +1,7 @@
 {
-  "name": "ENT303 - Top Notch 3 Master Hub",
-  "short_name": "ENT303 Hub",
-  "description": "Góc học tiếng Anh Top Notch 3 với cún poodle.",
+  "name": "Practice English",
+  "short_name": "Practice English",
+  "description": "Luyện từ vựng và ngữ pháp tiếng Anh.",
   "lang": "vi",
   "dir": "ltr",
   "start_url": "./",
