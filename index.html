@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ENT303 Top Notch 3 Master Hub - vocabulary, flashcards, grammar, notes, and quizzes.">
+    <meta name="description" content="ENT303 Top Notch 3 Master Hub - học từ vựng, flashcard, ngữ pháp và quiz poodle.">
     <title>ENT303 - Top Notch 3 Master Hub</title>
 
     <!-- PWA / Mobile App -->
@@ -45,7 +45,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
 /* ====== ĐIỀN 2 DÒNG NÀY (lấy ở Supabase → Project Settings → API) để đăng nhập dùng được trên mọi thiết bị ====== */
-window.ENT303_SUPABASE_CONFIG={url:'https://hzkhxxpejxobmmfczqau.supabase.co',anonKey:'sb_publishable_Ngp4V501gswUEJgIZv6hJg_B-G_035m'};
+window.ENT303_SUPABASE_CONFIG={url:'',anonKey:''};
 </script>
     <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -112,7 +112,7 @@ window.ENT303_SUPABASE_CONFIG={url:'https://hzkhxxpejxobmmfczqau.supabase.co',an
   @keyframes poodleFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(2deg)}}
   .quote-overlay{position:fixed;inset:0;z-index:6000;display:flex;align-items:center;justify-content:center;background:rgba(255,250,253,.82);backdrop-filter:blur(10px);transition:opacity .28s ease}
   .quote-overlay.hide{opacity:0;pointer-events:none}
-  .quote-card{width:min(620px,calc(100% - 30px));background:#fff;border:1px solid #ffdce3;border-radius:30px;box-shadow:0 24px 80px rgba(92,45,61,.18);padding:26px;text-align:center;animation:quotePop .32s ease-out}
+  .quote-card{width:min(560px,calc(100% - 30px));background:#fff;border:1px solid #ffdce3;border-radius:30px;box-shadow:0 24px 80px rgba(92,45,61,.18);padding:26px;text-align:center;animation:quotePop .32s ease-out}
   @keyframes quotePop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
   .confetti-piece{position:fixed;z-index:7000;width:9px;height:15px;border-radius:3px;pointer-events:none;animation:confettiFall 900ms cubic-bezier(.15,.7,.25,1) forwards}
   @keyframes confettiFall{to{transform:translate(var(--dx),var(--dy)) rotate(680deg);opacity:0}}
@@ -227,33 +227,30 @@ body[data-mode=dark] #bgimg:after{background:rgba(8,8,24,.55)}
 body[data-bg] .sun,body[data-bg] #scene svg{display:none}
 body[data-theme=minimal][data-bg] #scene{display:none}
 </style>
-
-<style id="ent-v6-formulas">
-  .formula-block{position:relative;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
-  .formula-block:hover{box-shadow:0 8px 20px rgba(244,63,94,.08)}
-  .formula-block:active{cursor:grabbing}
-  .formula-drag-handle{font-size:18px;line-height:1;user-select:none}
-  .formula-control{width:28px;height:28px;border-radius:9px;background:#fff;border:1px solid #fecdd3;color:#6b7280;font-weight:900;display:inline-flex;align-items:center;justify-content:center}
-  .formula-control:hover{background:#fff1f2;color:#e11d48}
-  .formula-display{min-height:58px}
-  .bottom-nav button{font-size:13px!important}
-  @media(max-width:700px){.bottom-nav button{font-size:12px!important;min-height:58px!important}.bottom-nav .nav-emoji{font-size:21px!important}}
-</style>
-
-<style id="flashcard-center-fix">
-  .flashcard-front,.flashcard-back{justify-content:center!important;align-items:center!important;text-align:center!important}
-  .flashcard-front>div,.flashcard-back>div{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-</style>
-</head>
+<style id="ent-v6c">
+.bottom-nav button{font-size:12.5px!important;font-weight:800!important;min-height:58px!important;letter-spacing:.1px}
+.bottom-nav .nav-emoji{font-size:23px!important}
+.flashcard-front,.flashcard-back{text-align:center!important;align-items:center!important}
+.flashcard-back,.flashcard-back *{text-align:center!important}
+.flashcard-back{justify-content:center!important}
+.flashcard-back ul,.flashcard-back ol{list-style:none!important;padding-left:0!important;margin-left:auto;margin-right:auto}
+.flashcard-back li{justify-content:center}
+.gb-box{border:1px solid var(--acc-b);background:var(--acc-l);border-radius:16px;padding:8px 12px;margin-top:10px}
+.gb-bar{display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin-bottom:4px}
+.gb-bar button{width:26px;height:26px;border-radius:8px;font-weight:900;font-size:12px;background:var(--card);margin-left:4px}
+.gb-text{outline:none;white-space:pre-wrap;font-weight:700;font-size:14px;min-height:22px;color:var(--ink);line-height:1.6}
+.gb-text:empty:before{content:attr(data-ph);opacity:.5}
+.gb-add{margin-top:10px;width:100%;padding:9px;border-radius:14px;border:2px dashed var(--acc-b);font-weight:800;font-size:13px;color:var(--acc)}
+</style></head>
 <body class="text-gray-800 min-h-screen flex flex-col relative pb-12" onclick="closeHoverPopupOutside(event)">
-    <div id="cute-loader" class="cute-loader"><div class="text-center"><div class="loader-buddy text-6xl">🐣</div><div class="mt-3 text-lg font-black text-slateCustom">Opening your study space...</div><div class="mt-2 flex items-center justify-center gap-2"><span class="loader-dot w-2 h-2 rounded-full bg-rose-400"></span><span class="loader-dot w-2 h-2 rounded-full bg-amber-400"></span><span class="loader-dot w-2 h-2 rounded-full bg-emerald-400"></span></div></div></div>
+    <div id="cute-loader" class="cute-loader"><div class="text-center"><div class="loader-buddy text-6xl">🐣</div><div class="mt-3 text-lg font-black text-slateCustom">Đang mở góc học tập...</div><div class="mt-2 flex items-center justify-center gap-2"><span class="loader-dot w-2 h-2 rounded-full bg-rose-400"></span><span class="loader-dot w-2 h-2 rounded-full bg-amber-400"></span><span class="loader-dot w-2 h-2 rounded-full bg-emerald-400"></span></div></div></div>
 
     <!-- Top Navigation Header -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-rose-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-12 flex justify-between items-center">
             
             <!-- Logo -->
-            <div onclick="switchSection('list')" class="flex items-center space-x-3 cursor-pointer group transition-all" title="Back to vocabulary home">
+            <div onclick="switchSection('list')" class="flex items-center space-x-3 cursor-pointer group transition-all" title="Trở về Trang chủ từ vựng">
                 <div class="w-10 h-10 bg-rose-500 rounded-2xl flex items-center justify-center text-white shadow-md shadow-rose-200 group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-book-open text-lg"></i>
                 </div>
@@ -267,8 +264,8 @@ body[data-theme=minimal][data-bg] #scene{display:none}
             <div class="flex items-center space-x-3">
                 
                 <!-- Không đặt nút Cài app trong giao diện; trình duyệt sẽ tự cung cấp Install/Add to Home Screen trong menu. -->
-                <button onclick="ENTX.openTheme()" class="px-3 py-1.5 bg-rose-50 border border-rose-200 text-rose-600 rounded-xl text-xs font-bold" title="Theme">🎨</button>
-                <div class="flex items-center bg-white border border-rose-200 rounded-xl overflow-hidden text-xs font-bold text-rose-600" title="Font size">
+                <button onclick="ENTX.openTheme()" class="px-3 py-1.5 bg-rose-50 border border-rose-200 text-rose-600 rounded-xl text-xs font-bold" title="Giao diện">🎨</button>
+                <div class="flex items-center bg-white border border-rose-200 rounded-xl overflow-hidden text-xs font-bold text-rose-600" title="Cỡ chữ">
                     <button onclick="changeFont(-1)" class="px-3 py-2 hover:bg-rose-50">A−</button>
                     <span id="font-pct" class="px-1.5 text-gray-500 w-11 text-center">120%</span>
                     <button onclick="changeFont(1)" class="px-3 py-2 hover:bg-rose-50 text-sm">A+</button>
@@ -287,7 +284,7 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                 </select>
             </div>
         </div>
-    <div id="app-back-row" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-1 pb-2 hidden"><button class="back-btn" onclick="appGoBack()">← Back</button><span id="welcome-name-mini" class="ml-2 text-xs font-bold text-gray-400"></span></div>
+    <div id="app-back-row" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-1 pb-2 hidden"><button class="back-btn" onclick="appGoBack()">← Quay lại</button><span id="welcome-name-mini" class="ml-2 text-xs font-bold text-gray-400"></span></div>
 </header>
 
     <!-- Main Content Container -->
@@ -305,15 +302,15 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                     <p id="unit-desc" class="text-gray-600 text-sm mt-1 font-medium">Giao tiếp xã giao, nghi thức ứng xử, quy tắc ứng xử và các mối quan hệ.</p>
                 </div>
 
-                <div class="flex flex-col items-end gap-2"><div class="px-4 py-2 rounded-2xl bg-white/80 border border-white shadow-sm text-xs font-extrabold text-rose-600">✨ Study a little every day</div><div class="text-[11px] text-gray-500 font-semibold text-right">Choose a Unit above • Progress is saved automatically</div></div>                </div>
+                <div class="flex flex-col items-end gap-2"><div class="px-4 py-2 rounded-2xl bg-white/80 border border-white shadow-sm text-xs font-extrabold text-rose-600">✨ Học một chút mỗi ngày</div><div class="text-[11px] text-gray-500 font-semibold text-right">Chọn Unit ở góc trên • Tiến độ tự động lưu</div></div>                </div>
             </div>
         </div>
 
         <!-- DYNAMIC SECTIONS CONTENT -->
         <div id="content-area">
 
-            <div id="home-section" class="hidden space-y-4"><section class="home-row"><div class="home-card p-4"><div class="flex items-center gap-4"><button type="button" onclick="document.getElementById('profile-image-input').click()" class="profile-avatar shrink-0" title="Đổi ảnh đại diện"><img id="profile-image" alt="" class="hidden"><span id="profile-placeholder" class="text-4xl">🐣</span></button><div class="min-w-0 flex-1"><p id="welcome-name-mini" class="text-xs font-extrabold text-rose-500"></p><h2 class="text-lg font-extrabold text-slateCustom leading-tight">Your Study Space</h2><div class="mt-2"><div class="flex justify-between text-[11px] font-black text-slateCustom"><span id="lv-chip">Lv.1</span><span id="lv-xp"></span></div><div class="h-2.5 rounded-full bg-black/10 overflow-hidden mt-1"><div id="lv-bar" class="h-full rounded-full" style="width:0;background:linear-gradient(90deg,var(--acc),#fbbf24);transition:width .6s"></div></div></div></div></div><input id="profile-image-input" type="file" accept="image/*" class="hidden" onchange="handleProfileFile(event)"><div class="quote-in mt-3 rounded-2xl p-3 flex items-start gap-2"><span class="text-xl bob">💬</span><div class="flex-1 min-w-0"><p id="hq-text" class="text-sm font-extrabold text-slateCustom leading-snug"></p><p id="hq-author" class="text-[11px] font-bold text-gray-400 mt-1"></p></div><button onclick="ENTX.quote(true)" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 font-black shrink-0" title="Quote khác">↻</button></div></div><div class="streak-card shadow-lg"><div class="streak-orb"></div><div class="relative z-10"><div class="flex items-center justify-between"><div><p class="text-[11px] font-black uppercase tracking-wider">🔥 Study Streak</p><div class="flex items-end gap-1.5 mt-1"><span id="home-streak-number" class="text-4xl font-black leading-none">0</span><span class="text-sm font-extrabold pb-0.5">ngày</span></div></div><span class="text-3xl bob">🔥</span></div><div id="streak-week" class="grid grid-cols-7 gap-1 mt-3"></div><p id="streak-hint"></p></div></div><div class="home-card p-4 flex flex-col justify-center gap-2"><div class="stat-mini"><span>📚 Total Words</span><b id="stat-total" class="text-slateCustom">0</b></div><div class="stat-mini"><span>🌱 Learned</span><b id="stat-learned" class="text-emerald-600">0</b></div><div class="stat-mini"><span>🐣 Not Learned</span><b id="stat-not-learned" class="text-amber-600">0</b></div></div></section><section id="multiplayer-card" class="mp-card p-5 sm:p-6"><div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4"><div><p class="text-xs font-black uppercase tracking-[.18em] text-violet-600">🏆 Học cùng bạn bè</p><h2 class="text-xl font-black text-slateCustom mt-1">🏆 Bảng xếp hạng tuần</h2><p id="mp-subtitle" class="text-xs text-gray-500 mt-1"></p></div><div class="flex gap-2"><button id="mp-auth-btn" onclick="ENT303MP.openAuth()" class="px-4 py-2.5 bg-violet-500 hover:bg-violet-600 text-white rounded-xl text-xs font-extrabold">Đăng nhập</button><button id="mp-refresh-btn" onclick="ENT303MP.refresh()" class="hidden px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-extrabold">↻ Cập nhật</button></div></div><div id="mp-profile-bar" class="hidden mt-4 p-4 rounded-2xl bg-violet-50 border border-violet-100"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3"><div><b id="mp-user-name" class="text-sm text-violet-900">Bạn</b><p id="mp-user-meta" class="text-[11px] text-violet-700 mt-1"></p></div><button onclick="ENT303MP.logout()" class="text-[11px] font-extrabold text-rose-600 hover:underline">Đăng xuất</button></div></div><div id="mp-leaderboard" class="mt-4 space-y-2"><div class="rounded-2xl bg-gray-50 border border-dashed p-5 text-center text-xs text-gray-400">Đăng nhập để xem bảng xếp hạng 🌱</div></div><div id="mp-weekly-message" class="hidden mt-4 rounded-2xl bg-amber-50 border border-amber-100 p-4 text-sm font-bold text-amber-900"></div></section><section class="grid grid-cols-2 md:grid-cols-4 gap-3"><button onclick="switchSection('flashcard')" class="home-action"><span class="text-2xl">🃏</span><b class="block mt-1 text-sm">Study with Flashcards</b></button><button onclick="openQuizPicker()" class="home-action"><span class="text-2xl">🧠</span><b class="block mt-1 text-sm">Quiz</b></button><button onclick="switchSection('notes')" class="home-action"><span class="text-2xl">📝</span><b class="block mt-1 text-sm">Notes</b></button><button onclick="switchSection('add')" class="home-action"><span class="text-2xl">✨</span><b class="block mt-1 text-sm">Add Word</b></button></section></div>
-            <div id="notes-section" class="hidden"><div class="grid grid-cols-1 md:grid-cols-[210px_1fr] gap-4"><div class="home-card rounded-[24px] p-3"><button onclick="ENTX.newNote()" class="w-full py-2.5 rounded-xl bg-rose-500 text-white font-extrabold text-sm mb-2">＋ Notes mới</button><div id="nt-list" class="space-y-2 max-h-[40vh] md:max-h-[65vh] overflow-y-auto"></div></div><div class="home-card rounded-[24px] p-4"><input id="nt-title" placeholder="Tiêu đề" class="w-full text-xl font-extrabold bg-transparent outline-none mb-2" oninput="ENTX.saveNote()"><div class="nt-tb flex gap-1.5 overflow-x-auto pb-2 border-b border-gray-100" onmousedown="if(event.target.tagName!=='SELECT'&&event.target.type!=='color')event.preventDefault()"><button onclick="ENTX.c('bold')"><b>B</b></button><button onclick="ENTX.c('italic')"><i>I</i></button><button onclick="ENTX.c('underline')"><u>U</u></button><button onclick="ENTX.c('strikeThrough')"><s>S</s></button><button onclick="ENTX.c('formatBlock','h1')">H1</button><button onclick="ENTX.c('formatBlock','h2')">H2</button><button onclick="ENTX.c('formatBlock','p')">¶</button><button onclick="ENTX.c('insertUnorderedList')">• List</button><button onclick="ENTX.c('insertOrderedList')">1. List</button><button onclick="ENTX.c('formatBlock','blockquote')">❝</button><button onclick="ENTX.c('justifyLeft')">⇤</button><button onclick="ENTX.c('justifyCenter')">≡</button><button onclick="ENTX.c('justifyRight')">⇥</button><select onchange="ENTX.c('fontSize',this.value);this.value=''"><option value="">Cỡ</option><option value="2">Nhỏ</option><option value="3">Vừa</option><option value="5">Lớn</option><option value="6">Rất lớn</option></select><input type="color" value="#e11d48" title="Màu chữ" onchange="ENTX.c('foreColor',this.value)" class="w-8 h-8 rounded-lg"><input type="color" value="#fde047" title="Tô nổi" onchange="ENTX.c('hiliteColor',this.value)" class="w-8 h-8 rounded-lg"><button onclick="ENTX.c('undo')">↶</button><button onclick="ENTX.c('redo')">↷</button><button onclick="ENTX.c('removeFormat')">✕</button></div><div id="nt-ed" contenteditable="true" data-ph="Viết ghi chú ở đây..." class="mt-3" oninput="ENTX.saveNote()"></div><div class="flex justify-between items-center mt-3 text-xs text-gray-400 font-bold"><span id="nt-count">0 ký tự</span><button onclick="ENTX.delNote()" class="text-rose-500">🗑 Clear ghi chú</button></div></div></div></div>
+            <div id="home-section" class="hidden space-y-4"><section class="home-row"><div class="home-card p-4"><div class="flex items-center gap-4"><button type="button" onclick="document.getElementById('profile-image-input').click()" class="profile-avatar shrink-0" title="Đổi ảnh đại diện"><img id="profile-image" alt="" class="hidden"><span id="profile-placeholder" class="text-4xl">🐣</span></button><div class="min-w-0 flex-1"><p id="welcome-name-mini" class="text-xs font-extrabold text-rose-500"></p><h2 class="text-lg font-extrabold text-slateCustom leading-tight">Góc học tập của bạn</h2><div class="mt-2"><div class="flex justify-between text-[11px] font-black text-slateCustom"><span id="lv-chip">Lv.1</span><span id="lv-xp"></span></div><div class="h-2.5 rounded-full bg-black/10 overflow-hidden mt-1"><div id="lv-bar" class="h-full rounded-full" style="width:0;background:linear-gradient(90deg,var(--acc),#fbbf24);transition:width .6s"></div></div></div></div></div><input id="profile-image-input" type="file" accept="image/*" class="hidden" onchange="handleProfileFile(event)"><div class="quote-in mt-3 rounded-2xl p-3 flex items-start gap-2"><span class="text-xl bob">💬</span><div class="flex-1 min-w-0"><p id="hq-text" class="text-sm font-extrabold text-slateCustom leading-snug"></p><p id="hq-author" class="text-[11px] font-bold text-gray-400 mt-1"></p></div><button onclick="ENTX.quote(true)" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 font-black shrink-0" title="Quote khác">↻</button></div></div><div class="streak-card shadow-lg"><div class="streak-orb"></div><div class="relative z-10"><div class="flex items-center justify-between"><div><p class="text-[11px] font-black uppercase tracking-wider">🔥 Chuỗi ngày học</p><div class="flex items-end gap-1.5 mt-1"><span id="home-streak-number" class="text-4xl font-black leading-none">0</span><span class="text-sm font-extrabold pb-0.5">ngày</span></div></div><span class="text-3xl bob">🔥</span></div><div id="streak-week" class="grid grid-cols-7 gap-1 mt-3"></div><p id="streak-hint"></p></div></div><div class="home-card p-4 flex flex-col justify-center gap-2"><div class="stat-mini"><span>📚 Tổng từ</span><b id="stat-total" class="text-slateCustom">0</b></div><div class="stat-mini"><span>🌱 Đã học</span><b id="stat-learned" class="text-emerald-600">0</b></div><div class="stat-mini"><span>🐣 Chưa học</span><b id="stat-not-learned" class="text-amber-600">0</b></div></div></section><section id="multiplayer-card" class="mp-card p-5 sm:p-6"><div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4"><div><p class="text-xs font-black uppercase tracking-[.18em] text-violet-600">🏆 Học cùng bạn bè</p><h2 class="text-xl font-black text-slateCustom mt-1">🏆 Bảng xếp hạng tuần</h2><p id="mp-subtitle" class="text-xs text-gray-500 mt-1"></p></div><div class="flex gap-2"><button id="mp-auth-btn" onclick="ENT303MP.openAuth()" class="px-4 py-2.5 bg-violet-500 hover:bg-violet-600 text-white rounded-xl text-xs font-extrabold">Đăng nhập</button><button id="mp-refresh-btn" onclick="ENT303MP.refresh()" class="hidden px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-extrabold">↻ Cập nhật</button></div></div><div id="mp-profile-bar" class="hidden mt-4 p-4 rounded-2xl bg-violet-50 border border-violet-100"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3"><div><b id="mp-user-name" class="text-sm text-violet-900">Bạn</b><p id="mp-user-meta" class="text-[11px] text-violet-700 mt-1"></p></div><button onclick="ENT303MP.logout()" class="text-[11px] font-extrabold text-rose-600 hover:underline">Đăng xuất</button></div></div><div id="mp-leaderboard" class="mt-4 space-y-2"><div class="rounded-2xl bg-gray-50 border border-dashed p-5 text-center text-xs text-gray-400">Đăng nhập để xem bảng xếp hạng 🌱</div></div><div id="mp-weekly-message" class="hidden mt-4 rounded-2xl bg-amber-50 border border-amber-100 p-4 text-sm font-bold text-amber-900"></div></section><section class="grid grid-cols-2 md:grid-cols-4 gap-3"><button onclick="switchSection('flashcard')" class="home-action"><span class="text-2xl">🃏</span><b class="block mt-1 text-sm">Học bằng thẻ</b></button><button onclick="openQuizPicker()" class="home-action"><span class="text-2xl">🧠</span><b class="block mt-1 text-sm">Quiz</b></button><button onclick="switchSection('notes')" class="home-action"><span class="text-2xl">📝</span><b class="block mt-1 text-sm">Ghi chú</b></button><button onclick="switchSection('add')" class="home-action"><span class="text-2xl">✨</span><b class="block mt-1 text-sm">Thêm từ</b></button></section></div>
+            <div id="notes-section" class="hidden"><div class="grid grid-cols-1 md:grid-cols-[210px_1fr] gap-4"><div class="home-card rounded-[24px] p-3"><button onclick="ENTX.newNote()" class="w-full py-2.5 rounded-xl bg-rose-500 text-white font-extrabold text-sm mb-2">＋ Ghi chú mới</button><div id="nt-list" class="space-y-2 max-h-[40vh] md:max-h-[65vh] overflow-y-auto"></div></div><div class="home-card rounded-[24px] p-4"><input id="nt-title" placeholder="Tiêu đề" class="w-full text-xl font-extrabold bg-transparent outline-none mb-2" oninput="ENTX.saveNote()"><div class="nt-tb flex gap-1.5 overflow-x-auto pb-2 border-b border-gray-100" onmousedown="if(event.target.tagName!=='SELECT'&&event.target.type!=='color')event.preventDefault()"><button onclick="ENTX.c('bold')"><b>B</b></button><button onclick="ENTX.c('italic')"><i>I</i></button><button onclick="ENTX.c('underline')"><u>U</u></button><button onclick="ENTX.c('strikeThrough')"><s>S</s></button><button onclick="ENTX.c('formatBlock','h1')">H1</button><button onclick="ENTX.c('formatBlock','h2')">H2</button><button onclick="ENTX.c('formatBlock','p')">¶</button><button onclick="ENTX.c('insertUnorderedList')">• List</button><button onclick="ENTX.c('insertOrderedList')">1. List</button><button onclick="ENTX.c('formatBlock','blockquote')">❝</button><button onclick="ENTX.c('justifyLeft')">⇤</button><button onclick="ENTX.c('justifyCenter')">≡</button><button onclick="ENTX.c('justifyRight')">⇥</button><select onchange="ENTX.c('fontSize',this.value);this.value=''"><option value="">Cỡ</option><option value="2">Nhỏ</option><option value="3">Vừa</option><option value="5">Lớn</option><option value="6">Rất lớn</option></select><input type="color" value="#e11d48" title="Màu chữ" onchange="ENTX.c('foreColor',this.value)" class="w-8 h-8 rounded-lg"><input type="color" value="#fde047" title="Tô nổi" onchange="ENTX.c('hiliteColor',this.value)" class="w-8 h-8 rounded-lg"><button onclick="ENTX.c('undo')">↶</button><button onclick="ENTX.c('redo')">↷</button><button onclick="ENTX.c('removeFormat')">✕</button></div><div id="nt-ed" contenteditable="true" data-ph="Viết ghi chú ở đây..." class="mt-3" oninput="ENTX.saveNote()"></div><div class="flex justify-between items-center mt-3 text-xs text-gray-400 font-bold"><span id="nt-count">0 ký tự</span><button onclick="ENTX.delNote()" class="text-rose-500">🗑 Xóa ghi chú</button></div></div></div></div>
             <!-- 1. VOCABULARY LIST SECTION -->
             <div id="list-section" class="space-y-6">
                 <div class="flex flex-wrap gap-2 items-center mb-2"><button onclick="openVocabFolderManager()" class="px-3 py-2 bg-violet-50 text-violet-700 rounded-xl text-xs font-extrabold">📁 Quản lý folder từ</button></div><div class="relative">
@@ -323,8 +320,8 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                 
                 <div>
                     <h2 class="text-lg font-extrabold text-slateCustom mb-3 flex items-center justify-between">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-layer-group text-rose-500"></i> Vocabulary in This Unit</span>
-                        <span data-guide="1" class="text-xs font-normal text-gray-400">Click a word to view full details (click again or outside to close)</span>
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-layer-group text-rose-500"></i> Danh Sách Từ Vựng Trong Unit</span>
+                        <span data-guide="1" class="text-xs font-normal text-gray-400">Bấm vào một từ để xem đầy đủ thông tin (bấm lại hoặc bấm ra ngoài để đóng)</span>
                     </h2>
                     <div class="flex flex-wrap gap-2 mb-3"><select id="vocab-folder-filter" onchange="filterVocab()" class="px-3 py-2 bg-white border border-rose-100 rounded-xl text-xs font-bold text-gray-600"><option value="">📁 Tất cả folder</option></select></div><div id="vocab-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                 </div>
@@ -341,8 +338,8 @@ body[data-theme=minimal][data-bg] #scene{display:none}
             <div id="add-section" class="hidden space-y-6">
                 <div class="bg-white p-6 rounded-3xl border border-rose-100 shadow-sm space-y-5">
                     <div>
-                        <h2 class="text-xl font-extrabold text-slateCustom flex items-center gap-2"><i class="fa-solid fa-circle-plus text-rose-500"></i> <span id="aw-title">Add New Vocabulary</span></h2>
-                        <p data-guide="1" class="text-xs text-gray-500 mt-1">Điền vào các ô rồi bấm Thêm. Required: <b>Word</b> and <b>Vietnamese meaning</b>. Other fields are optional. Chọn loại "expression" để thêm vào mục Expressions.</p>
+                        <h2 class="text-xl font-extrabold text-slateCustom flex items-center gap-2"><i class="fa-solid fa-circle-plus text-rose-500"></i> <span id="aw-title">Thêm Từ Vựng Mới</span></h2>
+                        <p data-guide="1" class="text-xs text-gray-500 mt-1">Điền vào các ô rồi bấm Thêm. Bắt buộc: <b>Từ</b> và <b>Nghĩa tiếng Việt</b>. Các ô còn lại có thể bỏ trống. Chọn loại "expression" để thêm vào mục Expressions.</p>
                     </div>
 
                     <!-- NHẬP HÀNG LOẠT TỪ VỰNG -->
@@ -352,9 +349,9 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                                 <i class="fa-solid fa-paste"></i>
                             </div>
                             <div class="min-w-0">
-                                <h3 class="font-extrabold text-amber-950">⚡ Bulk Add Vocabulary</h3>
+                                <h3 class="font-extrabold text-amber-950">⚡ Thêm nhiều từ cùng lúc</h3>
                                 <p data-guide="1" class="text-xs text-amber-800 mt-0.5">
-                                    Copy your word list from ChatGPT and paste it here. <b>One word per line</b>; separate columns with <b>|</b>.
+                                    Copy danh sách từ ChatGPT rồi dán vào đây. <b>Mỗi dòng = 1 từ</b>, các cột cách nhau bằng dấu <b>|</b>.
                                 </p>
                             </div>
                         </div>
@@ -363,10 +360,10 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                             <select id="bulk-template" class="hidden"><option value="full">Đầy đủ</option></select>
                             <div class="flex items-end gap-2">
                                 <button type="button" onclick="copyBulkFormat()" class="flex-1 px-3 py-2.5 bg-white border border-amber-200 text-amber-700 hover:bg-amber-100 font-bold rounded-xl text-xs transition-all">
-                                    <i class="fa-regular fa-copy mr-1"></i>Copy Template
+                                    <i class="fa-regular fa-copy mr-1"></i>Copy mẫu
                                 </button>
                                 <button type="button" onclick="clearBulkInput()" class="px-3 py-2.5 bg-white border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold rounded-xl text-xs transition-all">
-                                    Clear
+                                    Xóa
                                 </button>
                             </div>
                         </div>
@@ -381,10 +378,10 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                             </p>
                             <div class="flex gap-2 shrink-0">
                                 <button type="button" onclick="previewBulkWords()" class="px-4 py-2.5 bg-white border border-amber-300 text-amber-700 hover:bg-amber-100 font-bold rounded-xl text-xs transition-all">
-                                    <i class="fa-solid fa-eye mr-1"></i>Preview
+                                    <i class="fa-solid fa-eye mr-1"></i>Xem trước
                                 </button>
                                 <button type="button" onclick="importBulkWords()" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-xs transition-all shadow-sm">
-                                    <i class="fa-solid fa-file-import mr-1"></i>Import All
+                                    <i class="fa-solid fa-file-import mr-1"></i>Thêm tất cả
                                 </button>
                             </div>
                         </div>
@@ -394,11 +391,11 @@ body[data-theme=minimal][data-bg] #scene{display:none}
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Thêm vào Unit</span><select id="aw-unit" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"><option value="1">Unit 1</option><option value="2">Unit 2</option><option value="3">Unit 3</option><option value="4">Unit 4</option><option value="5">Unit 5</option><option value="6">Unit 6</option><option value="7">Unit 7</option><option value="8">Unit 8</option><option value="9">Unit 9</option><option value="10">Unit 10</option></select><label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">📁 Folder từ vựng</span><select id="aw-folder" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium"></select></label></label>
-                        <label class="block "><span class="block text-xs font-bold text-gray-500 mb-1">Word / phrase *</span><input id="aw-word" type="text" placeholder="VD: destructive" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></label>
-                        <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Part of speech</span><select id="aw-pos" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"><option value="noun">noun</option><option value="verb">verb</option><option value="adj">adj</option><option value="adv">adv</option><option value="phrase">phrase</option><option value="expression">expression</option></select></label>
+                        <label class="block "><span class="block text-xs font-bold text-gray-500 mb-1">Từ / cụm từ *</span><input id="aw-word" type="text" placeholder="VD: destructive" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></label>
+                        <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Loại từ</span><select id="aw-pos" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"><option value="noun">noun</option><option value="verb">verb</option><option value="adj">adj</option><option value="adv">adv</option><option value="phrase">phrase</option><option value="expression">expression</option></select></label>
                         <label class="block "><span class="block text-xs font-bold text-gray-500 mb-1">IPA</span><input id="aw-ipa" type="text" placeholder="VD: /dɪˈstrʌk.tɪv/" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></label>
                         <label class="block "><span class="block text-xs font-bold text-gray-500 mb-1">Stress (trọng âm)</span><input id="aw-stress" type="text" placeholder="VD: -STRUC-" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></label>
-                        <label class="block "><span class="block text-xs font-bold text-gray-500 mb-1">Vietnamese meaning *</span><input id="aw-vi" type="text" placeholder="VD: có tính phá hoại; gây thiệt hại" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></label>
+                        <label class="block "><span class="block text-xs font-bold text-gray-500 mb-1">Nghĩa tiếng Việt *</span><input id="aw-vi" type="text" placeholder="VD: có tính phá hoại; gây thiệt hại" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></label>
                         <label class="block md:col-span-3"><span class="block text-xs font-bold text-gray-500 mb-1">EN meaning</span><input id="aw-en" type="text" placeholder="VD: Causing serious damage or harm." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></label>
                         <label class="block md:col-span-3"><span class="block text-xs font-bold text-gray-500 mb-1">Collocations (mỗi dòng 1 cụm: cụm — nghĩa)</span><textarea id="aw-coll" rows="4" placeholder="destructive behavior — hành vi phá hoại" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
                         <label class="block md:col-span-3"><span class="block text-xs font-bold text-gray-500 mb-1">Word family (mỗi dòng 1 từ: từ (loại) — nghĩa)</span><textarea id="aw-wf" rows="4" placeholder="destroy (v) — phá hủy" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
@@ -406,7 +403,7 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                         <label class="block md:col-span-3"><span class="block text-xs font-bold text-gray-500 mb-1">Example (EN)</span><input id="aw-example" type="text" placeholder="" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></label>
                         <label class="block md:col-span-3"><span class="block text-xs font-bold text-gray-500 mb-1">Mini note</span><input id="aw-note" type="text" placeholder="" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></label>
                     </div>
-                    <div class="flex justify-end gap-3"><button id="aw-cancel" onclick="resetAddForm();switchSection('list')" class="hidden px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold rounded-2xl transition-all">Cancel</button><button onclick="addWord()" class="px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-2xl transition-all shadow-md shadow-rose-200 flex items-center gap-2"><i class="fa-solid fa-plus"></i> <span id="aw-btn-text">Add to Unit</span></button>
+                    <div class="flex justify-end gap-3"><button id="aw-cancel" onclick="resetAddForm();switchSection('list')" class="hidden px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold rounded-2xl transition-all">Hủy</button><button onclick="addWord()" class="px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-2xl transition-all shadow-md shadow-rose-200 flex items-center gap-2"><i class="fa-solid fa-plus"></i> <span id="aw-btn-text">Thêm Vào Unit</span></button>
                     </div>
                 </div>
             </div>
@@ -414,17 +411,17 @@ body[data-theme=minimal][data-bg] #scene{display:none}
             <!-- 3. FLASHCARD SECTION -->
             <div id="flashcard-section" class="hidden flex flex-col items-center justify-center py-4">
                 <div class="w-full max-w-xl flex justify-between items-center mb-4 text-xs font-bold text-gray-500">
-                    <div>Studying: <span id="fc-current" class="text-rose-600 font-extrabold">1</span> / <span id="fc-total">25</span></div>
+                    <div>Đang học: <span id="fc-current" class="text-rose-600 font-extrabold">1</span> / <span id="fc-total">25</span></div>
                     <div class="flex gap-4">
-                        <span class="text-emerald-600"><i class="fa-solid fa-circle-check mr-1"></i> Learned: <span id="fc-learned-count">0</span></span>
-                        <span class="text-rose-500"><i class="fa-solid fa-circle-xmark mr-1"></i> Not learned: <span id="fc-unlearned-count">0</span></span>
+                        <span class="text-emerald-600"><i class="fa-solid fa-circle-check mr-1"></i> Đã thuộc: <span id="fc-learned-count">0</span></span>
+                        <span class="text-rose-500"><i class="fa-solid fa-circle-xmark mr-1"></i> Chưa thuộc: <span id="fc-unlearned-count">0</span></span>
                     </div>
                 </div>
 
                 <div onclick="flipCard()" class="flashcard w-full max-w-xl h-80 cursor-pointer">
                     <div id="flashcard-inner" class="flashcard-inner relative w-full h-full shadow-md hover:shadow-xl rounded-3xl border border-rose-100 bg-white transition-all">
                         <!-- Front -->
-                        <div class="flashcard-front absolute inset-0 p-8 flex flex-col justify-center gap-5 items-center text-center">
+                        <div class="flashcard-front absolute inset-0 p-8 flex flex-col justify-between items-center text-center">
                             <span id="fc-pos" class="px-4 py-1.5 bg-rose-50 text-rose-600 text-xs font-bold rounded-full border border-rose-200">noun</span>
                             <div>
                                 <div id="fc-image-wrap" class="hidden mb-3">
@@ -441,28 +438,28 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                             <span class="text-xs text-gray-400"><i class="fa-solid fa-arrow-rotate-right mr-1"></i data-guide="1"> Nhấn Space hoặc click để xem nghĩa</span>
                         </div>
                         <!-- Back -->
-                        <div class="flashcard-back absolute inset-0 p-8 flex flex-col justify-center gap-5 items-center text-center bg-slateCustom text-white rounded-3xl">
-                            <span class="text-xs font-bold text-rose-300 uppercase tracking-wider">Vietnamese Meaning</span>
+                        <div class="flashcard-back absolute inset-0 p-8 flex flex-col justify-between items-center text-center bg-slateCustom text-white rounded-3xl">
+                            <span class="text-xs font-bold text-rose-300 uppercase tracking-wider">Nghĩa Tiếng Việt</span>
                             <div>
                                 <h4 id="fc-def" class="text-3xl font-bold mb-2 text-rose-200">Phép lịch sự</h4>
                             </div>
-                            <span data-guide="1" class="text-xs text-gray-400">Press ← if not learned · → if learned</span>
+                            <span data-guide="1" class="text-xs text-gray-400">Bấm ← nếu chưa thuộc · → nếu đã thuộc</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="w-full max-w-xl grid grid-cols-2 gap-4 mt-6">
                     <button onclick="markCardStatus(false)" class="py-3.5 bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold rounded-2xl transition-all text-sm flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-xmark"></i> Not Learned · ←
+                        <i class="fa-solid fa-xmark"></i> Chưa Thuộc · ←
                     </button>
                     <button onclick="markCardStatus(true)" class="py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl transition-all text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-200">
-                        <i class="fa-solid fa-check"></i> Learned · →
+                        <i class="fa-solid fa-check"></i> Đã Thuộc · →
                     </button>
                 </div>
 
                 <div id="relearn-container" class="mt-4 hidden">
                     <button onclick="startRelearnUnlearned()" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl transition-all shadow-sm">
-                        <i class="fa-solid fa-rotate-right mr-1"></i> Review Unlearned Words (<span id="relearn-count">0</span> từ)
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Học Lại Các Từ Chưa Thuộc (<span id="relearn-count">0</span> từ)
                     </button>
                 </div>
             </div>
@@ -470,28 +467,21 @@ body[data-theme=minimal][data-bg] #scene{display:none}
             <!-- 4. FULL GRAMMAR SECTION -->
             <div id="grammar-section" class="hidden space-y-6">
                 <div class="flex justify-between items-center">
-                    <h2 class="text-lg font-extrabold text-slateCustom flex items-center gap-2"><i class="fa-solid fa-book-open text-blue-500"></i> Unit Grammar</h2>
-                    <button onclick="openGrammarForm()" class="px-4 py-2.5 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-xl shadow-md shadow-rose-200 flex items-center gap-2"><i class="fa-solid fa-plus"></i> Add Grammar</button>
+                    <h2 class="text-lg font-extrabold text-slateCustom flex items-center gap-2"><i class="fa-solid fa-book-open text-blue-500"></i> Ngữ Pháp Của Unit</h2>
+                    <button onclick="openGrammarForm()" class="px-4 py-2.5 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-xl shadow-md shadow-rose-200 flex items-center gap-2"><i class="fa-solid fa-plus"></i> Thêm ngữ pháp</button>
                 </div>
                 <div id="grammar-form" class="hidden bg-white p-6 rounded-3xl border border-rose-100 shadow-sm space-y-4">
-                    <h3 id="gm-form-title" class="text-lg font-extrabold text-slateCustom">Add New Grammar</h3>
-                    <p data-guide="1" class="text-xs text-gray-500">Only the title is required. In Examples and Common Traps, use one item per line; type <b>**text**</b> for bold and <b>*text*</b> for italic.</p>
-                    <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Title *</span><input id="gm-title" type="text" placeholder="VD: 3. Conditional sentences (Câu điều kiện)" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></label>
-                    <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Explanation</span><textarea id="gm-detail" rows="4" placeholder="🧠 Hiểu đơn giản: ..." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
-                    <div class="block">
-                        <div class="flex items-center justify-between gap-3 mb-2">
-                            <span class="block text-xs font-bold text-gray-500">Formula</span>
-                            <button type="button" onclick="addFormulaBlock()" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl text-xs font-extrabold">＋ Add formula</button>
-                        </div>
-                        <p class="text-[11px] text-gray-400 mb-3">Add as many formula boxes as you need. Drag them or use ↑ ↓ to reorder.</p>
-                        <div id="gm-formulas" class="space-y-3"></div>
-                    </div>
-                    <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Examples (one per line)</span><textarea id="gm-examples" rows="4" placeholder="If it rains, **we will stay** home." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
-                    <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Common traps & quick recognition (one item per line)</span><textarea id="gm-rules" rows="4" placeholder="⚠️ Bẫy thường gặp: ..." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3"><label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">📁 Grammar folder</span><select id="gm-folder" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium"></select></label><label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">▶️ YouTube lesson video</span><input id="gm-video" type="url" placeholder="Paste a YouTube link here..." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium"></label></div>
+                    <h3 id="gm-form-title" class="text-lg font-extrabold text-slateCustom">Thêm Ngữ Pháp Mới</h3>
+                    <p data-guide="1" class="text-xs text-gray-500">Chỉ bắt buộc Tiêu đề. Ở ô Ví dụ và Lưu ý, mỗi dòng là 1 mục; gõ <b>**chữ**</b> để in đậm, <b>*chữ*</b> để in nghiêng.</p>
+                    <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Tiêu đề *</span><input id="gm-title" type="text" placeholder="VD: 3. Conditional sentences (Câu điều kiện)" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></label>
+                    <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Giải thích</span><textarea id="gm-detail" rows="4" placeholder="🧠 Hiểu đơn giản: ..." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
+                    <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Công thức</span><textarea id="gm-formula" rows="4" placeholder="📌 Công thức: S + V ..." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
+                    <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Ví dụ minh họa (mỗi dòng 1 ví dụ)</span><textarea id="gm-examples" rows="4" placeholder="If it rains, **we will stay** home." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
+                    <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Bẫy thường gặp & nhận diện nhanh (mỗi dòng 1 ý)</span><textarea id="gm-rules" rows="4" placeholder="⚠️ Bẫy thường gặp: ..." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3"><label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">📁 Folder ngữ pháp</span><select id="gm-folder" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium"></select></label><label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">▶️ Video bài giảng YouTube</span><input id="gm-video" type="url" placeholder="Dán link YouTube vào đây..." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium"></label></div>
                     <div class="flex justify-end gap-3">
-                        <button onclick="closeGrammarForm()" class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold rounded-2xl">Cancel</button>
-                        <button onclick="saveGrammar()" class="px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-2xl shadow-md shadow-rose-200 flex items-center gap-2"><i class="fa-solid fa-check"></i> <span id="gm-save-text">Add Grammar</span></button>
+                        <button onclick="closeGrammarForm()" class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold rounded-2xl">Hủy</button>
+                        <button onclick="saveGrammar()" class="px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-2xl shadow-md shadow-rose-200 flex items-center gap-2"><i class="fa-solid fa-check"></i> <span id="gm-save-text">Thêm Ngữ Pháp</span></button>
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-2"><select id="grammar-folder-filter" onchange="renderGrammar()" class="px-3 py-2 bg-white border border-blue-100 rounded-xl text-xs font-bold text-gray-600"><option value="">📁 Tất cả folder</option></select><button onclick="openGrammarFolderManager()" class="px-3 py-2 bg-blue-50 text-blue-700 rounded-xl text-xs font-extrabold">＋ Folder</button></div><div id="grammar-container" class="space-y-6"></div>
@@ -609,11 +599,11 @@ body[data-theme=minimal][data-bg] #scene{display:none}
 
     
 <div id="name-modal" class="hidden"></div>
-<div id="quote-overlay" class="quote-overlay hide"><div class="quote-card"><div class="text-6xl bob">📖</div><div id="quote-text" class="mt-4 text-lg sm:text-xl font-black text-slateCustom leading-relaxed"></div><div id="quote-author" class="mt-3 text-xs font-bold text-gray-400"></div><div class="mt-5 text-xs font-bold text-rose-400">✨ A little motivation before you continue...</div></div></div>
+<div id="quote-overlay" class="quote-overlay hide"><div class="quote-card"><div class="text-6xl bob">📖</div><div id="quote-text" class="mt-4 text-lg sm:text-xl font-black text-slateCustom leading-relaxed"></div><div id="quote-author" class="mt-3 text-xs font-bold text-gray-400"></div><div class="mt-5 text-xs font-bold text-rose-400">✨ Một chút động lực trước khi đi tiếp...</div></div></div>
 <div id="folder-modal" class="hidden fixed inset-0 z-[6400] bg-black/30 backdrop-blur-sm items-center justify-center p-4"><div class="w-full max-w-md bg-white rounded-3xl p-6 shadow-2xl"><div class="flex justify-between items-center"><h3 id="folder-modal-title" class="text-lg font-black text-slateCustom">📁 Folder</h3><button onclick="closeFolderModal()" class="text-gray-400 text-xl">×</button></div><div class="flex gap-2 mt-4"><input id="new-folder-input" class="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm font-bold" placeholder="Tên folder mới..." onkeydown="if(event.key==='Enter')createFolder()"><button onclick="createFolder()" class="px-4 py-3 bg-violet-500 text-white rounded-xl font-extrabold">＋</button></div><div id="folder-list" class="mt-4 space-y-2 max-h-64 overflow-auto"></div></div></div>
 <div id="grammar-quiz-modal" class="hidden fixed inset-0 z-[6300] bg-black/35 backdrop-blur-sm items-center justify-center p-4"><div class="w-full max-w-xl bg-white rounded-[30px] p-6 sm:p-7 shadow-2xl"><div class="flex justify-between items-start"><div><p class="text-xs font-black uppercase tracking-wider text-indigo-500">📖 Grammar Lab</p><h3 class="text-2xl font-black text-slateCustom mt-1">Hôm nay luyện kiểu nào?</h3><p class="text-xs text-gray-500 mt-1">Không tính “đã thuộc”. Cứ luyện thoải mái nha 💗</p></div><button onclick="closeGrammarQuizPicker()" class="text-gray-400 text-xl">×</button></div><div class="grid gap-3 mt-5"><button class="grammar-quiz-type" onclick="startGrammarQuiz('mc')"><b>🎯 Chọn đáp án</b><span class="block text-xs text-gray-500 mt-1">10 câu trắc nghiệm</span></button><button class="grammar-quiz-type" onclick="startGrammarQuiz('fill')"><b>✍️ Điền từ</b><span class="block text-xs text-gray-500 mt-1">10 câu điền vào chỗ trống</span></button><button class="grammar-quiz-type" onclick="startGrammarQuiz('reorder')"><b>🧩 Ghép câu đúng</b><span class="block text-xs text-gray-500 mt-1">10 câu sắp xếp từ</span></button></div></div></div>
 <div id="grammar-quiz-run" class="hidden fixed inset-0 z-[6200] bg-[#faf9f6] overflow-y-auto"><div class="max-w-2xl mx-auto p-4 sm:p-8 min-h-full flex items-center"><div class="w-full bg-white rounded-[30px] border border-indigo-100 shadow-xl p-6 sm:p-8"><div class="flex justify-between items-center border-b pb-4"><div><span class="text-xs font-black text-indigo-500">📖 GRAMMAR QUIZ</span><h3 id="gq-title" class="text-xl font-black text-slateCustom mt-1">10 câu</h3></div><button onclick="closeGrammarQuiz()" class="text-gray-400 text-xl">×</button></div><div class="flex justify-between text-xs font-bold text-gray-400 mt-4"><span>Câu <b id="gq-current">1</b>/10</span><span>Điểm: <b id="gq-score" class="text-indigo-600">0</b></span></div><div id="gq-body" class="mt-6"></div><div id="gq-feedback" class="mt-4"></div><div class="mt-5 flex justify-end"><button id="gq-next" onclick="submitGrammarQuizAnswer()" class="px-6 py-3 bg-indigo-500 text-white rounded-2xl font-extrabold">Kiểm tra →</button></div></div></div></div>
-<nav class="bottom-nav safe-bottom" aria-label="Main navigation"><div class="bottom-nav-inner"><button id="nav-home" onclick="switchSection('home')"><span class="nav-emoji">🏠</span><span>Home</span></button><button id="nav-list" onclick="switchSection('list')"><span class="nav-emoji">📚</span><span>Vocabulary</span></button><button id="nav-flashcard" onclick="switchSection('flashcard')"><span class="nav-emoji">🃏</span><span>Flashcards</span></button><button id="nav-grammar" onclick="switchSection('grammar')"><span class="nav-emoji">📖</span><span>Grammar</span></button><button id="nav-quiz" onclick="openQuizPicker()"><span class="nav-emoji">🧠</span><span>Quiz</span></button><button id="nav-notes" onclick="switchSection('notes')"><span class="nav-emoji">📝</span><span>Notes</span></button><button id="nav-add" onclick="switchSection('add')"><span class="nav-emoji">➕</span><span>Add</span></button></div></nav>    <!-- HOVER VOCABULARY POPUP (DYNAMICALLY POSITIONED NEAR CARD) -->
+<nav class="bottom-nav safe-bottom" aria-label="Điều hướng chính"><div class="bottom-nav-inner"><button id="nav-home" onclick="switchSection('home')"><span class="nav-emoji">🏠</span><span>Trang chủ</span></button><button id="nav-list" onclick="switchSection('list')"><span class="nav-emoji">📚</span><span>Từ vựng</span></button><button id="nav-flashcard" onclick="switchSection('flashcard')"><span class="nav-emoji">🃏</span><span>Thẻ</span></button><button id="nav-grammar" onclick="switchSection('grammar')"><span class="nav-emoji">📖</span><span>Ngữ pháp</span></button><button id="nav-quiz" onclick="openQuizPicker()"><span class="nav-emoji">🧠</span><span>Quiz</span></button><button id="nav-notes" onclick="switchSection('notes')"><span class="nav-emoji">📝</span><span>Ghi chú</span></button><button id="nav-add" onclick="switchSection('add')"><span class="nav-emoji">➕</span><span>Thêm</span></button></div></nav>    <!-- HOVER VOCABULARY POPUP (DYNAMICALLY POSITIONED NEAR CARD) -->
     <div id="vocab-hover-popup" class="hidden opacity-0 scale-95 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-rose-200 p-5 space-y-3 transition-all duration-200">
         <!-- Dynamic Popup Content Generated via JS -->
     </div>
@@ -622,7 +612,7 @@ body[data-theme=minimal][data-bg] #scene{display:none}
     <div id="entry-menu" class="hidden fixed z-[1000] bg-white rounded-xl shadow-xl border border-gray-100 py-1 text-sm font-semibold w-36">
         <button id="em-image" class="w-full text-left px-3 py-2 hover:bg-rose-50 text-gray-700"><i class="fa-solid fa-image mr-2 text-rose-500"></i>Thêm ảnh</button>
         <button id="em-edit" class="w-full text-left px-3 py-2 hover:bg-amber-50 text-gray-700"><i class="fa-solid fa-pen mr-2 text-amber-500"></i>Sửa</button>
-        <button id="em-del" class="w-full text-left px-3 py-2 hover:bg-rose-50 text-rose-600"><i class="fa-solid fa-trash-can mr-2"></i>Clear</button>
+        <button id="em-del" class="w-full text-left px-3 py-2 hover:bg-rose-50 text-rose-600"><i class="fa-solid fa-trash-can mr-2"></i>Xóa</button>
     </div>
 
     <!-- IMAGE MEMORY MODAL -->
@@ -655,10 +645,10 @@ body[data-theme=minimal][data-bg] #scene{display:none}
 
             <div class="flex justify-between gap-2 pt-1">
                 <button id="image-remove-btn" type="button" onclick="removeEntryImage()" class="hidden px-4 py-2.5 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 font-bold text-sm">
-                    <i class="fa-solid fa-trash-can mr-1"></i>Clear ảnh
+                    <i class="fa-solid fa-trash-can mr-1"></i>Xóa ảnh
                 </button>
                 <div class="ml-auto flex gap-2">
-                    <button type="button" onclick="closeImageMemoryModal()" class="px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 font-bold text-sm">Cancel</button>
+                    <button type="button" onclick="closeImageMemoryModal()" class="px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 font-bold text-sm">Hủy</button>
                     <button type="button" onclick="saveEntryImage()" class="px-5 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-sm">
                         <i class="fa-solid fa-check mr-1"></i>Lưu ảnh
                     </button>
@@ -697,7 +687,7 @@ body[data-theme=minimal][data-bg] #scene{display:none}
     </div>
 
     <div id="auth-modal" class="hidden fixed inset-0 z-[6600] bg-black/45 backdrop-blur-sm items-center justify-center p-4"><div class="w-full max-w-sm bg-white rounded-[28px] p-6 shadow-2xl text-center"><div class="text-5xl bob">📚</div><h2 class="text-2xl font-black text-slateCustom mt-2">ENT303</h2><input id="au-name" maxlength="20" placeholder="Tên của bạn" class="mt-4 w-full px-4 py-3 rounded-2xl border border-rose-200 text-center font-extrabold outline-none"><input id="au-pin" type="password" inputmode="numeric" maxlength="4" placeholder="Mật khẩu 4 số" class="mt-3 w-full px-4 py-3 rounded-2xl border border-rose-200 text-center font-extrabold tracking-[.5em] outline-none" onkeydown="if(event.key==='Enter')ENTX.auth()"><p id="au-err" class="text-xs font-bold text-rose-500 mt-2 min-h-4"></p><button onclick="ENTX.auth()" class="mt-2 w-full py-3.5 bg-rose-500 text-white rounded-2xl font-black">Vào học ✨</button><button id="au-skip" onclick="ENTX.skip()" class="mt-2 text-[11px] text-gray-400 font-bold">Để sau</button></div></div>
-<div id="theme-modal" class="hidden fixed inset-0 z-[6500] bg-black/40 backdrop-blur-sm items-center justify-center p-4" onclick="if(event.target===this)ENTX.closeTheme()"><div class="w-full max-w-sm bg-white rounded-[28px] p-5 shadow-2xl max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center"><h3 class="font-black text-lg text-slateCustom">🎨 Theme</h3><button onclick="ENTX.closeTheme()" class="text-gray-400 text-xl">✕</button></div><div class="grid grid-cols-2 gap-2 mt-4"><button class="th-opt" id="md-light" onclick="ENTX.mode('light')">☀️ Sáng</button><button class="th-opt" id="md-dark" onclick="ENTX.mode('dark')">🌙 Tối</button></div><div class="grid grid-cols-2 gap-2 mt-3" id="th-grid"></div><p class="text-xs font-black text-gray-500 mt-4 mb-2">🖼️ Hình nền</p><div class="grid grid-cols-4 gap-2" id="bg-presets"></div><div class="flex gap-2 mt-2"><label class="th-opt flex-1 text-center cursor-pointer">📁 Ảnh của bạn<input type="file" accept="image/*" class="hidden" onchange="ENTX.bgFile(event)"></label><button class="th-opt" onclick="ENTX.bgUrl()" title="Dán link ảnh">🔗</button><button class="th-opt" onclick="ENTX.bgClear()" title="Bỏ hình nền">🚫</button></div><div id="acct-row" class="hidden mt-4 pt-3 border-t border-gray-100 flex items-center justify-between"><b id="acct-name" class="text-sm text-slateCustom"></b><button onclick="ENTX.logout()" class="text-xs font-extrabold text-rose-500">Đăng xuất</button></div></div></div>
+<div id="theme-modal" class="hidden fixed inset-0 z-[6500] bg-black/40 backdrop-blur-sm items-center justify-center p-4" onclick="if(event.target===this)ENTX.closeTheme()"><div class="w-full max-w-sm bg-white rounded-[28px] p-5 shadow-2xl max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center"><h3 class="font-black text-lg text-slateCustom">🎨 Giao diện</h3><button onclick="ENTX.closeTheme()" class="text-gray-400 text-xl">✕</button></div><div class="grid grid-cols-2 gap-2 mt-4"><button class="th-opt" id="md-light" onclick="ENTX.mode('light')">☀️ Sáng</button><button class="th-opt" id="md-dark" onclick="ENTX.mode('dark')">🌙 Tối</button></div><div class="grid grid-cols-2 gap-2 mt-3" id="th-grid"></div><p class="text-xs font-black text-gray-500 mt-4 mb-2">🖼️ Hình nền</p><div class="grid grid-cols-4 gap-2" id="bg-presets"></div><div class="flex gap-2 mt-2"><label class="th-opt flex-1 text-center cursor-pointer">📁 Ảnh của bạn<input type="file" accept="image/*" class="hidden" onchange="ENTX.bgFile(event)"></label><button class="th-opt" onclick="ENTX.bgUrl()" title="Dán link ảnh">🔗</button><button class="th-opt" onclick="ENTX.bgClear()" title="Bỏ hình nền">🚫</button></div><div id="acct-row" class="hidden mt-4 pt-3 border-t border-gray-100 flex items-center justify-between"><b id="acct-name" class="text-sm text-slateCustom"></b><button onclick="ENTX.logout()" class="text-xs font-extrabold text-rose-500">Đăng xuất</button></div></div></div>
 
     <!-- APPLICATION SCRIPT ENGINE WITH LOCALSTORAGE PERSISTENCE -->
     <script>
@@ -834,6 +824,11 @@ body[data-theme=minimal][data-bg] #scene{display:none}
             localStorage.setItem('ENT303_SEEDED_UNITS', JSON.stringify(SEED_UNITS));
             saveUnitsDataToLocalStorage();
         }
+
+(function(){if(localStorage.getItem('ENT303_PDF_V6')==='1')return;const ADD={"1": {"v": [{"word": "dietary", "pos": "noun", "def": "chế độ ăn uống"}, {"word": "a requirement", "pos": "noun", "def": "yêu cầu"}, {"word": "a table manner", "pos": "noun", "def": "nguyên tắc bàn ăn"}, {"word": "punctuality", "pos": "noun", "def": "sự đúng giờ"}, {"word": "impolite", "pos": "adj", "def": "bất lịch sự"}, {"word": "offensive", "pos": "adj", "def": "phản cảm"}, {"word": "customary", "pos": "adj", "def": "theo phong tục"}, {"word": "a taboo", "pos": "noun", "def": "điều cấm kỵ"}, {"word": "conservative", "pos": "adj", "def": "bảo thủ"}, {"word": "a workforce", "pos": "noun", "def": "lực lượng lao động"}, {"word": "respectful", "pos": "adj", "def": "kính trọng"}, {"word": "dating", "pos": "noun", "def": "cuộc hẹn hò"}, {"word": "a curfew", "pos": "noun", "def": "giờ giới nghiêm"}, {"word": "a double standard", "pos": "noun", "def": "tiêu chuẩn kép"}, {"word": "strict = serious", "pos": "adj", "def": "nghiêm khắc"}, {"word": "to address", "pos": "verb", "def": "dùng (tên hoặc chức tước) khi nói hoặc viết cho ai"}, {"word": "grounded", "pos": "adj", "def": "bị nhốt, bị cấm đi ra ngoài"}, {"word": "to allow", "pos": "verb", "def": "cho phép"}, {"word": "a custom", "pos": "noun", "def": "tập quán"}, {"word": "old-fashioned", "pos": "adj", "def": "lỗi thời"}], "i": [{"phrase": "No need to be so formal.", "def": "không thiết phải quá trang trọng"}, {"phrase": "When in Rome, do as Romans do.", "def": "nhập gia tùy tục"}]}, "2": {"v": [{"word": "an appointment", "pos": "noun", "def": "cuộc hẹn"}, {"word": "to schedule an appointment", "pos": "noun", "def": "đặt lịch hẹn"}, {"word": "a clinic", "pos": "noun", "def": "phòng khám"}, {"word": "a temporary solution", "pos": "noun", "def": "giải pháp tạm thời"}, {"word": "to determine", "pos": "verb", "def": "quyết định"}, {"word": "filling", "pos": "verb", "def": "việc trám (răng)"}, {"word": "chewy", "pos": "adj", "def": "dai"}, {"word": "cancellation", "pos": "noun", "def": "sự hủy bỏ"}, {"word": "dizzy", "pos": "adj", "def": "chóng mặt"}, {"word": "nauseous", "pos": "adj", "def": "buồn nôn"}, {"word": "short of breath", "pos": "adj", "def": "hụt hơi, khó thở"}, {"word": "vomiting", "pos": "noun", "def": "sự nôn mửa"}, {"word": "wheezing", "pos": "noun", "def": "thở khò khè"}, {"word": "ribs", "pos": "noun", "def": "sườn"}, {"word": "a medical procedure", "pos": "noun", "def": "thủ tục y tế"}, {"word": "a checkup = an examination", "pos": "noun", "def": "kiểm tra (sức khỏe)"}, {"word": "a shot = an injection", "pos": "noun", "def": "sự tiêm thuốc"}, {"word": "an EKG = an electrocardiogram", "pos": "noun", "def": "điện tâm đồ"}, {"word": "a blood test", "pos": "noun", "def": "xét nghiệm máu"}, {"word": "a treatment", "pos": "noun", "def": "việc điều trị"}, {"word": "conventional medicine", "pos": "noun", "def": "thuốc thông thường"}, {"word": "homeopathy", "pos": "noun", "def": "liệu pháp vi lượng đồng căn"}, {"word": "an acupuncture", "pos": "noun", "def": "châm cứu"}, {"word": "a herbal therapy", "pos": "noun", "def": "liệu pháp thảo dược"}, {"word": "spiritual healing", "pos": "noun", "def": "việc chữa lành tâm linh"}, {"word": "medications", "pos": "noun", "def": "thuốc"}, {"word": "a purpose", "pos": "noun", "def": "mục đích"}, {"word": "a symptom", "pos": "noun", "def": "triệu chứng"}, {"word": "a remedy", "pos": "noun", "def": "phương thuốc"}, {"word": "a therapy", "pos": "noun", "def": "việc trị liệu"}, {"word": "a surgery", "pos": "noun", "def": "phẫu thuật"}, {"word": "a painkiller", "pos": "noun", "def": "thuốc giảm đau"}, {"word": "cold tablets", "pos": "noun", "def": "thuốc chữa cảm lạnh"}, {"word": "a nasal spray = a decongestant", "pos": "noun", "def": "thuốc xịt thông mũi"}, {"word": "eye drop", "pos": "noun", "def": "thuốc nhỏ mắt"}, {"word": "an antihistamine", "pos": "noun", "def": "thuốc chống dị ứng"}, {"word": "cough medicine", "pos": "noun", "def": "thuốc ho"}, {"word": "an antibiotic", "pos": "noun", "def": "thuốc kháng sinh"}, {"word": "an antacid", "pos": "noun", "def": "thuốc kháng axit"}, {"word": "an ointment", "pos": "noun", "def": "thuốc mỡ"}], "i": [{"phrase": "I’ll do it as soon as possible", "def": "càng sớm càng tốt"}, {"phrase": "I’ll make an appointment", "def": "hẹn"}, {"phrase": "Thanks for fitting me in", "def": "cám ơn vì đã nhận cuộc hẹn với tôi."}, {"phrase": "It’s killing me. Tôi đang rất đau đớn.", "def": ""}, {"phrase": "Let’s see what’s going on. Để xem chuyện gì đang xảy ra", "def": ""}]}, "3": {"v": [{"word": "a procrastinator", "pos": "noun", "def": "người trì hoãn"}, {"word": "organized", "pos": "adj", "def": "có tổ chức"}, {"word": "self-motivated", "pos": "adj", "def": "năng động, năng nổ"}, {"word": "urgent", "pos": "adj", "def": "khẩn cấp"}, {"word": "to dry-clean a suit", "pos": "verb", "def": "giặt khô quần áo"}, {"word": "to repair shoes", "pos": "verb", "def": "sửa giày"}, {"word": "to frame a picture", "pos": "verb", "def": "đóng khung hình"}, {"word": "to deliver a package", "pos": "verb", "def": "giao gói hàng"}, {"word": "to lengthen ≠ shorten", "pos": "verb", "def": "nối dài ≠ cắt ngắn (váy)"}, {"word": "to print a sign", "pos": "verb", "def": "in bảng hiệu"}, {"word": "to copy a report", "pos": "verb", "def": "sao chép báo cáo"}, {"word": "valuable", "pos": "adj", "def": "có giá trị"}, {"word": "efficient", "pos": "adj", "def": "hiệu quả"}, {"word": "efficiency", "pos": "noun", "def": "tính hiệu quả"}, {"word": "reliable", "pos": "adj", "def": "đáng tin cậy"}, {"word": "reliability", "pos": "noun", "def": "độ tin cậy"}, {"word": "to apologize", "pos": "verb", "def": "xin lỗi"}, {"word": "to promise", "pos": "verb", "def": "hứa"}, {"word": "reasonable", "pos": "adj", "def": "hợp lý, phải chăng"}, {"word": "to appreciate", "pos": "verb", "def": "đánh giá cao"}, {"word": "responsibility", "pos": "noun", "def": "trách nhiệm"}, {"word": "courteous", "pos": "adj", "def": "lịch sự"}, {"word": "to complain", "pos": "verb", "def": "phàn nàn, than phiền"}, {"word": "complaint", "pos": "noun", "def": "sự than phiền"}, {"word": "to assure", "pos": "verb", "def": "đảm bảo"}, {"word": "willing", "pos": "adj", "def": "sẵn lòng"}, {"word": "workmanship", "pos": "noun", "def": "tay nghề"}, {"word": "professional", "pos": "adj", "def": "chuyên nghiệp"}, {"word": "professionalism", "pos": "noun", "def": "tính chuyên nghiệp"}, {"word": "empathic", "pos": "adj", "def": "đồng cảm"}, {"word": "enthusiasm", "pos": "noun", "def": "sự nhiệt tình"}, {"word": "to set up (the room the projector)", "pos": "verb", "def": "thiết lập, sắp đặt (phòng, máy chiếu)"}, {"word": "to check the sound system", "pos": "verb", "def": "kiểm tra hệ thống âm thanh"}, {"word": "a podium", "pos": "noun", "def": "bục, bục giảng"}, {"word": "a handout", "pos": "noun", "def": "bản tin phát đi, tờ rơi"}, {"word": "to hand out the agenda", "pos": "verb", "def": "phát ra chương trình nghị sự"}, {"word": "to send out the announcement", "pos": "verb", "def": "gửi thông báo"}, {"word": "to put up the signs", "pos": "verb", "def": "treo, dán biển báo"}], "i": [{"phrase": "I know this is last minute.", "def": "tôi biết đây là quyết định ở giây phút cuối cùng."}, {"phrase": "You’re a lifesaver", "def": "bạn là người cứu cánh."}, {"phrase": "No sweat", "def": "chuyện nhỏ (để chắc chắn với ai đó rằng bạn không gặp vấn đề đối với một yêu cầu nào đó.)"}, {"phrase": "I owe you one", "def": "Tôi nợ bạn (thể hiện sự biết ơn ai đó đã giúp đỡ.)"}, {"phrase": "I see you’ve got a lot on your plate today.", "def": "Hôm nay trông anh rất bận rộn."}, {"phrase": "I won’t keep you any longer.", "def": "Tôi sẽ không làm mất nhiều thời gian của anh nữa."}]}, "4": {"v": [{"word": "to do puzzles", "pos": "verb", "def": "giải câu đố"}, {"word": "to read an article online", "pos": "verb", "def": "đọc một bài báo trực tuyến"}, {"word": "to skim though a newspaper", "pos": "verb", "def": "đọc lướt qua một tờ báo"}, {"word": "to read e-books", "pos": "verb", "def": "đọc sách điện tử"}, {"word": "possibility", "pos": "noun", "def": "khả năng (có thể xảy ra)"}, {"word": "fingertips", "pos": "noun", "def": "đầu ngón tay"}], "i": [{"phrase": "She can’t get enough of them.", "def": "Cô ấy thích / say mê chúng."}, {"phrase": "... but I can’t seem to get into it", "def": "nhưng tôi không có hứng thú với nó."}, {"phrase": "They put me to sleep", "def": "Chúng khiến tôi buồn ngủ. / Tôi không thích chúng."}, {"phrase": "I can’t put it down.", "def": "Tôi rất thích nó."}, {"phrase": "It’s a real page-turner.", "def": "Nó là quyển sách cực hay."}, {"phrase": "I guess mysteries just aren’t my thing.", "def": "Tôi cho rằng những câu chuyện bí ẩn không phải là sở thích của tôi."}]}, "5": {"v": [], "i": [{"phrase": "What a disaster!", "def": "Thật là một thảm họa."}, {"phrase": "CNN usually have breaking news ...", "def": "CNN thường phát tin nóng hổi."}, {"phrase": "The death toll could end up being huge.", "def": "Số lượng người chết có thể sẽ tăng lên rất nhiều."}]}, "6": {"v": [{"word": "a rank = position", "pos": "noun", "def": "hạng, vị trí"}, {"word": "a chance = an opportunity", "pos": "noun", "def": "cơ hội"}], "i": [{"phrase": "make up one’s mind", "def": "quyết định"}, {"phrase": "keep something in mind", "def": "ghi nhớ"}, {"phrase": "What’s on your mind?", "def": "Bạn đang lo lắng gì vậy?"}, {"phrase": "settle on (p. v) quyết định cuối cùng", "def": ""}, {"phrase": "to change one’s mind", "def": "thay đổi ý kiến"}, {"phrase": "I wonder if I could pick your brain.", "def": "Tôi có thể hỏi bạn một số thông tin được không."}, {"phrase": "someone’s tastes change", "def": "thị hiếu ai đó thay đổi"}, {"phrase": "to talk someone out of something", "def": "bàn ra, can ngăn"}]}, "7": {"v": [{"word": "to set off firework", "pos": "verb", "def": "bắn pháo hoa"}], "i": [{"phrase": "It takes place in...", "def": "nó diễn ra ở ..."}, {"phrase": "get together with", "def": "tụ họp"}, {"phrase": "The train stations are mobbed with people.", "def": "Nhà ga xe lửa đông đúc người."}, {"phrase": "remind someone of someone/something", "def": "gợi/nhắc nhở ai nhớ về người nào đó/sự việc nào đó"}]}, "8": {"v": [], "i": [{"phrase": "get eaten alive", "def": "bị ăn sống"}, {"phrase": "have to bite the bullet", "def": "cắn răng chịu đựng"}, {"phrase": "whether you like it or not", "def": "liệu bạn có thích hay không"}, {"phrase": "won’t hear of it", "def": "không thừa nhận điều gì"}, {"phrase": "tons of", "def": "rất nhiều"}]}, "9": {"v": [], "i": [{"phrase": "Let’s sit down and catch up.", "def": "Hãy ngồi xuống và cùng chia sẻ"}, {"phrase": "The office has been busy.", "def": "Công việc đầy đầu"}, {"phrase": "I’m leaning toward someone.", "def": "Tôi thiên về (chọn) ai đó"}, {"phrase": "What a coincidence!", "def": "Thật là trùng hợp!"}]}, "10": {"v": [{"word": "a feature", "pos": "noun", "def": "đặc điểm"}, {"word": "a waterfall", "pos": "noun", "def": "thác nước"}, {"word": "a mountain range", "pos": "noun", "def": "dãy núi"}, {"word": "a national park", "pos": "noun", "def": "vườn quốc gia"}, {"word": "a coincidence", "pos": "noun", "def": "sự trùng hợp"}, {"word": "a risk", "pos": "noun", "def": "rủi ro"}, {"word": "dangerous", "pos": "adj", "def": "nguy hiểm"}, {"word": "slippery", "pos": "adj", "def": "trơn trượt"}, {"word": "steep", "pos": "adj", "def": "dốc"}, {"word": "rocky", "pos": "adj", "def": "đá"}, {"word": "foggy", "pos": "adj", "def": "sương mù"}, {"word": "a cliff", "pos": "noun", "def": "vách đá"}, {"word": "a scorpion", "pos": "noun", "def": "bọ cạp"}, {"word": "a valley", "pos": "noun", "def": "thung lũng"}, {"word": "a canyon", "pos": "noun", "def": "vực núi"}, {"word": "a glacier", "pos": "noun", "def": "sông băng"}, {"word": "a jungle", "pos": "noun", "def": "rừng nhiệt đới"}, {"word": "dry = arid", "pos": "adj", "def": "khô hạn"}, {"word": "mountainous", "pos": "adj", "def": "miền núi"}, {"word": "hilly", "pos": "adj", "def": "đồi núi"}, {"word": "environment", "pos": "noun", "def": "môi trường"}, {"word": "pollution", "pos": "noun", "def": "sự ô nhiễm"}, {"word": "climate change", "pos": "noun", "def": "biến đổi khí hậu"}, {"word": "power", "pos": "noun", "def": "năng lượng"}, {"word": "renewable energy", "pos": "noun", "def": "năng lượng tái tạo"}, {"word": "energy-efficient", "pos": "adj", "def": "tiết kiệm năng lượng"}, {"word": "increase ≠ decrease", "pos": "noun / verb", "def": "tăng ≠ giảm"}, {"word": "fossil fuel", "pos": "noun", "def": "nhiên liệu hóa thạch"}, {"word": "global warming", "pos": "noun", "def": "sự nóng lên toàn cầu"}, {"word": "inflated", "pos": "adj", "def": "được thổi phồng"}, {"word": "to reduce", "pos": "verb", "def": "giảm, bớt, hạ"}, {"word": "to curb", "pos": "verb", "def": "kiềm chế, hạn chế"}, {"word": "impact", "pos": "noun", "def": "tác động"}, {"word": "temperature", "pos": "noun", "def": "nhiệt đô"}, {"word": "to upgrade", "pos": "verb", "def": "nâng cấp"}, {"word": "to toss", "pos": "verb", "def": "quăng, ném"}, {"word": "attempt", "pos": "noun / verb", "def": "cố gắng, thử"}], "i": [{"phrase": "be worth seeing", "def": "đáng để xem"}, {"phrase": "Do you think doable in two days?", "def": "Bạn có nghĩ sẽ khả thi trong 2 ngày?"}, {"phrase": "You don’t want to miss it.", "def": "Bạn đừng nên bỏ lỡ."}, {"phrase": "A waste of time", "def": "phí thời gian"}, {"phrase": "It’s a must-see.", "def": "đáng để xem"}]}},ADDG={"1": [{"title": "3. The past perfect", "detail": "🧠 Use the past perfect for an action that happened before another past action or time.", "formula": "📌 Formula:\n• had + past participle (V3/-ed)\n• Signal words: by, by the time, already, yet, when", "examples": ["<b>By</b> four o’clock, the tour <b>had begun</b>.", "<b>When</b> I got up, my father <b>had already left</b>.", "The meeting <b>had begun</b> late, so we <b>didn’t have</b> lunch until 2:00."], "rules": ["⚠️ The earlier action uses had + V3; the later one uses the past simple.", "⚠️ In casual speech, the past simple is fine with by / before / after."]}], "2": [{"title": "2. Will be able to; modals may and might", "detail": "🧠 Use will be able to for future ability, and may / might + base verb for possibility.", "formula": "📌 Formula:\n• Future ability: will (won’t) be able to + base verb\n• Possibility: may / might (not) + base verb\n• Combined: may / might / must be able to + base verb", "examples": ["The doctor <b>will be able to see</b> you tomorrow.", "The dentist <b>may arrive</b> a little late this morning.", "You <b>might not need</b> to come in right away.", "The doctor <b>may be able to see</b> you today."], "rules": ["⚠️ Modals never change form and are always followed by the base verb.", "⚠️ Use must be able to for a conclusion: We must be able to park here."]}], "3": [{"title": "2. The passive causative", "detail": "🧠 Stress the thing that is done, not the person who does it.", "formula": "📌 Formula:\n• have + object + past participle (V3/-ed)", "examples": ["We <b>had our pictures taken</b> after the meeting.", "We plan to <b>have the office painted</b> next week.", "Can she <b>have her X-rays sent</b> this morning?"], "rules": ["⚠️ Add “by + agent” only when it is important: We’re having the office painted <b>by Royal Painting Services</b>."]}]};const norm=x=>String(x||'').toLowerCase().split(/\s[=≠]\s/)[0].trim().replace(/^(a|an|to)\s+/,'').replace(/[^a-z0-9 ]/g,'').trim();
+for(const u in ADD){const t=unitsData[u];if(!t)continue;t.vocab=t.vocab||[];t.idioms=t.idioms||[];const hv=new Set(t.vocab.map(v=>norm(v.word)));ADD[u].v.forEach(w=>{if(!hv.has(norm(w.word))){hv.add(norm(w.word));t.vocab.push({word:w.word,pos:w.pos,def:w.def,phonetic:'',stress:'',en:'',collocations:[],wordFamily:[],mistake:'',example:'',note:'',source:'pdf'})}});const hi=new Set(t.idioms.map(i=>norm(i.phrase)));ADD[u].i.forEach(i=>{if(i.phrase&&!hi.has(norm(i.phrase))){hi.add(norm(i.phrase));t.idioms.push({phrase:i.phrase,def:i.def})}})}
+for(const u in ADDG){const t=unitsData[u];if(!t)continue;t.grammar=t.grammar||[];const ti=new Set(t.grammar.map(g=>String(g.title||'').replace(/<[^>]+>/g,'')));ADDG[u].forEach(g=>{if(!ti.has(g.title))t.grammar.push(g)})}
+localStorage.setItem('ENT303_PDF_V6','1');localStorage.setItem('ENT303_USER_UNITS_DATA',JSON.stringify(unitsData))})();
 
         function saveUnitsDataToLocalStorage() {
             localStorage.setItem('ENT303_USER_UNITS_DATA', JSON.stringify(unitsData));
@@ -1427,8 +1422,8 @@ small talk | expression | nói chuyện xã giao`
             $('aw-unit').disabled = false;
             $('aw-unit').value = currentUnit;
             $('aw-pos').value = 'noun';
-            $('aw-title').innerText = 'Add New Vocabulary';
-            $('aw-btn-text').innerText = 'Add to Unit';
+            $('aw-title').innerText = 'Thêm Từ Vựng Mới';
+            $('aw-btn-text').innerText = 'Thêm Vào Unit';
             $('aw-cancel').classList.add('hidden');
         }
 
@@ -1453,91 +1448,28 @@ small talk | expression | nói chuyện xã giao`
             $('aw-example').value = it.example || (it.examples && it.examples[0]) || '';
             $('aw-note').value = it.note || '';
             $('aw-title').innerText = `Sửa: ${it.word || it.phrase}`;
-            $('aw-btn-text').innerText = 'Save Changes';
+            $('aw-btn-text').innerText = 'Lưu Thay Đổi';
             $('aw-cancel').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // ---------- NGỮ PHÁP: THÊM / SỬA / XÓA
         let editingGrammar = null;
-        let grammarFormulaDrafts = [];
         const escMin = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         const unescMin = s => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
         const mdToHtml = s => escMin(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\*(.+?)\*/g, '<i>$1</i>');
         const htmlToMd = s => s.replace(/<b>(.*?)<\/b>/g, '**$1**').replace(/<i>(.*?)<\/i>/g, '*$1*');
-
-        function renderFormulaBlocks() {
-            const box = document.getElementById('gm-formulas');
-            if (!box) return;
-            if (!grammarFormulaDrafts.length) grammarFormulaDrafts = [''];
-            box.innerHTML = grammarFormulaDrafts.map((value, i) => `
-                <div class="formula-block bg-rose-50/70 border border-rose-200 rounded-2xl p-3" draggable="true"
-                     ondragstart="dragFormulaBlock(event,${i})" ondragover="event.preventDefault()" ondrop="dropFormulaBlock(event,${i})">
-                    <div class="flex items-center justify-between gap-2 mb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="formula-drag-handle cursor-grab text-gray-400" title="Drag to reorder">⠿</span>
-                            <span class="text-xs font-extrabold text-rose-600">Formula ${i + 1}</span>
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <button type="button" onclick="moveFormulaBlock(${i},-1)" class="formula-control" title="Move up">↑</button>
-                            <button type="button" onclick="moveFormulaBlock(${i},1)" class="formula-control" title="Move down">↓</button>
-                            <button type="button" onclick="removeFormulaBlock(${i})" class="formula-control text-rose-600" title="Remove">×</button>
-                        </div>
-                    </div>
-                    <textarea rows="3" oninput="grammarFormulaDrafts[${i}]=this.value"
-                        placeholder="📌 Example: Subject + have/has + V3..."
-                        class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100">${escMin(value || '')}</textarea>
-                </div>
-            `).join('');
-        }
-
-        function addFormulaBlock(value = '') {
-            grammarFormulaDrafts.push(value);
-            renderFormulaBlocks();
-            const boxes = document.querySelectorAll('#gm-formulas textarea');
-            boxes[boxes.length - 1]?.focus();
-        }
-
-        function removeFormulaBlock(i) {
-            grammarFormulaDrafts.splice(i, 1);
-            if (!grammarFormulaDrafts.length) grammarFormulaDrafts = [''];
-            renderFormulaBlocks();
-        }
-
-        function moveFormulaBlock(i, delta) {
-            const target = i + delta;
-            if (target < 0 || target >= grammarFormulaDrafts.length) return;
-            [grammarFormulaDrafts[i], grammarFormulaDrafts[target]] = [grammarFormulaDrafts[target], grammarFormulaDrafts[i]];
-            renderFormulaBlocks();
-        }
-
-        function dragFormulaBlock(e, i) {
-            e.dataTransfer.setData('text/plain', String(i));
-            e.dataTransfer.effectAllowed = 'move';
-        }
-
-        function dropFormulaBlock(e, target) {
-            e.preventDefault();
-            const source = Number(e.dataTransfer.getData('text/plain'));
-            if (!Number.isInteger(source) || source === target || source < 0 || source >= grammarFormulaDrafts.length) return;
-            const [moved] = grammarFormulaDrafts.splice(source, 1);
-            grammarFormulaDrafts.splice(target, 0, moved);
-            renderFormulaBlocks();
-        }
 
         function openGrammarForm(i = null) {
             editingGrammar = i;
             const g = i === null ? {} : unitsData[currentUnit].grammar[i];
             $('gm-title').value = unescMin(g.title || '');
             $('gm-detail').value = unescMin(g.detail || '');
-            grammarFormulaDrafts = Array.isArray(g.formulas)
-                ? g.formulas.map(x => unescMin(x || ''))
-                : (g.formula ? [unescMin(g.formula)] : ['']);
-            renderFormulaBlocks();
+            $('gm-formula').value = unescMin(g.formula || '');
             $('gm-examples').value = (g.examples || []).map(x => unescMin(htmlToMd(x))).join('\n');
             $('gm-rules').value = (g.rules || []).map(x => unescMin(htmlToMd(x))).join('\n');
-            $('gm-form-title').innerText = i === null ? 'Add New Grammar' : 'Edit Grammar';
-            $('gm-save-text').innerText = i === null ? 'Add Grammar' : 'Save Changes';
+            $('gm-form-title').innerText = i === null ? 'Thêm Ngữ Pháp Mới' : 'Sửa Ngữ Pháp';
+            $('gm-save-text').innerText = i === null ? 'Thêm Ngữ Pháp' : 'Lưu Thay Đổi';
             $('grammar-form').classList.remove('hidden');
             $('gm-title').focus();
             $('grammar-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1545,7 +1477,6 @@ small talk | expression | nói chuyện xã giao`
 
         function closeGrammarForm() {
             editingGrammar = null;
-            grammarFormulaDrafts = [];
             const f = $('grammar-form');
             if (f) f.classList.add('hidden');
         }
@@ -1553,30 +1484,22 @@ small talk | expression | nói chuyện xã giao`
         function saveGrammar() {
             const g = id => $(id).value.trim();
             const lines = id => g(id).split('\n').map(x => x.trim()).filter(Boolean).map(mdToHtml);
-            if (!g('gm-title')) { showToast('Please enter a grammar title!'); return; }
-            const formulas = grammarFormulaDrafts.map(x => String(x || '').trim()).filter(Boolean);
-            const item = {
-                title: escMin(g('gm-title')),
-                detail: escMin(g('gm-detail')),
-                formulas: formulas.map(escMin),
-                formula: formulas.map(escMin).join('\n'),
-                examples: lines('gm-examples'),
-                rules: lines('gm-rules')
-            };
+            if (!g('gm-title')) { showToast('Cần nhập tiêu đề ngữ pháp!'); return; }
+            const item = { title: escMin(g('gm-title')), detail: escMin(g('gm-detail')), formula: escMin(g('gm-formula')), examples: lines('gm-examples'), rules: lines('gm-rules') };
             const list = unitsData[currentUnit].grammar;
             if (editingGrammar === null) list.push(item); else list[editingGrammar] = item;
             saveUnitsDataToLocalStorage();
-            showToast(editingGrammar === null ? 'Grammar added!' : 'Changes saved!');
+            showToast(editingGrammar === null ? 'Đã thêm ngữ pháp!' : 'Đã lưu thay đổi!');
             closeGrammarForm();
             renderGrammar();
         }
 
         function deleteGrammar(i) {
             const g = unitsData[currentUnit].grammar[i];
-            if (g && confirm(`Clear mục ngữ pháp "${unescMin(g.title)}"?`)) {
+            if (g && confirm(`Xóa mục ngữ pháp "${unescMin(g.title)}"?`)) {
                 unitsData[currentUnit].grammar.splice(i, 1);
                 saveUnitsDataToLocalStorage();
-                showToast('Deleted!');
+                showToast('Đã xóa!');
                 renderGrammar();
             }
         }
@@ -1584,11 +1507,11 @@ small talk | expression | nói chuyện xã giao`
                 function deleteEntry(kind, i) {
             const d = unitsData[currentUnit], list = kind === 'idiom' ? d.idioms : d.vocab, it = list[i];
             if (!it) return;
-            if (confirm(`Clear "${it.word || it.phrase}" khỏi Unit ${currentUnit}?`)) {
+            if (confirm(`Xóa "${it.word || it.phrase}" khỏi Unit ${currentUnit}?`)) {
                 list.splice(i, 1);
                 saveUnitsDataToLocalStorage();
                 hidePopupNow();
-                showToast('Deleted!');
+                showToast('Đã xóa!');
                 switchUnit(currentUnit);
             }
         }
@@ -1646,31 +1569,24 @@ small talk | expression | nói chuyện xã giao`
 
         function renderGrammar() {
             const list = unitsData[currentUnit].grammar || [];
-            document.getElementById('grammar-container').innerHTML = list.length ? list.map((g, i) => {
-                const formulas = Array.isArray(g.formulas) && g.formulas.length
-                    ? g.formulas
-                    : (g.formula ? [g.formula] : []);
-                return `
-                <div class="bg-white p-6 rounded-3xl border border-rose-100 shadow-sm space-y-4">
+            document.getElementById('grammar-container').innerHTML = list.length ? list.map((g, i) => `
+                <div data-g="${i}" class="bg-white p-6 rounded-3xl border border-rose-100 shadow-sm space-y-4">
                     <div class="flex justify-between items-start gap-3">
                         <h3 class="text-xl font-extrabold text-slateCustom">${g.title}</h3>
-                        <button onclick="openEntryMenu(event,'grammar',${i})" class="text-gray-400 hover:text-rose-500 w-8 h-8 rounded-lg hover:bg-rose-50 shrink-0" title="Options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                        <button onclick="openEntryMenu(event,'grammar',${i})" class="text-gray-400 hover:text-rose-500 w-8 h-8 rounded-lg hover:bg-rose-50 shrink-0" title="Tùy chọn"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                     </div>
                     ${g.detail ? `<p class="text-sm text-gray-700 font-medium leading-relaxed whitespace-pre-line">${g.detail}</p>` : ''}
-                    ${formulas.length ? `<div class="space-y-2">
-                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">📌 Formulas</p>
-                        <div class="grid gap-3">${formulas.map((f, fi) => `<div class="formula-display bg-rose-50 p-4 rounded-2xl border border-rose-200 text-rose-800 font-bold text-sm whitespace-pre-line"><div class="text-[10px] uppercase tracking-wider text-rose-400 mb-1">Formula ${fi + 1}</div>${esc(unescMin(f || ''))}</div>`).join('')}</div>
-                    </div>` : ''}
+                    ${GB.html(g,i)}
                     ${(g.examples || []).length ? `<div class="space-y-2">
-                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">✏️ Examples:</p>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">✏️ Ví dụ minh họa:</p>
                         <ul class="list-disc pl-5 space-y-1 text-sm text-gray-800">${g.examples.map(ex => `<li>${ex}</li>`).join('')}</ul>
                     </div>` : ''}
                     ${(g.rules || []).length ? `<div class="space-y-2 border-t border-gray-100 pt-3">
-                        <p class="text-xs font-bold text-rose-600 uppercase tracking-wider">⚠️ Common traps & quick recognition:</p>
+                        <p class="text-xs font-bold text-rose-600 uppercase tracking-wider">⚠️ Bẫy thường gặp & Nhận diện nhanh:</p>
                         <ul class="space-y-1 text-xs text-gray-700">${g.rules.map(r => `<li class="flex items-start gap-1.5"><span class="text-rose-500">▶</span><span>${r}</span></li>`).join('')}</ul>
                     </div>` : ''}
                 </div>
-            `}).join('') : '<div class="bg-white p-8 rounded-3xl border border-dashed border-rose-200 text-center text-sm text-gray-400">No grammar lessons in this unit yet. Click "Add Grammar" to create one.</div>';
+            `).join('') : '<div class="bg-white p-8 rounded-3xl border border-dashed border-rose-200 text-center text-sm text-gray-400">Unit này chưa có ngữ pháp. Bấm "Thêm ngữ pháp" để tự thêm.</div>';
         }
 
                 // SLIDE QUIZ ENGINE
@@ -2128,15 +2044,7 @@ small talk | expression | nói chuyện xã giao`
   window.renderStreak=function(){const {streak,set}=getStreakStats();$v('home-streak-number')&&($v('home-streak-number').innerText=streak);const today=localDateKey();const d=vnDateObj(today);const dow=d.getUTCDay();const offset=dow===0?-6:1-dow;const week=$v('streak-week');if(!week)return;const labels=['T2','T3','T4','T5','T6','T7','CN'];week.innerHTML=labels.map((label,i)=>{const k=vnOffsetKey(today,offset+i),done=set.has(k),isToday=k===today;return `<div class="streak-day"><span>${label}</span><span class="streak-dot ${done?'done':''} ${isToday?'today':''}">${done?'🔥':''}</span></div>`}).join('');const h=$v('streak-hint');if(h)h.innerText=set.has(today)?'🔥 Hôm nay (giờ Việt Nam) đã có bài — chuỗi được giữ!':'📝 Hôm nay theo giờ Việt Nam chưa tính chuỗi. Hoàn thành một bài để giữ chuỗi.';};
 
   // ---------- name + quote ----------
-  const quotes=[
-    ['“Giáo dục là vũ khí mạnh mẽ nhất mà bạn có thể dùng để thay đổi thế giới.”','Nelson Mandela · Source: Nelson Mandela Foundation'],
-    ['“Chức năng của giáo dục là dạy con người suy nghĩ sâu sắc và tư duy phản biện.”','Martin Luther King Jr. · Source: The Purpose of Education (1947)'],
-    ['“Bạn phải làm điều mà bạn nghĩ mình không thể làm.”','Eleanor Roosevelt · Source: You Learn by Living (1960)'],
-    ['“Một hành trình vạn dặm bắt đầu từ một bước chân.”','Lao Tzu · Source: Tao Te Ching, Chapter 64 (translation)'],
-    ['“Bạn có được sức mạnh, lòng can đảm và sự tự tin qua mỗi trải nghiệm khi bạn đối mặt với nỗi sợ.”','Eleanor Roosevelt · Source: You Learn by Living (1960)'],
-    ['“Giáo dục phải giúp con người biết sàng lọc và cân nhắc bằng chứng, phân biệt đúng với sai.”','Martin Luther King Jr. · Source: The Purpose of Education (1947)'],
-    ['“Học hôm nay là một bước nhỏ để mở ra nhiều cánh cửa ngày mai.”','ENT303 Study Hub · Original reminder']
-  ];
+  const quotes=[["“Hành trình ngàn dặm bắt đầu từ một bước chân.”", "Lão Tử, Đạo Đức Kinh"], ["“Học mà không suy nghĩ thì uổng công; suy nghĩ mà không học thì nguy hiểm.”", "Khổng Tử, Luận Ngữ"], ["“Thiên tài là 1% cảm hứng và 99% mồ hôi.”", "Thomas Edison"], ["“Điều quan trọng là không ngừng đặt câu hỏi.”", "Albert Einstein, tạp chí LIFE, 1955"], ["“Giáo dục là vũ khí mạnh nhất mà bạn có thể dùng để thay đổi thế giới.”", "Nelson Mandela, 2003"], ["“Một đứa trẻ, một giáo viên, một cây bút và một quyển sách có thể thay đổi thế giới.”", "Malala Yousafzai, phát biểu tại Liên Hợp Quốc, 2013"], ["“Càng đọc nhiều, bạn càng biết nhiều. Càng học nhiều, bạn càng đi được nhiều nơi.”", "Dr. Seuss, I Can Read with My Eyes Shut!"], ["“Giới hạn ngôn ngữ của tôi là giới hạn thế giới của tôi.”", "Ludwig Wittgenstein, Tractatus Logico-Philosophicus"], ["“Không có việc gì khó, chỉ sợ lòng không bền. Đào núi và lấp biển, quyết chí ắt làm nên.”", "Hồ Chí Minh"], ["“Đường đi khó không khó vì ngăn sông cách núi, mà khó vì lòng người ngại núi e sông.”", "Nguyễn Bá Học"], ["“Có công mài sắt, có ngày nên kim.”", "Tục ngữ Việt Nam"], ["“Thất bại là mẹ thành công.”", "Tục ngữ Việt Nam"], ["“Tôi đã thất bại hết lần này đến lần khác trong đời, và đó chính là lý do tôi thành công.”", "Michael Jordan, quảng cáo Nike, 1997"], ["“Chúng ta là những gì mình làm lặp đi lặp lại. Xuất sắc không phải một hành động, mà là một thói quen.”", "Will Durant, The Story of Philosophy"], ["“Học, học nữa, học mãi.”", "V. I. Lênin"], ["“Biết thì nói là biết, không biết thì nói là không biết, đó mới thật là biết.”", "Khổng Tử, Luận Ngữ"]];
   let quoteLast=Number(localStorage.getItem('ENT303_QUOTE_LAST')||-1);
   function showQuote(kind='nav',duration=1050){let i=Math.floor(Math.random()*quotes.length);if(quotes.length>1&&i===quoteLast)i=(i+1)%quotes.length;quoteLast=i;localStorage.setItem('ENT303_QUOTE_LAST',String(i));const q=quotes[i];$v('quote-text').innerText=q[0];$v('quote-author').innerText='— '+q[1];const o=$v('quote-overlay');if(!o)return;o.classList.remove('hide');clearTimeout(window.__quoteTimer);window.__quoteTimer=setTimeout(()=>o.classList.add('hide'),duration);}
   window.showMotivationQuote=showQuote;
@@ -2170,9 +2078,9 @@ small talk | expression | nói chuyện xã giao`
   window.openGrammarFolderManager=function(){folderKind='grammar';openFolderManager('📖 Folder ngữ pháp')};
   function openFolderManager(title){$v('folder-modal-title').innerText=title;$v('folder-modal').classList.remove('hidden');$v('folder-modal').classList.add('flex');renderFolderManager();}
   window.closeFolderModal=function(){$v('folder-modal').classList.add('hidden');$v('folder-modal').classList.remove('flex')};
-  function renderFolderManager(){const a=getFolders(folderKind);$v('folder-list').innerHTML=a.map((x,i)=>`<div class="flex items-center justify-between gap-2 p-3 rounded-xl bg-gray-50"><span class="text-sm font-bold">📁 ${esc(x)}</span><button onclick="deleteFolder(${i})" class="text-rose-500 text-xs font-extrabold">Clear</button></div>`).join('')}
+  function renderFolderManager(){const a=getFolders(folderKind);$v('folder-list').innerHTML=a.map((x,i)=>`<div class="flex items-center justify-between gap-2 p-3 rounded-xl bg-gray-50"><span class="text-sm font-bold">📁 ${esc(x)}</span><button onclick="deleteFolder(${i})" class="text-rose-500 text-xs font-extrabold">Xóa</button></div>`).join('')}
   window.createFolder=function(){const inp=$v('new-folder-input'),n=inp.value.trim();if(!n)return;const a=getFolders(folderKind);if(!a.includes(n))a.push(n);setFolders(folderKind,a);inp.value='';renderFolderManager();showToast('📁 Đã tạo folder!')};
-  window.deleteFolder=function(i){const a=getFolders(folderKind);if(a.length<=1){showToast('Giữ lại ít nhất 1 folder nha!');return}const removed=a[i];if(!confirm(`Clear folder “${removed}”? Từ vẫn còn, chỉ chuyển về Chưa phân loại.`))return;a.splice(i,1);setFolders(folderKind,a);Object.values(unitsData).forEach(u=>{(u.vocab||[]).forEach(x=>{if(x.folder===removed)delete x.folder});(u.idioms||[]).forEach(x=>{if(x.folder===removed)delete x.folder});(u.grammar||[]).forEach(x=>{if(x.folder===removed)delete x.folder})});saveUnitsDataToLocalStorage();renderFolderManager();renderFolderSelects();renderSectionContent();};
+  window.deleteFolder=function(i){const a=getFolders(folderKind);if(a.length<=1){showToast('Giữ lại ít nhất 1 folder nha!');return}const removed=a[i];if(!confirm(`Xóa folder “${removed}”? Từ vẫn còn, chỉ chuyển về Chưa phân loại.`))return;a.splice(i,1);setFolders(folderKind,a);Object.values(unitsData).forEach(u=>{(u.vocab||[]).forEach(x=>{if(x.folder===removed)delete x.folder});(u.idioms||[]).forEach(x=>{if(x.folder===removed)delete x.folder});(u.grammar||[]).forEach(x=>{if(x.folder===removed)delete x.folder})});saveUnitsDataToLocalStorage();renderFolderManager();renderFolderSelects();renderSectionContent();};
 
   // Patch addWord to persist selected vocab folder.
   const _addWord=window.addWord;window.addWord=function(){const folder=$v('aw-folder')?.value||'';const word=$v('aw-word')?.value.trim()||'';_addWord();let u=currentUnit;for(let n=1;n<=10;n++){const lists=[unitsData[n]?.vocab||[],unitsData[n]?.idioms||[]];for(const list of lists){const it=list.find(x=>(x.word||x.phrase||'').trim().toLowerCase()===word.toLowerCase());if(it){if(folder)it.folder=folder;else delete it.folder;}}}saveUnitsDataToLocalStorage();renderFolderSelects();};
@@ -2241,7 +2149,7 @@ const sb=(CFG.url&&CFG.anonKey&&/^https?:/.test(CFG.url)&&window.supabase)?windo
 let user=null,profile=null,applying=false,pushT=null;
 const X={};window.ENTX=X;
 /* ---------- quotes ---------- */
-const Q=[['Success is the sum of small efforts, repeated day in and day out.','Robert Collier'],['The secret of getting ahead is getting started.','Mark Twain'],['Mỗi ngày một chút, rồi bạn sẽ ngạc nhiên vì mình đã đi xa đến đâu.','ENT303'],['Sai không đáng sợ — không thử mới đáng sợ.','ENT303'],['Slow progress is still progress.','ENT303'],['Học 10 phút hôm nay còn hơn hẹn học 2 tiếng ngày mai.','ENT303'],['Không cần giỏi để bắt đầu, nhưng cần bắt đầu để giỏi.','ENT303'],['One word today, one more door opened tomorrow.','ENT303'],['Your future self will thank you for studying today.','ENT303'],['No zero days: even five minutes counts.','ENT303'],['Đừng so sánh chương 1 của mình với chương 20 của người khác.','ENT303'],['Learn it badly first. Improve it later.','ENT303'],['Kiên trì là kỹ năng, không phải năng khiếu.','ENT303'],['You can do hard things — one tiny question at a time.','ENT303']];
+const Q=[["Hành trình ngàn dặm bắt đầu từ một bước chân.", "Lão Tử, Đạo Đức Kinh"], ["Học mà không suy nghĩ thì uổng công; suy nghĩ mà không học thì nguy hiểm.", "Khổng Tử, Luận Ngữ"], ["Thiên tài là 1% cảm hứng và 99% mồ hôi.", "Thomas Edison"], ["Điều quan trọng là không ngừng đặt câu hỏi.", "Albert Einstein, tạp chí LIFE, 1955"], ["Giáo dục là vũ khí mạnh nhất mà bạn có thể dùng để thay đổi thế giới.", "Nelson Mandela, 2003"], ["Một đứa trẻ, một giáo viên, một cây bút và một quyển sách có thể thay đổi thế giới.", "Malala Yousafzai, phát biểu tại Liên Hợp Quốc, 2013"], ["Càng đọc nhiều, bạn càng biết nhiều. Càng học nhiều, bạn càng đi được nhiều nơi.", "Dr. Seuss, I Can Read with My Eyes Shut!"], ["Giới hạn ngôn ngữ của tôi là giới hạn thế giới của tôi.", "Ludwig Wittgenstein, Tractatus Logico-Philosophicus"], ["Không có việc gì khó, chỉ sợ lòng không bền. Đào núi và lấp biển, quyết chí ắt làm nên.", "Hồ Chí Minh"], ["Đường đi khó không khó vì ngăn sông cách núi, mà khó vì lòng người ngại núi e sông.", "Nguyễn Bá Học"], ["Có công mài sắt, có ngày nên kim.", "Tục ngữ Việt Nam"], ["Thất bại là mẹ thành công.", "Tục ngữ Việt Nam"], ["Tôi đã thất bại hết lần này đến lần khác trong đời, và đó chính là lý do tôi thành công.", "Michael Jordan, quảng cáo Nike, 1997"], ["Chúng ta là những gì mình làm lặp đi lặp lại. Xuất sắc không phải một hành động, mà là một thói quen.", "Will Durant, The Story of Philosophy"], ["Học, học nữa, học mãi.", "V. I. Lênin"], ["Biết thì nói là biết, không biết thì nói là không biết, đó mới thật là biết.", "Khổng Tử, Luận Ngữ"]];
 let qi=Number(LS.getItem('ENT303_HQ')||-1);
 X.quote=function(rand){if(rand||qi<0){let n=Math.floor(Math.random()*Q.length);if(n===qi)n=(n+1)%Q.length;qi=n;LS.setItem('ENT303_HQ',n)}const q=Q[qi];if($('hq-text')){$('hq-text').innerText='“'+q[0]+'”';$('hq-author').innerText='— '+q[1]}};
 /* ---------- theme ---------- */
@@ -2267,7 +2175,7 @@ X.render=function(){ld();if(!notes.length){notes=[{id:'n'+Date.now(),title:'',ht
 X.newNote=()=>{const n={id:'n'+Date.now(),title:'',html:'',t:Date.now()};notes.unshift(n);cur=n.id;sv();show();$('nt-title').focus()};
 X.open=id=>{cur=id;show()};
 X.saveNote=()=>{const n=notes.find(x=>x.id===cur);if(!n)return;n.title=$('nt-title').value;n.html=$('nt-ed').innerHTML;n.t=Date.now();cnt();clearTimeout(st);st=setTimeout(()=>{sv();list()},400)};
-X.delNote=()=>{if(!confirm('Clear ghi chú này?'))return;notes=notes.filter(n=>n.id!==cur);sv();X.render()};
+X.delNote=()=>{if(!confirm('Xóa ghi chú này?'))return;notes=notes.filter(n=>n.id!==cur);sv();X.render()};
 X.c=(c,v)=>{$('nt-ed').focus();document.execCommand(c,false,v||null);X.saveNote()};
 document.addEventListener('paste',e=>{if(e.target.id==='nt-ed'){e.preventDefault();document.execCommand('insertText',false,e.clipboardData.getData('text/plain'))}});
 /* ---------- cloud sync ---------- */
@@ -2337,6 +2245,25 @@ apply();X.quote();applyBG();setHH(false);
 window.addEventListener('load',()=>setTimeout(async()=>{if(!sb){if(!LS.getItem('ENT303_NAME')){$('au-pin').classList.add('hidden');modal(true)}name();return}
 const {data}=await sb.auth.getSession();user=data.session?.user||null;if(user)loadProfile().catch(console.warn);else{modal(true);render([])}},500));
 })();
+
+/* ---------- formula boxes ---------- */
+window.GB={e:t=>String(t??'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])),g:i=>unitsData[currentUnit].grammar[i],
+html(g,i){const add=`<button onclick="GB.add(${i})" class="gb-add">＋ Add formula box</button>`;if(!g.blocks)return(g.formula?`<div class="gb-box"><div class="gb-text" style="cursor:default">${g.formula}</div></div>`:'')+add;
+return g.blocks.map((b,j)=>`<div class="gb-box"><div class="gb-bar"><span>Formula box</span><span><button onclick="GB.mv(${i},${j},-1)" title="Move up">↑</button><button onclick="GB.mv(${i},${j},1)" title="Move down">↓</button><button onclick="GB.del(${i},${j})" title="Delete">✕</button></span></div><div class="gb-text" contenteditable="true" spellcheck="false" data-ph="Type a formula or note…" onblur="GB.save(${i},${j},this)">${GB.e(b.t)}</div></div>`).join('')+add},
+mig(g){if(!g.blocks){g.blocks=g.formula?[{t:String(g.formula).replace(/<[^>]+>/g,'')}]:[];g.formula=''}},
+done(i,f){saveUnitsDataToLocalStorage();renderGrammar();if(f){const l=document.querySelectorAll(`[data-g="${i}"] .gb-text`);l[l.length-1]?.focus()}},
+add(i){const g=GB.g(i);GB.mig(g);g.blocks.push({t:''});GB.done(i,1)},
+mv(i,j,d){const g=GB.g(i);GB.mig(g);const b=g.blocks,k=j+d;if(k<0||k>=b.length)return;[b[j],b[k]]=[b[k],b[j]];GB.done(i)},
+del(i,j){const g=GB.g(i);GB.mig(g);g.blocks.splice(j,1);GB.done(i)},
+save(i,j,el){const g=GB.g(i);if(g&&g.blocks&&g.blocks[j]){g.blocks[j].t=el.innerText.replace(/\u00a0/g,' ').replace(/\n+$/,'');localStorage.setItem('ENT303_USER_UNITS_DATA',JSON.stringify(unitsData))}}};
+/* ---------- English UI ---------- */
+(function(){const T={"Trang chủ": "Home", "Từ vựng": "Vocab", "Thẻ": "Cards", "Ngữ pháp": "Grammar", "Ghi chú": "Notes", "Thêm": "Add", "Học bằng thẻ": "Flashcards", "Thêm từ": "Add word", "Góc học tập của bạn": "Your Study Corner", "🔥 Chuỗi ngày học": "🔥 Study streak", "ngày": "days", "📚 Tổng từ": "📚 Total words", "🌱 Đã học": "🌱 Learned", "🐣 Chưa học": "🐣 Not yet", "Quote khác": "Another quote", "Tuần này": "This week", "🏆 Học cùng bạn bè": "🏆 Study with friends", "🏆 Bảng xếp hạng tuần": "🏆 Weekly leaderboard", "Chưa có ai ghi XP tuần này 🌱": "No XP this week yet 🌱", "Đăng nhập để xem bảng xếp hạng 🌱": "Log in to see the leaderboard 🌱", "Đăng nhập": "Log in", "Đăng xuất": "Log out", "↻ Cập nhật": "↻ Refresh", "Tên của bạn": "Your name", "Mật khẩu 4 số": "4-digit password", "Vào học ✨": "Start learning ✨", "Để sau": "Later", "Đang vào...": "Logging in...", "Nhập tên đã nha": "Please enter a name", "Mật khẩu gồm đúng 4 số": "Password must be exactly 4 digits", "Tên này đã có người dùng (hoặc bạn nhập sai mật khẩu) 😅": "This name is taken (or the password is wrong) 😅", "🎨 Giao diện": "🎨 Appearance", "Giao diện": "Appearance", "☀️ Sáng": "☀️ Light", "🌙 Tối": "🌙 Dark", "🌷 Hoa": "🌷 Flowers", "🏞️ Cảnh": "🏞️ Scenery", "⚪ Tối giản": "⚪ Minimal", "🖼️ Hình nền": "🖼️ Background", "Hoàng hôn": "Sunset", "Rừng": "Forest", "Biển": "Ocean", "Đêm": "Night", "📁 Ảnh của bạn": "📁 Your photo", "Dán link ảnh (https://...)": "Paste image link (https://...)", "Ảnh quá nặng, chọn ảnh nhỏ hơn nha": "Image too large, pick a smaller one", "＋ Ghi chú mới": "＋ New note", "Tiêu đề": "Title", "Cỡ": "Size", "Nhỏ": "Small", "Vừa": "Medium", "Lớn": "Large", "Rất lớn": "X-large", "Viết ghi chú ở đây...": "Write your notes here...", "Màu chữ": "Text color", "Tô nổi": "Highlight", "🗑 Xóa ghi chú": "🗑 Delete note", "Xóa ghi chú này?": "Delete this note?", "Không tên": "Untitled", "Trống": "Empty", "Đúng": "Correct", "Đúng:": "Correct:", "Tỉ lệ": "Score", "Điểm:": "Score:", "Hủy": "Cancel", "Xóa": "Delete", "Sửa": "Edit", "Đóng": "Close", "Đã xóa!": "Deleted!", "Lưu ảnh": "Save image", "Xóa ảnh": "Remove image", "Thêm ảnh": "Add image", "Dùng link": "Use link", "Đã Hiểu": "Got it", "Tùy chọn": "Options", "Chọn A-D": "Pick A-D", "Chưa nộp": "Not submitted", "Cú pháp:": "Format:", "Copy mẫu": "Copy template", "🔄 Làm lại": "🔄 Retry", "Đã thuộc:": "Known:", "Chưa thuộc:": "Unknown:", "Công thức": "Formula", "Tiêu đề *": "Title *", "Xem trước": "Preview", "🔊 Phát âm": "🔊 Pronounce", "Đang học:": "Studying:", "Nghe chép": "Dictation", "🎧 NGHE CHÉP": "🎧 DICTATION", "Quiz 2 cột": "2-column quiz", "← Quay lại": "← Back", "Giải thích": "Explanation", "Cách dùng:": "Usage:", "Kiểm tra →": "Check →", "Toàn bộ từ": "All words", "✍️ Điền từ": "✍️ Fill in", "Lưu Bài Làm": "Save result", "Ảnh gợi nhớ": "Memory image", "Thêm tất cả": "Add all", "Đã Thuộc · →": "Known · →", "Chưa Thuộc · ←": "Unknown · ←", "Nghe phát âm": "Listen", "Bạn đang ôn:": "Reviewing:", "Sửa Ngữ Pháp": "Edit grammar", "Lưu Thay Đổi": "Save changes", "Chọn nhóm từ": "Choose word group", "🧠 KHU ÔN TẬP": "🧠 PRACTICE ZONE", "Ảnh xem trước": "Image preview", "Thêm ngữ pháp": "Add grammar", "Quiz Ngữ pháp": "Grammar quiz", "Thêm Ngữ Pháp": "Add Grammar", "Từ chưa thuộc": "Unknown words", "🎯 Chọn đáp án": "🎯 Choose an answer", "Thêm vào Unit": "Add to Unit", "Thêm Vào Unit": "Add to Unit", "Chọn dạng bài": "Choose exercise type", "Từ / cụm từ *": "Word / phrase *", "← Đổi dạng bài": "← Change type", "Ôn gì hôm nay?": "What to review today?", "Hôm nay luyện kiểu nào?": "How to practice today?", "Làm Lại Từ Đầu": "Restart", "🧩 Ghép câu đúng": "🧩 Build the sentence", "Làm Lại Câu Sai": "Retry wrong answers", "Chọn nghĩa đúng": "Choose the right meaning", "Đã lưu thay đổi!": "Changes saved!", "Không có từ nào.": "No words.", "Phát âm từ vựng:": "Pronunciation:", "Thêm Từ Vựng Mới": "Add New Vocabulary", "Nghĩa Tiếng Việt": "Vietnamese meaning", "Nghĩa tiếng Việt": "Vietnamese meaning", "Nghĩa tiếng Việt *": "Vietnamese meaning *", "Nghe từ → gõ lại": "Hear the word → type it", "Nghĩa → gõ từ tiếng Anh": "Meaning → type the English word", "Đổi ảnh đại diện": "Change avatar", "Đã thêm ngữ pháp!": "Grammar added!", "Ngữ Pháp Của Unit": "Unit Grammar", "Stress (trọng âm)": "Stress", "Thêm Ngữ Pháp Mới": "Add New Grammar", "✏️ Ví dụ minh họa:": "✏️ Examples:", "⚠️ Bẫy thường gặp & Nhận diện nhanh:": "⚠️ Common traps & quick tips:", "Lật mặt Flashcard:": "Flip card:", "Làm Lại Bảng 2 Cột": "Restart 2-column quiz", "Toàn bộ từ của Unit": "All words in this Unit", "Xác Nhận & Tiếp Theo": "Confirm & Next", "Kiểm tra & tiếp tục →": "Check & continue →", "Không có dòng hợp lệ!": "No valid rows!", "Cần nhập tiêu đề ngữ pháp!": "Grammar title required!", "Kết Quả Bài Kiểm Tra Slide": "Quiz Results", "Danh Sách Từ Vựng Trong Unit": "Vocabulary in this Unit", "Nhập từ Tiếng Anh & bấm Enter...": "Type the English word & press Enter...", "Chọn nghĩa Tiếng Việt chuẩn xác:": "Choose the correct Vietnamese meaning:", "Bài tập Ngữ Pháp thi thử chuẩn FPT:": "FPT-style grammar practice:", "✓ Chính xác!": "✓ Correct!", "✨ Chính xác!": "✨ Correct!", "Vui lòng chọn 1 đáp án hoặc bấm phím 1, 2, 3, 4!": "Please choose an answer or press 1, 2, 3, 4!", "Gõ câu trả lời trước nhé!": "Type your answer first!", "Đã lưu dữ liệu vĩnh viễn!": "Saved!", "Đang xử lý ảnh...": "Processing image...", "Đã xóa ảnh!": "Image removed!", "Bỏ hình nền": "No background", "Giải thích:": "Explanation:", "Kết Quả Hiển Thị": "Results", "Tìm kiếm qua từ vựng, nghĩa VI/EN, loại từ (noun/verb), collocation, word family...": "Search words, meanings, parts of speech, collocations, word families...", "Loại từ": "Part of speech", "Chưa thuộc": "Not known", "Đã thuộc": "Known", "T2": "Mon", "T3": "Tue", "T4": "Wed", "T5": "Thu", "T6": "Fri", "T7": "Sat", "CN": "Sun", "Tất cả": "All", "Làm lại": "Retry", "Tiếp theo": "Next", "Quay lại": "Back", "Lưu": "Save", "Thêm vào": "Add", "Hôm nay": "Today", "Câu": "Question", "từ": "words", "Bạn": "You", "Điều hướng chính": "Main navigation", "Học một chút mỗi ngày": "Learn a little every day", "✨ Học một chút mỗi ngày": "✨ Learn a little every day", "Chọn Unit ở góc trên • Tiến độ tự động lưu": "Pick a Unit at the top • Progress saves automatically", "Nghe phát âm → gõ từ": "Listen → type the word", "Nghe kỹ rồi nhập từ tiếng Anh": "Listen, then type the English word", "Gõ từ bạn nghe được...": "Type what you hear...", "Thêm Từ": "Add Word", "⚡ Thêm nhiều từ cùng lúc": "⚡ Add many words at once", "Mỗi dòng = 1 từ": "One word per line", "Chưa có dữ liệu để thêm!": "Nothing to add!", "Không đọc được ảnh này.": "Cannot read this image.", "Đã nhận ảnh! Bấm “Lưu ảnh”.": "Image received! Press “Save image”.", "Quiz Ngữ Pháp": "Grammar quiz", "Hoàn thành": "Done", "Mẫu": "Template", "Đã copy mẫu cú pháp!": "Template copied!", "Phím tắt: Space (Lật) | Ctrl+X (Nghe)": "Shortcuts: Space (flip) | Ctrl+X (listen)", "Nhấn Space hoặc click để xem nghĩa": "Press Space or click to see the meaning"},R=[[/^Đã thêm "(.+)" vào Unit (\d+)!$/,'Added "$1" to Unit $2!'],[/^"(.+)" đã có trong Unit (\d+)!$/,'"$1" is already in Unit $2!'],[/^Xóa "(.+)" khỏi Unit (\d+)\?$/,'Delete "$1" from Unit $2?'],[/^(\d+) Từ vựng \+ (\d+) Expressions$/,'$1 words + $2 expressions'],[/^Toàn bộ từ • (\d+) từ$/,'All words • $1'],[/^Từ chưa thuộc • (\d+) từ$/,'Unknown words • $1'],[/^(\d+)\/10 từ$/,'$1/10 words'],[/^(\d+) ký tự$/,'$1 characters'],[/^(\d+) từ$/,'$1 words'],[/^🌱 Chưa đúng\. Đáp án: (.+)$/,'🌱 Not quite. Answer: $1'],[/^✗ Sai rồi! Đáp án đúng: (.+)$/,'✗ Wrong! Correct answer: $1'],[/^Đã thêm (\d+) từ vào Unit (\d+)$/,'Added $1 words to Unit $2'],[/^Đã lưu thay đổi (.+)!$/,'Saved changes to $1!']];
+const tr=s=>{const t=s.trim();if(!t)return s;if(Object.prototype.hasOwnProperty.call(T,t))return s.replace(t,T[t]);for(const[r,x]of R)if(r.test(t))return s.replace(t,t.replace(r,x));return s};
+const at=['placeholder','title','aria-label'];
+function walk(n){if(n.nodeType===3){const v=tr(n.nodeValue);if(v!==n.nodeValue)n.nodeValue=v}else if(n.nodeType===1){if(/^(SCRIPT|STYLE|TEXTAREA)$/.test(n.tagName))return;at.forEach(a=>{if(n.hasAttribute(a)){const o=n.getAttribute(a),v=tr(o);if(v!==o)n.setAttribute(a,v)}});n.childNodes.forEach(walk)}}
+['alert','confirm'].forEach(k=>{const f=window[k].bind(window);window[k]=m=>f(tr(String(m)))});const _p=window.prompt.bind(window);window.prompt=(m,d)=>_p(tr(String(m)),d);
+new MutationObserver(ms=>ms.forEach(m=>{m.addedNodes.forEach(walk);if(m.type==='characterData')walk(m.target)})).observe(document.body,{childList:true,subtree:true,characterData:true});
+document.documentElement.lang='en';walk(document.body)})();
 </script>
 </body>
 </html>
