@@ -253,7 +253,12 @@ body[data-mode=dark] .fx-box .gb-text{color:var(--ink)}
 .fx-box:hover .fx-tools,.fx-box:focus-within .fx-tools{opacity:1}
 .fx-tools button{width:26px;height:26px;border-radius:8px;font-size:12px;font-weight:900;color:var(--mut)}
 .fx-tools button:hover{background:var(--card);color:var(--acc-d)}
-.fx-hint{font-size:11px;color:var(--mut);margin-top:6px}
+.fx-hint{font-size:11px;color:var(--mut);margin:0}
+.fx-ro{padding:8px 14px}
+.fx-edit-btn{font-size:11px;font-weight:800;padding:6px 10px;border-radius:10px;border:1px solid var(--acc-b);color:var(--acc-d);background:transparent;white-space:nowrap}
+.fx-edit-btn:hover,.fx-edit-btn.on{background:var(--acc-l)}
+.contact-foot{max-width:42rem;margin:24px auto 96px;padding:14px 18px;border-radius:20px;border:1px solid var(--acc-b);background:var(--card);text-align:center;font-size:13px;font-weight:700;color:var(--ink)}
+.contact-foot a{display:inline-block;margin-top:8px;padding:8px 16px;border-radius:12px;background:var(--acc);color:#fff;font-weight:900;text-decoration:none}
 .fx-wrap .gb-add{margin-top:2px}
 
 .bulk-tpl{margin-top:8px;border:1px solid rgba(245,158,11,.3);border-radius:12px;background:rgba(255,255,255,.7);padding:8px 12px}
@@ -2582,16 +2587,21 @@ window.FX={
   focus(i,j){if(j<0)return;requestAnimationFrame(()=>{const el=document.querySelectorAll(`[data-gi="${i}"] .fx-box .gb-text`)[j];if(!el)return;el.focus();const r=document.createRange();r.selectNodeContents(el);r.collapse(false);const s=getSelection();s.removeAllRanges();s.addRange(r)})}
 };
 function yt(url){if(!url)return'';try{const u=new URL(url);let id='';if(u.hostname.includes('youtu.be'))id=u.pathname.slice(1);if(u.hostname.includes('youtube.com'))id=u.searchParams.get('v')||u.pathname.split('/').filter(Boolean).pop();if(!id)return'';return'https://www.youtube.com/embed/'+id.replace(/[^\w-]/g,'')+'?rel=0'}catch(e){return''}}
+const FXE=new Set(),fxk=i=>currentUnit+':'+i;
+window.FXE=FXE;FX.toggle=i=>{const k=fxk(i);FXE.has(k)?FXE.delete(k):FXE.add(k);renderGrammar()};
+const boxRO=t=>`<div class="fx-box fx-ro"><div class="gb-text" style="cursor:default">${E(t)}</div></div>`;
 const box=(i,j,t)=>`<div class="fx-box"><div class="gb-text" contenteditable="true" spellcheck="false" data-ph="Type a formula…" onkeydown="FX.key(event,${i},${j})" onblur="FX.save(${i},${j},this)">${E(t)}</div><div class="fx-tools"><button type="button" onclick="FX.mv(${i},${j},-1)" title="Move up">↑</button><button type="button" onclick="FX.mv(${i},${j},1)" title="Move down">↓</button><button type="button" onclick="FX.del(${i},${j})" title="Delete">✕</button></div></div>`;
 window.renderGrammar=function(){
   migrateAll();
   const list=unitsData[currentUnit].grammar||[],filter=($('grammar-folder-filter')||{}).value||'',arr=list.filter(g=>!filter||g.folder===filter),c=$('grammar-container');
   if(!c)return;
-  c.innerHTML=arr.length?`<p class="fx-hint">Formulas: <b>Enter</b> = new box · <b>Shift+Enter</b> = new line inside a box · empty box + <b>Backspace</b> = delete it.</p>`+arr.map(g=>{
+  c.innerHTML=arr.length?arr.map(g=>{
     const i=list.indexOf(g),vid=yt(g.video||'');
-    return `<div class="bg-white p-6 rounded-3xl border border-blue-100 shadow-sm space-y-4" data-gi="${i}"><div class="flex justify-between items-start gap-3"><div><h3 class="text-xl font-black text-slateCustom">${g.title||''}</h3>${g.folder?`<span class="folder-chip mt-2">📁 ${E(g.folder)}</span>`:''}</div><button onclick="openEntryMenu(event,'grammar',${i})" class="text-gray-400 hover:text-rose-500 w-8 h-8 rounded-lg hover:bg-rose-50 shrink-0"><i class="fa-solid fa-ellipsis-vertical"></i></button></div>`
+    return `<div class="bg-white p-6 rounded-3xl border border-blue-100 shadow-sm space-y-4" data-gi="${i}"><div class="flex justify-between items-start gap-3"><div><h3 class="text-xl font-black text-slateCustom">${g.title||''}</h3>${g.folder?`<span class="folder-chip mt-2">📁 ${E(g.folder)}</span>`:''}</div><div class="flex items-center gap-1 shrink-0"><button type="button" onclick="FX.toggle(${i})" class="fx-edit-btn${FXE.has(fxk(i))?' on':''}">${FXE.has(fxk(i))?'✔ Xong':'✏️ Sửa công thức'}</button><button onclick="openEntryMenu(event,'grammar',${i})" class="text-gray-400 hover:text-rose-500 w-8 h-8 rounded-lg hover:bg-rose-50 shrink-0"><i class="fa-solid fa-ellipsis-vertical"></i></button></div></div>`
     +(g.detail?`<div class="text-sm text-gray-700 font-medium leading-relaxed whitespace-pre-line">${g.detail}</div>`:'')
-    +`<div class="fx-wrap">${(g.blocks||[]).map((b,j)=>box(i,j,b.t)).join('')}<button type="button" class="gb-add" onclick="FX.add(${i})">＋ Add formula</button></div>`
+    +(FXE.has(fxk(i))
+      ?`<div class="fx-wrap"><p class="fx-hint">Enter = ô mới · Shift+Enter = xuống dòng trong ô · ô trống + Backspace = xóa ô.</p>${(g.blocks||[]).map((b,j)=>box(i,j,b.t)).join('')}<button type="button" class="gb-add" onclick="FX.add(${i})">＋ Add formula</button></div>`
+      :((g.blocks||[]).length?`<div class="fx-wrap">${g.blocks.map(b=>boxRO(b.t)).join('')}</div>`:''))
     +((g.examples||[]).length?`<div><p class="text-xs font-black text-gray-500 uppercase tracking-wider">✏️ Ví dụ minh họa</p><ul class="list-disc pl-5 mt-2 space-y-1 text-sm">${g.examples.map(ex=>`<li>${ex}</li>`).join('')}</ul></div>`:'')
     +((g.rules||[]).length?`<div class="space-y-2 border-t pt-3"><p class="text-xs font-black text-rose-600 uppercase tracking-wider">⚠️ Bẫy & nhận diện nhanh</p><ul class="space-y-1 text-xs text-gray-700">${g.rules.map(r=>`<li>▶ ${r}</li>`).join('')}</ul></div>`:'')
     +(vid?`<div class="grammar-extra rounded-2xl p-3"><p class="text-xs font-black text-violet-700 mb-2">🎬 Video bài giảng</p><iframe class="grammar-video" src="${vid}" title="Video bài giảng YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`:(g.video?`<a href="${E(g.video)}" target="_blank" rel="noopener" class="block text-xs font-bold text-violet-600">▶️ Mở video YouTube</a>`:''))
@@ -2725,5 +2735,6 @@ migrateAll();
 if(typeof currentSection!=='undefined'&&currentSection==='grammar')renderGrammar();
 })();
 </script>
+<footer class="contact-foot">💬 Có thắc mắc gì, liên hệ Zalo để hỏi thêm chi tiết nhé!<br><a href="https://zalo.me/0862622507" target="_blank" rel="noopener noreferrer">Zalo: 0862 622 507 (Tâm)</a></footer>
 </body>
 </html>
