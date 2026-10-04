@@ -241,7 +241,128 @@ body[data-theme=minimal][data-bg] #scene{display:none}
 .gb-text{outline:none;white-space:pre-wrap;font-weight:700;font-size:14px;min-height:22px;color:var(--ink);line-height:1.6}
 .gb-text:empty:before{content:attr(data-ph);opacity:.5}
 .gb-add{margin-top:10px;width:100%;padding:9px;border-radius:14px;border:2px dashed var(--acc-b);font-weight:800;font-size:13px;color:var(--acc)}
-</style></head>
+</style>
+<style id="ent-v7">
+/* v7: formula boxes, bulk-import helpers, keyboard hints */
+.fx-wrap{display:grid;gap:8px}
+.fx-box{display:flex;align-items:flex-start;gap:8px;border:1px solid var(--acc-b);background:var(--acc-l);border-radius:14px;padding:8px 8px 8px 14px;transition:border-color .15s,box-shadow .15s}
+.fx-box:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 18%,transparent)}
+.fx-box .gb-text{flex:1;min-width:0;margin:0;padding-top:2px;color:var(--acc-d)}
+body[data-mode=dark] .fx-box .gb-text{color:var(--ink)}
+.fx-tools{display:flex;gap:2px;opacity:.4;transition:opacity .15s;flex-shrink:0}
+.fx-box:hover .fx-tools,.fx-box:focus-within .fx-tools{opacity:1}
+.fx-tools button{width:26px;height:26px;border-radius:8px;font-size:12px;font-weight:900;color:var(--mut)}
+.fx-tools button:hover{background:var(--card);color:var(--acc-d)}
+.fx-hint{font-size:11px;color:var(--mut);margin-top:6px}
+.fx-wrap .gb-add{margin-top:2px}
+
+.bulk-tpl{margin-top:8px;border:1px solid rgba(245,158,11,.3);border-radius:12px;background:rgba(255,255,255,.7);padding:8px 12px}
+.bulk-tpl summary{cursor:pointer;font-size:12px;font-weight:800;color:#b45309}
+.bulk-tpl pre{margin:8px 0 0;font-size:11.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;color:#374151;max-height:260px;overflow:auto}
+body[data-mode=dark] .bulk-tpl{background:rgba(255,255,255,.06)}
+body[data-mode=dark] .bulk-tpl pre{color:var(--ink)}
+
+#gm-bulk-box{border:2px dashed #bfdbfe;background:rgba(239,246,255,.65);border-radius:20px;padding:14px 16px}
+#gm-bulk-box>summary{cursor:pointer;font-weight:900;font-size:14px;color:#1d4ed8}
+#gm-bulk-box textarea{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+body[data-mode=dark] #gm-bulk-box{background:rgba(59,130,246,.08);border-color:rgba(147,197,253,.35)}
+
+kbd.kb{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 6px;border-radius:7px;border:1px solid var(--acc-b);background:var(--card);font:800 11px/1 ui-monospace,Menlo,monospace;color:var(--mut);margin-right:10px;flex-shrink:0}
+.quiz-choice.selected kbd.kb{border-color:var(--acc);color:var(--acc-d)}
+.kb-note{font-size:11px;color:var(--mut);text-align:center;margin-top:10px}
+</style>
+<script id="ent-quotes">
+/* ENT303 quote bank. k = category: learn | grit | mistake | lang.
+   mistake -> shown after a wrong answer; learn/grit/lang -> navigation + home card. */
+window.ENT_QUOTES=(function(){
+const P='Poodle nhắc nhỏ 🐩',TN='Tục ngữ Việt Nam';
+const D=[
+/* ---- learn: học tập, tò mò ---- */
+{k:'learn',t:'Học mà không suy nghĩ thì uổng công; suy nghĩ mà không học thì nguy hiểm.',a:'Khổng Tử, Luận Ngữ'},
+{k:'learn',t:'Điều quan trọng là không ngừng đặt câu hỏi.',a:'Albert Einstein, tạp chí LIFE, 1955'},
+{k:'learn',t:'Giáo dục là vũ khí mạnh nhất mà bạn có thể dùng để thay đổi thế giới.',a:'Nelson Mandela, 2003'},
+{k:'learn',t:'Một đứa trẻ, một giáo viên, một cây bút và một quyển sách có thể thay đổi thế giới.',a:'Malala Yousafzai, phát biểu tại Liên Hợp Quốc, 2013'},
+{k:'learn',t:'Càng đọc nhiều, bạn càng biết nhiều. Càng học nhiều, bạn càng đi được nhiều nơi.',a:'Dr. Seuss, I Can Read with My Eyes Shut!'},
+{k:'learn',t:'Học, học nữa, học mãi.',a:'V. I. Lênin'},
+{k:'learn',t:'Biết thì nói là biết, không biết thì nói là không biết, đó mới thật là biết.',a:'Khổng Tử, Luận Ngữ'},
+{k:'learn',t:'Trí óc không phải cái bình để đổ đầy, mà là ngọn lửa để thắp lên.',a:'Plutarch, Bàn về cách nghe giảng'},
+{k:'learn',t:'Khi dạy người khác, ta cũng đang học.',a:'Seneca, Thư gửi Lucilius'},
+{k:'learn',t:'Nghệ thuật cao nhất của người thầy là đánh thức niềm vui trong sáng tạo và hiểu biết.',a:'Albert Einstein, 1936'},
+{k:'learn',t:'Hãy sống như thể ngày mai bạn sẽ chết. Hãy học như thể bạn sẽ sống mãi.',a:'Mahatma Gandhi (được cho là)'},
+{k:'learn',t:'Đầu tư vào tri thức luôn sinh lãi cao nhất.',a:'Benjamin Franklin (được cho là)'},
+{k:'learn',t:'Việc học không bao giờ làm tâm trí kiệt sức.',a:'Leonardo da Vinci (được cho là)'},
+{k:'learn',t:'Điều bạn học được sau khi đã biết hết mới là điều đáng giá.',a:'John Wooden'},
+{k:'learn',t:'Trở thành thì tốt hơn là đang là.',a:'Carol Dweck, Mindset, 2006'},
+{k:'learn',t:'Rễ của việc học thì đắng, nhưng quả của nó thì ngọt.',a:'Aristotle (được cho là)'},
+{k:'learn',t:'Đi một ngày đàng, học một sàng khôn.',a:TN},
+{k:'learn',t:'Học thầy không tày học bạn.',a:TN},
+{k:'learn',t:'Muốn biết phải hỏi, muốn giỏi phải học.',a:TN},
+{k:'learn',t:'Có học mới biết, có đi mới đến.',a:TN},
+{k:'learn',t:'Gần mực thì đen, gần đèn thì rạng.',a:TN},
+{k:'learn',t:'Học một biết mười.',a:TN},
+
+/* ---- grit: kiên trì, thói quen, bắt đầu ---- */
+{k:'grit',t:'Hành trình ngàn dặm bắt đầu từ một bước chân.',a:'Lão Tử, Đạo Đức Kinh'},
+{k:'grit',t:'Thiên tài là 1% cảm hứng và 99% mồ hôi.',a:'Thomas Edison'},
+{k:'grit',t:'Không có việc gì khó, chỉ sợ lòng không bền. Đào núi và lấp biển, quyết chí ắt làm nên.',a:'Hồ Chí Minh'},
+{k:'grit',t:'Đường đi khó không khó vì ngăn sông cách núi, mà khó vì lòng người ngại núi e sông.',a:'Nguyễn Bá Học'},
+{k:'grit',t:'Có công mài sắt, có ngày nên kim.',a:TN},
+{k:'grit',t:'Chúng ta là những gì mình làm lặp đi lặp lại. Xuất sắc không phải một hành động, mà là một thói quen.',a:'Will Durant, The Story of Philosophy'},
+{k:'grit',t:'Nước chảy đá mòn.',a:TN},
+{k:'grit',t:'Kiến tha lâu cũng đầy tổ.',a:TN},
+{k:'grit',t:'Mưa dầm thấm lâu.',a:TN},
+{k:'grit',t:'Có chí thì nên.',a:TN},
+{k:'grit',t:'Grit là đam mê và sự kiên trì cho những mục tiêu dài hạn.',a:'Angela Duckworth, Grit, 2016'},
+{k:'grit',t:'Không điều vĩ đại nào đạt được mà thiếu nhiệt huyết.',a:'Ralph Waldo Emerson, Circles, 1841'},
+{k:'grit',t:'Trước hết hãy tự nói mình muốn trở thành ai, rồi làm những gì cần làm.',a:'Epictetus, Discourses'},
+{k:'grit',t:'Thời điểm tốt nhất để trồng cây là 20 năm trước. Thời điểm tốt thứ hai là bây giờ.',a:'Tục ngữ (thường gắn với Trung Quốc)'},
+{k:'grit',t:'Thành Rome không được xây xong trong một ngày.',a:'Tục ngữ phương Tây'},
+{k:'grit',t:'Chậm mà chắc thì thắng cuộc đua.',a:'Ngụ ngôn Aesop, Rùa và Thỏ'},
+{k:'grit',t:'Đừng để điều bạn không làm được cản trở điều bạn có thể làm.',a:'John Wooden'},
+{k:'grit',t:'Hãy luôn khát khao, hãy luôn dại khờ.',a:'Steve Jobs, Đại học Stanford, 2005'},
+{k:'grit',t:'Mọi thứ đều có vẻ bất khả thi cho đến khi nó được làm xong.',a:'Nelson Mandela (được cho là)'},
+
+/* ---- mistake: sai lầm, thất bại, thử lại (hiện sau khi trả lời sai) ---- */
+{k:'mistake',t:'Thất bại là mẹ thành công.',a:TN},
+{k:'mistake',t:'Thua keo này, bày keo khác.',a:TN},
+{k:'mistake',t:'Ngã bảy lần, đứng dậy tám lần.',a:'Tục ngữ Nhật Bản'},
+{k:'mistake',t:'Tôi đã thất bại hết lần này đến lần khác trong đời, và đó chính là lý do tôi thành công.',a:'Michael Jordan, quảng cáo Nike, 1997'},
+{k:'mistake',t:'Thử rồi. Thất bại rồi. Không sao. Thử lại. Thất bại lại. Thất bại tốt hơn.',a:'Samuel Beckett, Worstward Ho, 1983'},
+{k:'mistake',t:'Làm hết sức mình cho đến khi biết nhiều hơn. Rồi khi biết nhiều hơn, hãy làm tốt hơn.',a:'Maya Angelou'},
+{k:'mistake',t:'Chỉ người không làm gì mới không bao giờ mắc lỗi.',a:'Theodore Roosevelt (được cho là)'},
+{k:'mistake',t:'Vinh quang lớn nhất không phải là không bao giờ vấp ngã, mà là mỗi lần ngã đều đứng dậy.',a:'Oliver Goldsmith, 1760'},
+{k:'mistake',t:'Kết quả ư? Tôi có cả đống rồi! Tôi biết hàng nghìn thứ không hiệu quả.',a:'Thomas Edison, theo tiểu sử của Dyer & Martin, 1910'},
+{k:'mistake',t:'Thất bại chỉ là cơ hội để bắt đầu lại, lần này thông minh hơn.',a:'Henry Ford (được cho là)'},
+{k:'mistake',t:'Sai một câu thì nhớ lâu hơn đúng mười câu. Đọc kỹ đáp án rồi thử lại nào!',a:P},
+{k:'mistake',t:'Câu này chưa qua, nhưng bạn vừa biết thêm một điều rồi đó.',a:P},
+{k:'mistake',t:'Từ khó mới đáng học. Đọc lại giải thích một lần là nó vào đầu rồi.',a:P},
+{k:'mistake',t:'Não bạn ghi nhớ bằng cách sửa lỗi. Cứ đi tiếp nhé!',a:P},
+{k:'mistake',t:'Hít một hơi, nhìn đáp án đúng, rồi qua câu tiếp theo thôi.',a:P},
+
+/* ---- lang: ngoại ngữ ---- */
+{k:'lang',t:'Giới hạn ngôn ngữ của tôi là giới hạn thế giới của tôi.',a:'Ludwig Wittgenstein, Tractatus Logico-Philosophicus'},
+{k:'lang',t:'Học thêm một ngôn ngữ mới là có thêm một tâm hồn mới.',a:'Tục ngữ Séc'},
+{k:'lang',t:'Học một ngôn ngữ khác không chỉ là học từ khác cho cùng một sự vật, mà là học một cách nghĩ khác về sự vật.',a:'Flora Lewis (được cho là)'},
+{k:'lang',t:'Một ngôn ngữ khác là một cách nhìn cuộc sống khác.',a:'Federico Fellini'},
+{k:'lang',t:'Bạn không thể hiểu hết một ngôn ngữ cho đến khi hiểu ít nhất hai ngôn ngữ.',a:'Geoffrey Willans'},
+{k:'lang',t:'Ngôn ngữ là tấm bản đồ của một nền văn hóa. Nó cho biết con người ở đó đến từ đâu và đang đi về đâu.',a:'Rita Mae Brown'},
+{k:'lang',t:'Một ngôn ngữ đặt bạn vào hành lang suốt đời. Hai ngôn ngữ mở mọi cánh cửa dọc đường.',a:'Frank Smith (được cho là)'},
+{k:'lang',t:'Học ăn, học nói, học gói, học mở.',a:TN},
+{k:'lang',t:'Lời nói chẳng mất tiền mua, lựa lời mà nói cho vừa lòng nhau.',a:'Ca dao Việt Nam'},
+{k:'lang',t:'Mỗi từ mới là một viên gạch xây nên câu tiếng Anh của bạn.',a:P},
+{k:'lang',t:'Nói sai vẫn hơn không nói. Người giỏi tiếng Anh là người dám mở miệng nhiều nhất.',a:P}
+];
+const POOLS={wrong:['mistake'],right:['grit','learn'],nav:['learn','grit','lang'],home:['learn','grit','lang']};
+const bags={};
+const pool=kind=>{const ks=POOLS[kind]||POOLS.nav;return D.filter(q=>ks.includes(q.k))};
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+/* shuffle-bag: no repeats until every quote in the pool has been shown */
+function next(kind){const key=POOLS[kind]?kind:'nav';let b=bags[key];if(!b||!b.length)b=bags[key]=shuffle(pool(key).slice());const q=b.pop();return[q.t,q.a]}
+const flat=kind=>pool(kind).map(q=>[q.t,q.a]);
+return{all:D,next,flat,pool};
+})();
+</script>
+</head>
 <body class="text-gray-800 min-h-screen flex flex-col relative pb-12" onclick="closeHoverPopupOutside(event)">
     <div id="cute-loader" class="cute-loader"><div class="text-center"><div class="loader-buddy text-6xl">🐣</div><div class="mt-3 text-lg font-black text-slateCustom">Đang mở góc học tập...</div><div class="mt-2 flex items-center justify-center gap-2"><span class="loader-dot w-2 h-2 rounded-full bg-rose-400"></span><span class="loader-dot w-2 h-2 rounded-full bg-amber-400"></span><span class="loader-dot w-2 h-2 rounded-full bg-emerald-400"></span></div></div></div>
 
@@ -351,7 +472,7 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                             <div class="min-w-0">
                                 <h3 class="font-extrabold text-amber-950">⚡ Thêm nhiều từ cùng lúc</h3>
                                 <p data-guide="1" class="text-xs text-amber-800 mt-0.5">
-                                    Copy danh sách từ ChatGPT rồi dán vào đây. <b>Mỗi dòng = 1 từ</b>, các cột cách nhau bằng dấu <b>|</b>.
+                                    Copy the prompt, send it to ChatGPT with your word list, then paste its answer here. <b>Each block = 1 word</b>, blocks are separated by a line of <b>---</b>.
                                 </p>
                             </div>
                         </div>
@@ -360,22 +481,21 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                             <select id="bulk-template" class="hidden"><option value="full">Đầy đủ</option></select>
                             <div class="flex items-end gap-2">
                                 <button type="button" onclick="copyBulkFormat()" class="flex-1 px-3 py-2.5 bg-white border border-amber-200 text-amber-700 hover:bg-amber-100 font-bold rounded-xl text-xs transition-all">
-                                    <i class="fa-regular fa-copy mr-1"></i>Copy mẫu
+                                    <i class="fa-regular fa-copy mr-1"></i>Copy prompt for ChatGPT
                                 </button>
+                                <button type="button" onclick="fillBulkTemplate()" class="px-3 py-2.5 bg-white border border-amber-200 text-amber-700 hover:bg-amber-100 font-bold rounded-xl text-xs transition-all">Insert sample</button>
                                 <button type="button" onclick="clearBulkInput()" class="px-3 py-2.5 bg-white border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold rounded-xl text-xs transition-all">
                                     Xóa
                                 </button>
                             </div>
                         </div>
 
-                        <textarea id="aw-bulk" rows="8"
-                            placeholder="destructive | adj | /dɪˈstrʌk.tɪv/ | -STRUC- | có tính phá hoại | Causing serious damage or harm. | destructive behavior — hành vi phá hoại | destroy (v) — phá hủy | Không dùng destructive để chỉ người phá hoại | Human activities can be destructive. | nhớ: destroy = phá hủy"
+                        <textarea id="aw-bulk" rows="12"
+                            placeholder="Paste ChatGPT&#39;s answer here…&#10;Từ / cụm từ *: destructive&#10;Loại từ: adj&#10;IPA: /dɪˈstrʌk.tɪv/&#10;Nghĩa tiếng Việt *: có tính phá hoại&#10;…&#10;---"
                             class="w-full px-4 py-3 bg-white border border-amber-200 rounded-xl text-sm font-medium font-mono focus:outline-none focus:ring-4 focus:ring-amber-100"></textarea>
 
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                            <p id="bulk-help" class="text-[11px] leading-relaxed text-gray-500">
-                                <b data-guide="1">Cú pháp:</b> Từ | Loại | Nghĩa VI. Các cột sau có thể bỏ trống. Dùng <b>expression</b> ở cột Loại để thêm vào Expressions.
-                            </p>
+                            <p id="bulk-help" class="text-[11px] leading-relaxed text-gray-500">Labels: <b>Từ / cụm từ *</b>, Loại từ, IPA, Stress, <b>Nghĩa tiếng Việt *</b>, EN meaning, Collocations, Word family, Common VN mistake, Example (EN), Mini note. Only the two * fields are required. The old one-line <code>word | pos | meaning</code> format still works.</p>
                             <div class="flex gap-2 shrink-0">
                                 <button type="button" onclick="previewBulkWords()" class="px-4 py-2.5 bg-white border border-amber-300 text-amber-700 hover:bg-amber-100 font-bold rounded-xl text-xs transition-all">
                                     <i class="fa-solid fa-eye mr-1"></i>Xem trước
@@ -387,6 +507,7 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                         </div>
 
                         <div id="bulk-preview" class="hidden"></div>
+                        <details class="bulk-tpl"><summary>See the template</summary><pre id="bulk-tpl-view"></pre></details>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -470,12 +591,30 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                     <h2 class="text-lg font-extrabold text-slateCustom flex items-center gap-2"><i class="fa-solid fa-book-open text-blue-500"></i> Ngữ Pháp Của Unit</h2>
                     <button onclick="openGrammarForm()" class="px-4 py-2.5 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-xl shadow-md shadow-rose-200 flex items-center gap-2"><i class="fa-solid fa-plus"></i> Thêm ngữ pháp</button>
                 </div>
+                <details id="gm-bulk-box">
+                    <summary>⚡ Add many grammar points at once (paste from ChatGPT)</summary>
+                    <div class="mt-3 space-y-3">
+                        <p class="text-xs text-gray-600">Copy the prompt, send it to ChatGPT with your grammar topics, then paste its answer below. Each block = 1 grammar point, and <b>each line under Công thức becomes its own formula box</b>. Points are added to the <b>current Unit</b>.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" onclick="GBULK.copy()" class="px-3 py-2 bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 rounded-xl text-xs font-bold">Copy prompt for ChatGPT</button>
+                            <button type="button" onclick="GBULK.sample()" class="px-3 py-2 bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 rounded-xl text-xs font-bold">Insert sample</button>
+                            <button type="button" onclick="GBULK.clear()" class="px-3 py-2 bg-white border border-gray-200 text-gray-500 hover:bg-gray-100 rounded-xl text-xs font-bold">Clear</button>
+                        </div>
+                        <textarea id="gm-bulk" rows="10" class="w-full px-4 py-3 bg-white border border-blue-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-blue-100"></textarea>
+                        <div class="flex justify-end gap-2">
+                            <button type="button" onclick="GBULK.preview()" class="px-4 py-2.5 bg-white border border-blue-300 text-blue-700 hover:bg-blue-50 font-bold rounded-xl text-xs">Preview</button>
+                            <button type="button" onclick="GBULK.add()" class="px-4 py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl text-xs shadow-sm">Add all</button>
+                        </div>
+                        <div id="gm-bulk-preview" class="hidden"></div>
+                        <details class="bulk-tpl"><summary>See the template</summary><pre id="gm-bulk-tpl"></pre></details>
+                    </div>
+                </details>
                 <div id="grammar-form" class="hidden bg-white p-6 rounded-3xl border border-rose-100 shadow-sm space-y-4">
                     <h3 id="gm-form-title" class="text-lg font-extrabold text-slateCustom">Thêm Ngữ Pháp Mới</h3>
                     <p data-guide="1" class="text-xs text-gray-500">Chỉ bắt buộc Tiêu đề. Ở ô Ví dụ và Lưu ý, mỗi dòng là 1 mục; gõ <b>**chữ**</b> để in đậm, <b>*chữ*</b> để in nghiêng.</p>
                     <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Tiêu đề *</span><input id="gm-title" type="text" placeholder="VD: 3. Conditional sentences (Câu điều kiện)" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></label>
                     <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Giải thích</span><textarea id="gm-detail" rows="4" placeholder="🧠 Hiểu đơn giản: ..." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
-                    <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Công thức</span><textarea id="gm-formula" rows="4" placeholder="📌 Công thức: S + V ..." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
+                    <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Formula (each line = its own box)</span><textarea id="gm-formula" rows="4" placeholder="If + S + V, S + will + V&#10;S + will + V + if + S + V" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
                     <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Ví dụ minh họa (mỗi dòng 1 ví dụ)</span><textarea id="gm-examples" rows="4" placeholder="If it rains, **we will stay** home." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
                     <label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">Bẫy thường gặp & nhận diện nhanh (mỗi dòng 1 ý)</span><textarea id="gm-rules" rows="4" placeholder="⚠️ Bẫy thường gặp: ..." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-rose-100"></textarea></label>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3"><label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">📁 Folder ngữ pháp</span><select id="gm-folder" class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium"></select></label><label class="block"><span class="block text-xs font-bold text-gray-500 mb-1">▶️ Video bài giảng YouTube</span><input id="gm-video" type="url" placeholder="Dán link YouTube vào đây..." class="w-full px-4 py-2.5 bg-white border border-rose-100 rounded-xl text-sm font-medium"></label></div>
@@ -501,6 +640,7 @@ body[data-theme=minimal][data-bg] #scene{display:none}
                     </div>
 
                     <div id="quiz-slide-body" class="space-y-6"></div>
+                    <p class="kb-note">Keys: <b>1–4</b> pick an answer · <b>Enter</b> confirm / next</p>
 
                     <div class="flex justify-between items-center border-t border-gray-100 pt-4 text-xs font-medium text-gray-400">
                         <div data-guide="1" class="hidden sm:flex gap-3">
@@ -832,8 +972,8 @@ localStorage.setItem('ENT303_PDF_V6','1');localStorage.setItem('ENT303_USER_UNIT
 
         function saveUnitsDataToLocalStorage() {
             localStorage.setItem('ENT303_USER_UNITS_DATA', JSON.stringify(unitsData));
-            if(typeof renderHomeStats==='function') renderHomeStats();
-            if(typeof updateQuizPicker==='function') updateQuizPicker();
+            try{ if(typeof renderHomeStats==='function') renderHomeStats(); }catch(e){}
+            try{ if(typeof updateQuizPicker==='function') updateQuizPicker(); }catch(e){}
         }
 
                 let currentUnit = parseInt(localStorage.getItem('ENT303_CURRENT_UNIT') || '1');
@@ -1894,7 +2034,7 @@ small talk | expression | nói chuyện xã giao`
                     else if (e.key === '<' || e.code === 'ArrowLeft') { e.preventDefault(); markCardStatus(false); }
                 }
 
-                if (currentSection === 'quiz' && currentQuizSlideIndex < quizSlidesList.length) {
+                if (currentSection === 'quiz' && currentQuizSlideIndex < quizSlidesList.length && !document.getElementById('quiz-run-area').classList.contains('hidden')) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         submitSlideAnswerAndNext();
@@ -2044,9 +2184,9 @@ small talk | expression | nói chuyện xã giao`
   window.renderStreak=function(){const {streak,set}=getStreakStats();$v('home-streak-number')&&($v('home-streak-number').innerText=streak);const today=localDateKey();const d=vnDateObj(today);const dow=d.getUTCDay();const offset=dow===0?-6:1-dow;const week=$v('streak-week');if(!week)return;const labels=['T2','T3','T4','T5','T6','T7','CN'];week.innerHTML=labels.map((label,i)=>{const k=vnOffsetKey(today,offset+i),done=set.has(k),isToday=k===today;return `<div class="streak-day"><span>${label}</span><span class="streak-dot ${done?'done':''} ${isToday?'today':''}">${done?'🔥':''}</span></div>`}).join('');const h=$v('streak-hint');if(h)h.innerText=set.has(today)?'🔥 Hôm nay (giờ Việt Nam) đã có bài — chuỗi được giữ!':'📝 Hôm nay theo giờ Việt Nam chưa tính chuỗi. Hoàn thành một bài để giữ chuỗi.';};
 
   // ---------- name + quote ----------
-  const quotes=[["“Hành trình ngàn dặm bắt đầu từ một bước chân.”", "Lão Tử, Đạo Đức Kinh"], ["“Học mà không suy nghĩ thì uổng công; suy nghĩ mà không học thì nguy hiểm.”", "Khổng Tử, Luận Ngữ"], ["“Thiên tài là 1% cảm hứng và 99% mồ hôi.”", "Thomas Edison"], ["“Điều quan trọng là không ngừng đặt câu hỏi.”", "Albert Einstein, tạp chí LIFE, 1955"], ["“Giáo dục là vũ khí mạnh nhất mà bạn có thể dùng để thay đổi thế giới.”", "Nelson Mandela, 2003"], ["“Một đứa trẻ, một giáo viên, một cây bút và một quyển sách có thể thay đổi thế giới.”", "Malala Yousafzai, phát biểu tại Liên Hợp Quốc, 2013"], ["“Càng đọc nhiều, bạn càng biết nhiều. Càng học nhiều, bạn càng đi được nhiều nơi.”", "Dr. Seuss, I Can Read with My Eyes Shut!"], ["“Giới hạn ngôn ngữ của tôi là giới hạn thế giới của tôi.”", "Ludwig Wittgenstein, Tractatus Logico-Philosophicus"], ["“Không có việc gì khó, chỉ sợ lòng không bền. Đào núi và lấp biển, quyết chí ắt làm nên.”", "Hồ Chí Minh"], ["“Đường đi khó không khó vì ngăn sông cách núi, mà khó vì lòng người ngại núi e sông.”", "Nguyễn Bá Học"], ["“Có công mài sắt, có ngày nên kim.”", "Tục ngữ Việt Nam"], ["“Thất bại là mẹ thành công.”", "Tục ngữ Việt Nam"], ["“Tôi đã thất bại hết lần này đến lần khác trong đời, và đó chính là lý do tôi thành công.”", "Michael Jordan, quảng cáo Nike, 1997"], ["“Chúng ta là những gì mình làm lặp đi lặp lại. Xuất sắc không phải một hành động, mà là một thói quen.”", "Will Durant, The Story of Philosophy"], ["“Học, học nữa, học mãi.”", "V. I. Lênin"], ["“Biết thì nói là biết, không biết thì nói là không biết, đó mới thật là biết.”", "Khổng Tử, Luận Ngữ"]];
+  const quotes=ENT_QUOTES.flat('nav');
   let quoteLast=Number(localStorage.getItem('ENT303_QUOTE_LAST')||-1);
-  function showQuote(kind='nav',duration=1050){let i=Math.floor(Math.random()*quotes.length);if(quotes.length>1&&i===quoteLast)i=(i+1)%quotes.length;quoteLast=i;localStorage.setItem('ENT303_QUOTE_LAST',String(i));const q=quotes[i];$v('quote-text').innerText=q[0];$v('quote-author').innerText='— '+q[1];const o=$v('quote-overlay');if(!o)return;o.classList.remove('hide');clearTimeout(window.__quoteTimer);window.__quoteTimer=setTimeout(()=>o.classList.add('hide'),duration);}
+  function showQuote(kind='nav',duration=1050){const _q=ENT_QUOTES.next(kind);const q=['“'+_q[0]+'”',_q[1]];if(kind==='wrong')duration=Math.min(3200,Math.max(duration,1300+_q[0].length*32));$v('quote-text').innerText=q[0];$v('quote-author').innerText='— '+q[1];const o=$v('quote-overlay');if(!o)return;o.classList.remove('hide');clearTimeout(window.__quoteTimer);window.__quoteTimer=setTimeout(()=>o.classList.add('hide'),duration);}
   window.showMotivationQuote=showQuote;
   window.saveUserName=function(){const n=$v('name-input').value.trim();if(!n){$v('name-input').focus();return}localStorage.setItem('ENT303_NAME',n);$v('name-modal').classList.add('hidden');$v('name-modal').classList.remove('flex');updateNameUI();showQuote('welcome',1200);};
   function updateNameUI(){const n=localStorage.getItem('ENT303_NAME')||'';if($v('welcome-name-mini'))$v('welcome-name-mini').innerText=n?`Hi ${n} 🐣`:'';const h=document.querySelector('#home-section h2');}
@@ -2149,7 +2289,7 @@ const sb=(CFG.url&&CFG.anonKey&&/^https?:/.test(CFG.url)&&window.supabase)?windo
 let user=null,profile=null,applying=false,pushT=null;
 const X={};window.ENTX=X;
 /* ---------- quotes ---------- */
-const Q=[["Hành trình ngàn dặm bắt đầu từ một bước chân.", "Lão Tử, Đạo Đức Kinh"], ["Học mà không suy nghĩ thì uổng công; suy nghĩ mà không học thì nguy hiểm.", "Khổng Tử, Luận Ngữ"], ["Thiên tài là 1% cảm hứng và 99% mồ hôi.", "Thomas Edison"], ["Điều quan trọng là không ngừng đặt câu hỏi.", "Albert Einstein, tạp chí LIFE, 1955"], ["Giáo dục là vũ khí mạnh nhất mà bạn có thể dùng để thay đổi thế giới.", "Nelson Mandela, 2003"], ["Một đứa trẻ, một giáo viên, một cây bút và một quyển sách có thể thay đổi thế giới.", "Malala Yousafzai, phát biểu tại Liên Hợp Quốc, 2013"], ["Càng đọc nhiều, bạn càng biết nhiều. Càng học nhiều, bạn càng đi được nhiều nơi.", "Dr. Seuss, I Can Read with My Eyes Shut!"], ["Giới hạn ngôn ngữ của tôi là giới hạn thế giới của tôi.", "Ludwig Wittgenstein, Tractatus Logico-Philosophicus"], ["Không có việc gì khó, chỉ sợ lòng không bền. Đào núi và lấp biển, quyết chí ắt làm nên.", "Hồ Chí Minh"], ["Đường đi khó không khó vì ngăn sông cách núi, mà khó vì lòng người ngại núi e sông.", "Nguyễn Bá Học"], ["Có công mài sắt, có ngày nên kim.", "Tục ngữ Việt Nam"], ["Thất bại là mẹ thành công.", "Tục ngữ Việt Nam"], ["Tôi đã thất bại hết lần này đến lần khác trong đời, và đó chính là lý do tôi thành công.", "Michael Jordan, quảng cáo Nike, 1997"], ["Chúng ta là những gì mình làm lặp đi lặp lại. Xuất sắc không phải một hành động, mà là một thói quen.", "Will Durant, The Story of Philosophy"], ["Học, học nữa, học mãi.", "V. I. Lênin"], ["Biết thì nói là biết, không biết thì nói là không biết, đó mới thật là biết.", "Khổng Tử, Luận Ngữ"]];
+const Q=ENT_QUOTES.flat('home');
 let qi=Number(LS.getItem('ENT303_HQ')||-1);
 X.quote=function(rand){if(rand||qi<0){let n=Math.floor(Math.random()*Q.length);if(n===qi)n=(n+1)%Q.length;qi=n;LS.setItem('ENT303_HQ',n)}const q=Q[qi];if($('hq-text')){$('hq-text').innerText='“'+q[0]+'”';$('hq-author').innerText='— '+q[1]}};
 /* ---------- theme ---------- */
@@ -2264,6 +2404,326 @@ function walk(n){if(n.nodeType===3){const v=tr(n.nodeValue);if(v!==n.nodeValue)n
 ['alert','confirm'].forEach(k=>{const f=window[k].bind(window);window[k]=m=>f(tr(String(m)))});const _p=window.prompt.bind(window);window.prompt=(m,d)=>_p(tr(String(m)),d);
 new MutationObserver(ms=>ms.forEach(m=>{m.addedNodes.forEach(walk);if(m.type==='characterData')walk(m.target)})).observe(document.body,{childList:true,subtree:true,characterData:true});
 document.documentElement.lang='en';walk(document.body)})();
+</script>
+<script id="ent-v7">
+/* ENT303 v7 — labeled bulk import (vocab + grammar), one-box-per-line formulas, keyboard quiz */
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const escMin=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const unescMin=s=>String(s).replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+const mdToHtml=s=>escMin(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<i>$1</i>');
+const toast=m=>{try{showToast(m)}catch(e){alert(m)}};
+const persist=()=>{try{localStorage.setItem('ENT303_USER_UNITS_DATA',JSON.stringify(unitsData))}catch(e){}};
+function copyText(t,okMsg){
+  const done=()=>toast(okMsg||'Copied!');
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}ta.remove();ok?done():toast('Could not copy automatically — select the text and press Ctrl+C.')};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,fb);else fb();
+}
+
+/* ============ generic "Label: value" block parser ============ */
+const PAREN='(?:\\((?:[^()]|\\([^()]*\\))*\\))?';
+const lab=names=>new RegExp('^\\s*(?:[-•]\\s+)?\\**\\s*(?:'+names+')\\s*'+PAREN+'\\s*\\**\\s*(?::|：|$)\\s*\\**\\s*(.*)$','i');
+function parseLabeled(text,defs,startKey){
+  const entries=[];let cur=null,field=null;
+  const fresh=()=>{cur={};field=null;entries.push(cur)};
+  String(text||'').replace(/\r/g,'').split('\n').forEach(raw=>{
+    const line=raw.replace(/\s+$/,'');
+    if(/^\s*(?:-{3,}|={3,}|\*{3,}|_{3,})\s*$/.test(line)){cur=null;field=null;return}
+    if(/^\s*```/.test(line))return;
+    let hit=null;
+    for(const d of defs){const m=line.match(d.re);if(m){hit={key:d.key,rest:(m[1]||'').trim()};break}}
+    if(hit){
+      if(!cur||(hit.key===startKey&&cur[startKey]!==undefined))fresh();
+      field=hit.key;cur[field]=cur[field]||[];
+      if(hit.rest)cur[field].push(hit.rest);
+      return;
+    }
+    if(!line.trim())return;
+    if(cur&&field)cur[field].push(line.trim());
+  });
+  return entries.filter(e=>Object.keys(e).length);
+}
+const J=a=>(a||[]).join(' ').replace(/\s+/g,' ').replace(/^\*+|\*+$/g,'').trim();
+const stripBullet=l=>l.replace(/^\s*(?:[-•*]|\d+[.)])\s+/,'').trim();
+const listLines=a=>(a||[]).flatMap(l=>stripBullet(l).split(/\s*;;\s*/)).map(x=>x.trim()).filter(Boolean);
+
+/* ============ VOCAB: labeled bulk add ============ */
+const V_DEFS=[
+  {key:'word',   re:lab('từ\\s*/\\s*cụm\\s*từ|cụm\\s*từ|từ\\s*vựng|từ|word\\s*/\\s*phrase|word|phrase')},
+  {key:'pos',    re:lab('loại\\s*từ|part\\s*of\\s*speech|pos')},
+  {key:'ipa',    re:lab('ipa|phiên\\s*âm')},
+  {key:'stress', re:lab('stress|trọng\\s*âm')},
+  {key:'en',     re:lab('en\\s*meaning|english\\s*meaning|nghĩa\\s*tiếng\\s*anh|definition')},
+  {key:'def',    re:lab('nghĩa\\s*tiếng\\s*việt|nghĩa\\s*vi|vietnamese\\s*meaning|nghĩa')},
+  {key:'coll',   re:lab('collocations?|cụm\\s*từ\\s*đi\\s*kèm')},
+  {key:'wf',     re:lab('word\\s*family|họ\\s*từ')},
+  {key:'mistake',re:lab('common\\s*vn\\s*mistakes?|common\\s*mistakes?|lỗi\\s*(?:sai\\s*)?(?:thường\\s*gặp|hay\\s*gặp)|lỗi\\s*sai')},
+  {key:'example',re:lab('example|ví\\s*dụ')},
+  {key:'note',   re:lab('mini\\s*note|note|ghi\\s*chú')}
+];
+const POS_MAP={n:'noun',noun:'noun','danh từ':'noun',v:'verb',verb:'verb','động từ':'verb',adj:'adj',adjective:'adj','tính từ':'adj',adv:'adv',adverb:'adv','trạng từ':'adv',phrase:'phrase','cụm từ':'phrase','phrasal verb':'phrase',expression:'expression',idiom:'expression','thành ngữ':'expression'};
+const normPos=p=>{const f=String(p||'').toLowerCase().replace(/[.]/g,'').split(/[\/,;|]/)[0].trim();return POS_MAP[f]||'noun'};
+function buildVocab(e){
+  const word=J(e.word),def=J(e.def);
+  if(!word)return{error:'Missing "Từ / cụm từ"'};
+  if(!def)return{error:'Missing "Nghĩa tiếng Việt" for "'+word+'"'};
+  return{item:{
+    word,pos:normPos(J(e.pos)),phonetic:J(e.ipa),stress:J(e.stress),def,en:J(e.en),
+    collocations:listLines(e.coll).map(l=>{const p=l.split(/\s+[—–-]\s+/);return{en:p[0].trim(),vi:p.slice(1).join(' — ').trim()}}),
+    wordFamily:listLines(e.wf).map(l=>{const m=l.match(/^(.+?)(?:\s*\(([^)]*)\))?(?:\s+[—–-]\s+(.+))?$/);return{word:m?m[1].trim():l,pos:m?(m[2]||''):'',def:m?(m[3]||''):''}}),
+    mistake:J(e.mistake),example:J(e.example),note:J(e.note)
+  }};
+}
+const _oldParse=window.parseBulkInput;
+window.parseBulkInput=function(){
+  const raw=$('aw-bulk').value,ents=parseLabeled(raw,V_DEFS,'word');
+  if(!ents.some(e=>e.word||e.def)&&raw.includes('|')&&_oldParse)return _oldParse();   // legacy "a | b | c" lines still work
+  return ents.map((e,i)=>({index:i+1,...buildVocab(e)}));
+};
+window.previewBulkWords=function(){
+  const pv=$('bulk-preview'),res=parseBulkInput();
+  if(!res.length){pv.className='rounded-xl bg-white border border-gray-200 p-3 text-xs text-gray-500';pv.innerHTML='Nothing to preview yet.';return}
+  const ok=res.filter(x=>x.item),bad=res.filter(x=>x.error);
+  pv.className='rounded-xl bg-white border border-amber-200 p-3 space-y-2';
+  pv.innerHTML=`<div class="flex flex-wrap gap-2 text-xs font-bold"><span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700">✓ ${ok.length} valid</span>${bad.length?`<span class="px-2.5 py-1 rounded-full bg-red-50 text-red-600">⚠ ${bad.length} with errors</span>`:''}</div>
+  <div class="max-h-60 overflow-auto space-y-1.5 text-xs">${res.map(x=>x.item
+    ?`<div class="flex gap-2 items-start"><span class="text-emerald-600 font-bold shrink-0">✓ ${x.index}.</span><span><b>${E(x.item.word)}</b> <span class="text-gray-400">(${E(x.item.pos)})</span>${x.item.phonetic?` <span class="text-gray-400">${E(x.item.phonetic)}</span>`:''} — ${E(x.item.def)}<span class="block text-[11px] text-gray-400">${x.item.collocations.length} collocations · ${x.item.wordFamily.length} word family${x.item.example?' · example':''}${x.item.mistake?' · VN mistake':''}${x.item.note?' · note':''}</span></span></div>`
+    :`<div class="flex gap-2 items-start"><span class="text-red-500 font-bold shrink-0">⚠ ${x.index}.</span><span class="text-red-600">${E(x.error)}</span></div>`).join('')}</div>`;
+};
+window.importBulkWords=function(){
+  const u=parseInt($('aw-unit').value),res=parseBulkInput();
+  if(!res.length){toast('Nothing to add yet!');return}
+  const valid=res.filter(x=>x.item);
+  if(!valid.length){previewBulkWords();toast('No valid entries!');return}
+  const data=unitsData[u],folder=($('aw-folder')||{}).value||'';
+  let added=0,dup=0;
+  valid.forEach(({item})=>{
+    const isExpr=item.pos==='expression',target=isExpr?data.idioms:data.vocab,key=item.word.toLowerCase().trim();
+    if(target.some(v=>(v.word||v.phrase||'').toLowerCase().trim()===key)){dup++;return}
+    const n={...item,custom:true};if(folder)n.folder=folder;if(isExpr)n.phrase=item.word;
+    target.push(n);added++;
+  });
+  saveUnitsDataToLocalStorage();
+  if(u===currentUnit)switchUnit(u);
+  const parts=[`Added ${added} words to Unit ${u}`];
+  if(dup)parts.push(`${dup} duplicates skipped`);
+  if(res.length-valid.length)parts.push(`${res.length-valid.length} with errors`);
+  toast(parts.join(' · '));
+  $('aw-bulk').value='';$('bulk-preview').className='hidden';$('bulk-preview').innerHTML='';
+};
+
+const V_SAMPLE=`Từ / cụm từ *: destructive
+Loại từ: adj
+IPA: /dɪˈstrʌk.tɪv/
+Stress (trọng âm): de-STRUC-tive
+Nghĩa tiếng Việt *: có tính phá hoại; gây thiệt hại
+EN meaning: Causing serious damage or harm.
+Collocations (mỗi dòng 1 cụm: cụm — nghĩa):
+destructive behavior — hành vi phá hoại
+destructive power — sức tàn phá
+Word family (mỗi dòng 1 từ: từ (loại) — nghĩa):
+destroy (v) — phá hủy
+destruction (n) — sự phá hủy
+Common VN mistake: Dùng "destructive" như động từ (destructive là tính từ; động từ là destroy).
+Example (EN): Human activities can be destructive to the environment.
+Mini note: destructive → có tính phá hoại, cùng họ với destroy.
+---`;
+const V_PROMPT=`Hãy liệt kê chi tiết các từ/cụm từ sau theo ĐÚNG mẫu bên dưới. Mỗi từ là một khối, các khối cách nhau bằng một dòng ---. Giữ nguyên tên các nhãn, mỗi nhãn nằm ở đầu dòng và có dấu ":". Không viết lời dẫn, không dùng bảng, không in đậm. Đặt toàn bộ kết quả trong MỘT khối code để tôi copy.
+
+Quy tắc:
+- Loại từ chỉ chọn 1 trong: noun / verb / adj / adv / phrase / expression
+- Collocations: mỗi dòng 1 cụm, dạng "cụm — nghĩa tiếng Việt" (3–5 cụm)
+- Word family: mỗi dòng 1 từ, dạng "từ (loại) — nghĩa tiếng Việt"
+- Stress: viết HOA âm tiết có trọng âm, ví dụ de-STRUC-tive
+- Common VN mistake: lỗi người Việt hay mắc với từ này
+- Example (EN): 1 câu tiếng Anh tự nhiên
+- Mini note: mẹo nhớ ngắn
+- Ô nào không có thông tin thì để trống, KHÔNG được bỏ nhãn
+
+Mẫu:
+${V_SAMPLE}
+
+Danh sách từ cần làm:
+[DÁN DANH SÁCH TỪ VÀO ĐÂY]`;
+window.copyBulkFormat=()=>copyText(V_PROMPT,'Prompt copied — paste it into ChatGPT and add your word list.');
+window.fillBulkTemplate=()=>{const b=$('aw-bulk');b.value=V_SAMPLE;b.focus()};
+
+/* ============ GRAMMAR: formulas as one box per line ============ */
+const HEADER_RE=/^[📌\s]*(?:công\s*thức|formulas?)\s*:?\s*$/i;
+function linesToBlocks(text,splitPipe){
+  const out=[];
+  String(text||'').replace(/\\n/g,'\n').split('\n').forEach(l=>{
+    l=l.replace(/^\s*[•\-–]\s+/,'').replace(/^[📌\s]*(?:công\s*thức|formulas?)\s*:\s*(?=\S)/i,'').trim();
+    if(!l||HEADER_RE.test(l))return;
+    (splitPipe?l.split(/\s+\|\s+/):[l]).forEach(p=>{p=p.trim();if(p)out.push({t:p})});
+  });
+  return out;
+}
+const legacyToBlocks=f=>linesToBlocks(unescMin(String(f||'')).replace(/<[^>]+>/g,''),true);
+function migrateAll(){
+  let dirty=false;
+  for(const u in unitsData)(unitsData[u].grammar||[]).forEach(g=>{if(!Array.isArray(g.blocks)){g.blocks=legacyToBlocks(g.formula);g.formula='';dirty=true}});
+  if(dirty)persist();
+}
+const txt=el=>el.innerText.replace(/\u00a0/g,' ').replace(/\n+$/,'');
+const G=i=>unitsData[currentUnit].grammar[i];
+window.FX={
+  add(i){const g=G(i);if(!g)return;(g.blocks=g.blocks||[]).push({t:''});persist();renderGrammar();FX.focus(i,g.blocks.length-1)},
+  del(i,j){const g=G(i);if(!g)return;g.blocks.splice(j,1);persist();renderGrammar()},
+  mv(i,j,d){const g=G(i),b=g&&g.blocks,k=j+d;if(!b||k<0||k>=b.length)return;[b[j],b[k]]=[b[k],b[j]];persist();renderGrammar()},
+  save(i,j,el){if(!el.isConnected)return;const g=G(i);if(g&&g.blocks&&g.blocks[j]){g.blocks[j].t=txt(el);persist()}},
+  key(e,i,j){
+    if(e.isComposing)return;const g=G(i);if(!g||!g.blocks)return;const el=e.target;
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();g.blocks[j].t=txt(el);g.blocks.splice(j+1,0,{t:''});persist();renderGrammar();FX.focus(i,j+1)}
+    else if(e.key==='Backspace'&&!txt(el).trim()){e.preventDefault();g.blocks.splice(j,1);persist();renderGrammar();FX.focus(i,j-1)}
+  },
+  focus(i,j){if(j<0)return;requestAnimationFrame(()=>{const el=document.querySelectorAll(`[data-gi="${i}"] .fx-box .gb-text`)[j];if(!el)return;el.focus();const r=document.createRange();r.selectNodeContents(el);r.collapse(false);const s=getSelection();s.removeAllRanges();s.addRange(r)})}
+};
+function yt(url){if(!url)return'';try{const u=new URL(url);let id='';if(u.hostname.includes('youtu.be'))id=u.pathname.slice(1);if(u.hostname.includes('youtube.com'))id=u.searchParams.get('v')||u.pathname.split('/').filter(Boolean).pop();if(!id)return'';return'https://www.youtube.com/embed/'+id.replace(/[^\w-]/g,'')+'?rel=0'}catch(e){return''}}
+const box=(i,j,t)=>`<div class="fx-box"><div class="gb-text" contenteditable="true" spellcheck="false" data-ph="Type a formula…" onkeydown="FX.key(event,${i},${j})" onblur="FX.save(${i},${j},this)">${E(t)}</div><div class="fx-tools"><button type="button" onclick="FX.mv(${i},${j},-1)" title="Move up">↑</button><button type="button" onclick="FX.mv(${i},${j},1)" title="Move down">↓</button><button type="button" onclick="FX.del(${i},${j})" title="Delete">✕</button></div></div>`;
+window.renderGrammar=function(){
+  migrateAll();
+  const list=unitsData[currentUnit].grammar||[],filter=($('grammar-folder-filter')||{}).value||'',arr=list.filter(g=>!filter||g.folder===filter),c=$('grammar-container');
+  if(!c)return;
+  c.innerHTML=arr.length?`<p class="fx-hint">Formulas: <b>Enter</b> = new box · <b>Shift+Enter</b> = new line inside a box · empty box + <b>Backspace</b> = delete it.</p>`+arr.map(g=>{
+    const i=list.indexOf(g),vid=yt(g.video||'');
+    return `<div class="bg-white p-6 rounded-3xl border border-blue-100 shadow-sm space-y-4" data-gi="${i}"><div class="flex justify-between items-start gap-3"><div><h3 class="text-xl font-black text-slateCustom">${g.title||''}</h3>${g.folder?`<span class="folder-chip mt-2">📁 ${E(g.folder)}</span>`:''}</div><button onclick="openEntryMenu(event,'grammar',${i})" class="text-gray-400 hover:text-rose-500 w-8 h-8 rounded-lg hover:bg-rose-50 shrink-0"><i class="fa-solid fa-ellipsis-vertical"></i></button></div>`
+    +(g.detail?`<div class="text-sm text-gray-700 font-medium leading-relaxed whitespace-pre-line">${g.detail}</div>`:'')
+    +`<div class="fx-wrap">${(g.blocks||[]).map((b,j)=>box(i,j,b.t)).join('')}<button type="button" class="gb-add" onclick="FX.add(${i})">＋ Add formula</button></div>`
+    +((g.examples||[]).length?`<div><p class="text-xs font-black text-gray-500 uppercase tracking-wider">✏️ Ví dụ minh họa</p><ul class="list-disc pl-5 mt-2 space-y-1 text-sm">${g.examples.map(ex=>`<li>${ex}</li>`).join('')}</ul></div>`:'')
+    +((g.rules||[]).length?`<div class="space-y-2 border-t pt-3"><p class="text-xs font-black text-rose-600 uppercase tracking-wider">⚠️ Bẫy & nhận diện nhanh</p><ul class="space-y-1 text-xs text-gray-700">${g.rules.map(r=>`<li>▶ ${r}</li>`).join('')}</ul></div>`:'')
+    +(vid?`<div class="grammar-extra rounded-2xl p-3"><p class="text-xs font-black text-violet-700 mb-2">🎬 Video bài giảng</p><iframe class="grammar-video" src="${vid}" title="Video bài giảng YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`:(g.video?`<a href="${E(g.video)}" target="_blank" rel="noopener" class="block text-xs font-bold text-violet-600">▶️ Mở video YouTube</a>`:''))
+    +`</div>`;
+  }).join(''):'<div class="bg-white p-8 rounded-3xl border border-dashed border-blue-200 text-center text-sm text-gray-400">No grammar points here yet.</div>';
+};
+/* edit form: formula textarea <-> boxes (one line = one box) */
+const _open=window.openGrammarForm;
+window.openGrammarForm=function(i=null){
+  _open(i);
+  const g=i===null?null:unitsData[currentUnit].grammar[i];
+  if(g)$('gm-formula').value=(Array.isArray(g.blocks)?g.blocks:legacyToBlocks(g.formula)).map(b=>b.t).join('\n');
+};
+const _save=window.saveGrammar;
+window.saveGrammar=function(){
+  if(!($('gm-title').value||'').trim())return _save();
+  const list=unitsData[currentUnit].grammar,idx=editingGrammar===null?list.length:editingGrammar,raw=$('gm-formula').value;
+  _save();
+  const g=list[idx];
+  if(g){g.blocks=linesToBlocks(raw,false);g.formula='';persist();renderGrammar()}
+};
+
+/* ============ GRAMMAR: labeled bulk add ============ */
+const G_DEFS=[
+  {key:'title',  re:lab('tiêu\\s*đề|title')},
+  {key:'detail', re:lab('giải\\s*thích|explanation|detail')},
+  {key:'formula',re:lab('công\\s*thức|formulas?')},
+  {key:'examples',re:lab('ví\\s*dụ[^:：(\\n]*|examples?')},
+  {key:'rules',  re:lab('bẫy[^:：(\\n]*|lưu\\s*ý|rules?|traps?')},
+  {key:'video',  re:lab('video(?:\\s*youtube)?|youtube')}
+];
+function buildGrammar(e){
+  const title=J(e.title);
+  if(!title)return{error:'Missing "Tiêu đề"'};
+  const fld=($('gm-folder')||{}).value||'';
+  const item={
+    title:escMin(title),
+    detail:escMin((e.detail||[]).join('\n').trim()),
+    formula:'',
+    blocks:linesToBlocks((e.formula||[]).join('\n'),false),
+    examples:(e.examples||[]).map(stripBullet).filter(Boolean).map(mdToHtml),
+    rules:(e.rules||[]).map(stripBullet).filter(Boolean).map(mdToHtml)
+  };
+  const v=J(e.video);if(v)item.video=v;
+  if(fld)item.folder=fld;
+  return{item};
+}
+const parseG=()=>parseLabeled($('gm-bulk').value,G_DEFS,'title').map((e,i)=>({index:i+1,...buildGrammar(e)}));
+const G_SAMPLE=`Tiêu đề *: 3. First conditional (Câu điều kiện loại 1)
+Giải thích: 🧠 Hiểu đơn giản: nói về điều có thể xảy ra ở hiện tại hoặc tương lai nếu một điều kiện được đáp ứng.
+Công thức (mỗi dòng = 1 ô công thức):
+If + S + V (hiện tại đơn), S + will + V
+S + will + V + if + S + V (hiện tại đơn)
+Ví dụ (mỗi dòng 1 ví dụ; **chữ** = in đậm):
+If it rains, **we will stay** home.
+**I will call** you if I **have** time.
+Bẫy thường gặp & nhận diện nhanh (mỗi dòng 1 ý):
+⚠️ Không dùng will trong mệnh đề If: If it will rain ✗ → If it rains ✓
+Video YouTube (không bắt buộc):
+---`;
+const G_PROMPT=`Hãy soạn các điểm ngữ pháp sau theo ĐÚNG mẫu bên dưới. Mỗi điểm ngữ pháp là một khối, các khối cách nhau bằng một dòng ---. Giữ nguyên tên các nhãn, mỗi nhãn nằm ở đầu dòng và có dấu ":". Không viết lời dẫn, không dùng bảng. Đặt toàn bộ kết quả trong MỘT khối code để tôi copy.
+
+Quy tắc:
+- Công thức: MỖI DÒNG LÀ 1 CÔNG THỨC (mỗi dòng sẽ thành 1 ô riêng), viết dạng S + V + ...
+- Ví dụ: mỗi dòng 1 câu tiếng Anh; dùng **chữ** để in đậm phần ngữ pháp
+- Bẫy thường gặp: mỗi dòng 1 ý, bắt đầu bằng ⚠️
+- Giải thích: ngắn gọn, bắt đầu bằng 🧠 Hiểu đơn giản:
+- Nhãn nào không có thông tin thì để trống, KHÔNG được bỏ nhãn
+
+Mẫu:
+${G_SAMPLE}
+
+Danh sách điểm ngữ pháp cần làm:
+[DÁN DANH SÁCH CHỦ ĐIỂM VÀO ĐÂY]`;
+window.GBULK={
+  copy(){copyText(G_PROMPT,'Prompt copied — paste it into ChatGPT with your grammar topics.')},
+  sample(){const b=$('gm-bulk');b.value=G_SAMPLE;b.focus()},
+  clear(){const b=$('gm-bulk');b.value='';$('gm-bulk-preview').className='hidden';$('gm-bulk-preview').innerHTML='';b.focus()},
+  preview(){
+    const pv=$('gm-bulk-preview'),res=parseG();
+    if(!res.length){pv.className='rounded-xl bg-white border border-gray-200 p-3 text-xs text-gray-500';pv.innerHTML='Nothing to preview yet.';return}
+    const ok=res.filter(x=>x.item).length,bad=res.length-ok;
+    pv.className='rounded-xl bg-white border border-blue-200 p-3 space-y-2';
+    pv.innerHTML=`<div class="flex flex-wrap gap-2 text-xs font-bold"><span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700">✓ ${ok} valid</span>${bad?`<span class="px-2.5 py-1 rounded-full bg-red-50 text-red-600">⚠ ${bad} with errors</span>`:''}<span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700">→ Unit ${currentUnit}</span></div><div class="max-h-60 overflow-auto space-y-1.5 text-xs">${res.map(x=>x.item
+      ?`<div><span class="text-emerald-600 font-bold">✓ ${x.index}.</span> <b>${E(unescMin(x.item.title))}</b><span class="block text-[11px] text-gray-400">${x.item.blocks.length} formula boxes · ${x.item.examples.length} examples · ${x.item.rules.length} traps</span></div>`
+      :`<div class="text-red-600"><span class="font-bold">⚠ ${x.index}.</span> ${E(x.error)}</div>`).join('')}</div>`;
+  },
+  add(){
+    const res=parseG();
+    if(!res.length){toast('Nothing to add yet!');return}
+    const valid=res.filter(x=>x.item);
+    if(!valid.length){GBULK.preview();toast('No valid entries!');return}
+    const list=unitsData[currentUnit].grammar=unitsData[currentUnit].grammar||[];
+    const plain=s=>unescMin(String(s||'')).replace(/<[^>]+>/g,'').trim().toLowerCase();
+    let added=0,dup=0;
+    valid.forEach(({item})=>{if(list.some(g=>plain(g.title)===plain(item.title))){dup++;return}list.push(item);added++});
+    saveUnitsDataToLocalStorage();renderGrammar();
+    toast([`Added ${added} grammar points to Unit ${currentUnit}`,dup?`${dup} duplicates skipped`:'',res.length-valid.length?`${res.length-valid.length} with errors`:''].filter(Boolean).join(' · '));
+    $('gm-bulk').value='';$('gm-bulk-preview').className='hidden';$('gm-bulk-preview').innerHTML='';
+  }
+};
+
+/* ============ templates visible in the UI ============ */
+const vt=$('bulk-tpl-view');if(vt)vt.textContent=V_SAMPLE;
+const gt=$('gm-bulk-tpl');if(gt)gt.textContent=G_SAMPLE;
+const gph=$('gm-bulk');if(gph)gph.placeholder='Paste ChatGPT\'s answer here…\nTiêu đề *: …\nGiải thích: …\nCông thức: …';
+
+/* ============ grammar quiz: 1-4 picks an option, Enter checks / continues ============ */
+document.addEventListener('keydown',e=>{
+  const run=$('grammar-quiz-run');
+  if(!run||run.classList.contains('hidden')||e.ctrlKey||e.metaKey||e.altKey)return;
+  const typing=!!(e.target&&run.contains(e.target)&&/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName));
+  if(!typing&&/^[1-4]$/.test(e.key)){
+    const b=$('gqo-'+(Number(e.key)-1));
+    if(b){e.preventDefault();b.click()}
+    return;
+  }
+  if(e.key==='Enter'&&!e.isComposing){
+    const nb=$('gq-next');
+    if(nb&&!nb.classList.contains('hidden')){e.preventDefault();e.stopPropagation();nb.click()}
+  }
+},true);
+const gqBody=$('gq-body');
+if(gqBody){
+  if(!$('gq-kbnote'))gqBody.insertAdjacentHTML('afterend','<p id="gq-kbnote" class="kb-note">Keys: <b>1–4</b> pick an answer · <b>Enter</b> check / next</p>');
+  new MutationObserver(()=>{gqBody.querySelectorAll('[id^="gqo-"]').forEach(b=>{if(b.querySelector('kbd.kb'))return;const n=Number(b.id.slice(4))+1;b.insertAdjacentHTML('afterbegin','<kbd class="kb">'+n+'</kbd>')})}).observe(gqBody,{childList:true});
+}
+
+/* initial render if the grammar tab is already open */
+migrateAll();
+if(typeof currentSection!=='undefined'&&currentSection==='grammar')renderGrammar();
+})();
 </script>
 </body>
 </html>
