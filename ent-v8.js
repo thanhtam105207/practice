@@ -74,6 +74,17 @@ function setup(){
  if(gc)new MutationObserver(()=>gc.querySelectorAll('[data-g]').forEach(c=>{if(!c.querySelector('.pb'))c.insertAdjacentHTML('beforeend','<button class="pb" onclick="launchQuiz(\'grammar\')"><i class="fa-solid fa-dumbbell"></i> Luyện tập ngữ pháp (Quiz)</button>')})).observe(gc,{childList:true});
  backRow(currentSection)}
 
+/* ---------- Câu hỏi tự thêm (trắc nghiệm ngữ pháp) ---------- */
+const QK='PE_CUSTOMQ',getQ=()=>{try{return JSON.parse(LS.getItem(QK)||'[]')}catch(e){return[]}};let hostQ=[];
+function injectQ(){try{const mc=grammarBank.mc;for(let i=mc.length-1;i>=0;i--)if(mc[i]._c)mc.splice(i,1);[...hostQ,...getQ()].forEach(q=>mc.push({q:q.q,options:q.options,ans:q.ans,_c:1}))}catch(e){}}
+E8.addQ=()=>{const g=id=>($(id)?.value||'').trim(),q=g('cq-q'),o=[1,2,3,4].map(i=>g('cq-o'+i)),a=parseInt($('cq-a')?.value||'0');
+ if(!q||o.some(x=>!x))return toast('Nhập đủ câu hỏi và 4 đáp án');const l=getQ();l.push({q,options:o,ans:a,id:Date.now()});LS.setItem(QK,JSON.stringify(l));injectQ();toast('Đã thêm câu hỏi ✅');render()};
+E8.delQ=id=>{LS.setItem(QK,JSON.stringify(getQ().filter(x=>x.id!==id)));injectQ();render()};
+const qCard=()=>`<div class="ac-card"><h3>➕ Câu hỏi của tôi</h3><p class="text-xs text-gray-500 mb-2">Câu bạn thêm sẽ xuất hiện trong Quiz ngữ pháp (trắc nghiệm).${isHost?' Host bấm Xuất bản để cả lớp cùng có.':''}</p>
+<input id="cq-q" class="w-full p-2 border border-rose-100 rounded-xl text-sm mb-2" placeholder="Câu hỏi (dùng ___ cho chỗ trống)">${[1,2,3,4].map(i=>`<input id="cq-o${i}" class="w-full p-2 border border-rose-100 rounded-xl text-sm mb-1" placeholder="Đáp án ${i}">`).join('')}
+<select id="cq-a" class="p-2 border border-rose-100 rounded-xl text-sm mt-1"><option value="0">Đúng: đáp án 1</option><option value="1">Đúng: đáp án 2</option><option value="2">Đúng: đáp án 3</option><option value="3">Đúng: đáp án 4</option></select> <button class="ac-btn pri" onclick="ENT8.addQ()">Thêm</button>
+<div class="wl">${getQ().length?getQ().map(x=>`<div>${esc(x.q)} <button class="text-rose-500 text-xs" onclick="ENT8.delQ(${x.id})">xóa</button></div>`).join(''):'<div class="text-gray-400">Chưa có câu nào.</div>'}</div></div>`;
+
 /* ---------- Tài khoản ---------- */
 const GUIDE=[['Bắt đầu nhanh','<p>Từ vựng: bấm vào một từ để xem đầy đủ. Thẻ: lật thẻ rồi chọn Đã thuộc / Chưa thuộc. Quiz: chọn kiểu quiz, làm xong sẽ có XP. Ngữ pháp: đọc công thức rồi bấm “Luyện tập”.</p>'],
 ['Thêm từ / ngữ pháp','<p>Tab Thêm: nhập một từ hoặc dán nhiều từ cùng lúc (copy prompt đưa ChatGPT). Dấu ⋮ trên mỗi từ để Sửa / Xóa / Thêm ảnh gợi nhớ.</p>'],
@@ -99,6 +110,7 @@ function render(){const a=$('account-section');if(!a)return;const n=LS.getItem('
  ${isHost?'<textarea id="ann-in" rows="2" class="w-full mt-2 p-3 border border-rose-100 rounded-xl text-sm" placeholder="Nội dung thông báo cho cả lớp..."></textarea><button class="ac-btn pri mt-2" onclick="ENT8.postAnn()">Đăng thông báo</button>':''}</div>
  ${isHost?'<div class="ac-card"><h3>🛠 Công cụ Host</h3><p class="text-xs text-gray-500 mb-2">Sửa từ/ngữ pháp bằng nút ⋮ như bình thường, rồi bấm Xuất bản để mọi tài khoản nhận thay đổi.</p><div class="flex flex-wrap gap-2"><button class="ac-btn pri" onclick="ENT8.publish()">📤 Xuất bản cho cả lớp</button><button class="ac-btn" onclick="ENT8.pull(true)">⬇ Tải lại bản đã xuất bản</button></div></div>':''}
  ${wordsList()}
+ ${qCard()}
  <div class="ac-card"><h3>🎨 Giao diện & giọng đọc</h3><div class="flex flex-wrap gap-2 items-center"><button class="ac-btn" onclick="ENTX.openTheme()">🎨 Chủ đề / nền</button><button class="ac-btn" onclick="changeFont(-1)">A−</button><button class="ac-btn" onclick="changeFont(1)">A+</button></div>
  <div class="flex flex-wrap gap-2 items-center mt-3"><select class="p-2 border border-rose-100 rounded-xl text-xs max-w-full" onchange="ENT8.voice(this.value)">${vs.length?vs.map(v=>`<option value="${esc(v.voiceURI)}" ${cur&&cur.voiceURI===v.voiceURI?'selected':''}>${esc(v.name)} (${esc(v.lang)})</option>`).join(''):'<option>Chưa có giọng English trên máy</option>'}</select><button class="ac-btn" onclick="ENT8.test()">🔊 Nghe thử</button></div></div>
  <div class="ac-card"><h3>📲 Cài app</h3>${dip?'<button class="ac-btn pri mb-2" onclick="ENT8.install()">Cài app ngay</button>':'<p class="text-xs text-gray-500">Nếu không thấy nút cài, làm theo hướng dẫn dưới đây.</p>'}${det(INSTALL)}</div>
@@ -109,17 +121,17 @@ addEventListener('beforeinstallprompt',e=>{e.preventDefault();dip=e;if(currentSe
 
 /* ---------- Host: nội dung dùng chung + thông báo ---------- */
 const KEYF=x=>(x.word||x.phrase||x.title||'').toLowerCase().trim(),LISTS=['vocab','idioms','grammar'];
-function merge(base){let n=0;for(const u of Object.keys(base)){const b=base[u],l=unitsData[u];if(!l){unitsData[u]=JSON.parse(JSON.stringify(b));continue}
+function merge(base){let n=0;for(const u of Object.keys(base).filter(k=>/^\d+$/.test(k))){const b=base[u],l=unitsData[u];if(!l){unitsData[u]=JSON.parse(JSON.stringify(b));continue}
   ['badge','title','desc'].forEach(k=>{if(b[k])l[k]=b[k]});
   for(const k of LISTS){const bl=b[k]||[],bk=new Set(bl.map(KEYF)),old=l[k]||[],om=new Map(old.map(x=>[KEYF(x),x]));
-   const nb=JSON.parse(JSON.stringify(bl));nb.forEach(x=>{const o=om.get(KEYF(x));if(o&&o.image&&!x.image)x.image=o.image});
+   const nb=JSON.parse(JSON.stringify(bl));nb.forEach(x=>{const o=om.get(KEYF(x));if(o&&o.image)x.image=o.image});
    const mine=old.filter(x=>x.custom&&!x.host&&!bk.has(KEYF(x)));l[k]=[...nb,...mine];n+=nb.length}}
  try{LS.setItem('ENT303_USER_UNITS_DATA',JSON.stringify(unitsData))}catch(e){}return n}
 E8.pull=async function(force){if(!sb)return;try{const{data,error}=await sb.from('host_content').select('data,updated_at').eq('id',1).maybeSingle();if(error||!data)return;
   const st=LS.getItem('PE_HOSTVER');if(!force&&st===data.updated_at)return;if(isHost&&!force)return;
-  merge(data.data);LS.setItem('PE_HOSTVER',data.updated_at);try{switchUnit(currentUnit)}catch(e){}if(force)toast('Đã tải nội dung mới nhất')}catch(e){console.warn(e)}};
+  hostQ=data.data.__questions||[];injectQ();merge(data.data);LS.setItem('PE_HOSTVER',data.updated_at);try{switchUnit(currentUnit)}catch(e){}if(force)toast('Đã tải nội dung mới nhất')}catch(e){console.warn(e)}};
 E8.publish=async function(){if(!isHost)return;if(!confirm('Xuất bản toàn bộ nội dung hiện tại cho mọi tài khoản?'))return;
- const d=JSON.parse(JSON.stringify(unitsData));Object.values(d).forEach(u=>LISTS.forEach(k=>(u[k]||[]).forEach(x=>{if(x.custom)x.host=true})));
+ const d=JSON.parse(JSON.stringify(unitsData));d.__questions=[...hostQ,...getQ()];Object.values(d).forEach(u=>LISTS.forEach(k=>(u[k]||[]).forEach(x=>{if(x.custom)x.host=true})));
  const{error}=await sb.from('host_content').upsert({id:1,data:d,updated_at:new Date().toISOString()});
  if(error)toast('Lỗi: '+error.message);else{LS.removeItem('PE_HOSTVER');toast('Đã xuất bản cho cả lớp ✅')}};
 async function loadAnns(){if(!sb)return;try{const{data}=await sb.from('announcements').select('*').order('created_at',{ascending:false}).limit(5);anns=data||[];bar();if(currentSection==='account')render()}catch(e){}}
@@ -132,5 +144,5 @@ if(sb)sb.auth.onAuthStateChange(()=>checkHost());
 
 /* ---------- PWA ---------- */
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
-addEventListener('load',()=>setTimeout(async()=>{setup();await checkHost();E8.pull();loadAnns()},900));
+addEventListener('load',()=>setTimeout(async()=>{setup();injectQ();await checkHost();E8.pull();loadAnns()},900));
 })();
