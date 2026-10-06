@@ -1,0 +1,66 @@
+{
+  "name": "ENT303 Study Hub",
+  "short_name": "ENT303 Hub",
+  "description": "Vocabulary, Grammar, Flashcards, Quiz và học cùng lớp.",
+  "lang": "vi",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#faf9f6",
+  "theme_color": "#f43f5e",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "education",
+    "learning"
+  ],
+  "shortcuts": [
+    {
+      "name": "Từ vựng",
+      "short_name": "Từ vựng",
+      "url": "./#vocab",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Quiz",
+      "short_name": "Quiz",
+      "url": "./#quiz",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Hướng dẫn",
+      "short_name": "Hướng dẫn",
+      "url": "./#help",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
