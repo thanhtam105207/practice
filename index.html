@@ -1254,8 +1254,12 @@ localStorage.setItem('ENT303_PDF_V6','1');localStorage.setItem('ENT303_USER_UNIT
         let fontPct = parseInt(localStorage.getItem('ENT303_FONT_PCT')) || 120;
         function applyFont() {
             document.documentElement.style.fontSize = (16 * fontPct / 100) + 'px';
-            document.getElementById('font-pct').innerText = fontPct + '%';
-            hidePopupNow(); hideEntryMenu();
+            const fontPctEl = document.getElementById('font-pct');
+            if (fontPctEl) {
+                fontPctEl.innerText = fontPct + '%';
+            }
+            hidePopupNow();
+            hideEntryMenu();
         }
         function changeFont(dir) {
             let i = FONT_STEPS.indexOf(fontPct);
