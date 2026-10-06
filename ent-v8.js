@@ -5,7 +5,7 @@ const HOSTMAIL='5ef93c022cd91f147089fada01da85fc@ent303.app';
 const sb=(CFG.url&&CFG.anonKey&&window.supabase)?window.supabase.createClient(CFG.url,CFG.anonKey):null;
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 const toast=m=>{try{showToast(m)}catch(e){alert(m)}};
-let isHost=false,dip=null,anns=[],wTab='un',depth=0,popping=false,warned=0;
+let students=null,isHost=false,dip=null,anns=[],wTab='un',depth=0,popping=false,warned=0;
 const E8=window.ENT8={};
 
 /* ---------- CSS ---------- */
@@ -85,6 +85,12 @@ const qCard=()=>`<div class="ac-card"><h3>➕ Câu hỏi của tôi</h3><p class
 <select id="cq-a" class="p-2 border border-rose-100 rounded-xl text-sm mt-1"><option value="0">Đúng: đáp án 1</option><option value="1">Đúng: đáp án 2</option><option value="2">Đúng: đáp án 3</option><option value="3">Đúng: đáp án 4</option></select> <button class="ac-btn pri" onclick="ENT8.addQ()">Thêm</button>
 <div class="wl">${getQ().length?getQ().map(x=>`<div>${esc(x.q)} <button class="text-rose-500 text-xs" onclick="ENT8.delQ(${x.id})">xóa</button></div>`).join(''):'<div class="text-gray-400">Chưa có câu nào.</div>'}</div></div>`;
 
+/* ---------- Host: danh sách học viên ---------- */
+E8.loadStu=async()=>{if(!sb||!isHost)return;const{data,error}=await sb.rpc('get_students');if(error){students=[];return toast('Chưa chạy supabase-students.sql: '+error.message)}students=data||[];render()};
+const dt=x=>x?new Date(x).toLocaleDateString('vi-VN'):'—';
+const stuCard=()=>!isHost?'':`<div class="ac-card"><h3>👥 Học viên đã đăng ký ${students?'('+students.length+')':''}</h3><button class="ac-btn" onclick="ENT8.loadStu()">${students?'🔄 Làm mới':'Xem danh sách'}</button>
+<div class="wl">${students?(students.length?students.map(x=>`<div><b>${esc(x.display_name)}</b> — ${x.total_xp} XP <small class="text-gray-400">· đăng ký ${dt(x.registered_at)} · hoạt động ${dt(x.last_active)}</small></div>`).join(''):'<div class="text-gray-400">Chưa có học viên.</div>'):'<div class="text-gray-400">Bấm "Xem danh sách".</div>'}</div></div>`;
+
 /* ---------- Tài khoản ---------- */
 const GUIDE=[['Bắt đầu nhanh','<p>Từ vựng: bấm vào một từ để xem đầy đủ. Thẻ: lật thẻ rồi chọn Đã thuộc / Chưa thuộc. Quiz: chọn kiểu quiz, làm xong sẽ có XP. Ngữ pháp: đọc công thức rồi bấm “Luyện tập”.</p>'],
 ['Thêm từ / ngữ pháp','<p>Tab Thêm: nhập một từ hoặc dán nhiều từ cùng lúc (copy prompt đưa ChatGPT). Dấu ⋮ trên mỗi từ để Sửa / Xóa / Thêm ảnh gợi nhớ.</p>'],
@@ -109,6 +115,7 @@ function render(){const a=$('account-section');if(!a)return;const n=LS.getItem('
  <div class="ac-card"><h3>📣 Thông báo</h3>${anns.length?anns.map(x=>`<div class="text-sm py-1 border-b border-gray-100">${esc(x.text)} <small class="text-gray-400">${new Date(x.created_at).toLocaleDateString('vi-VN')}</small>${isHost?` <button class="text-rose-500 text-xs" onclick="ENT8.delAnn(${x.id})">xóa</button>`:''}</div>`).join(''):'<p class="text-sm text-gray-400">Chưa có thông báo.</p>'}
  ${isHost?'<textarea id="ann-in" rows="2" class="w-full mt-2 p-3 border border-rose-100 rounded-xl text-sm" placeholder="Nội dung thông báo cho cả lớp..."></textarea><button class="ac-btn pri mt-2" onclick="ENT8.postAnn()">Đăng thông báo</button>':''}</div>
  ${isHost?'<div class="ac-card"><h3>🛠 Công cụ Host</h3><p class="text-xs text-gray-500 mb-2">Sửa từ/ngữ pháp bằng nút ⋮ như bình thường, rồi bấm Xuất bản để mọi tài khoản nhận thay đổi.</p><div class="flex flex-wrap gap-2"><button class="ac-btn pri" onclick="ENT8.publish()">📤 Xuất bản cho cả lớp</button><button class="ac-btn" onclick="ENT8.pull(true)">⬇ Tải lại bản đã xuất bản</button></div></div>':''}
+ ${stuCard()}
  ${wordsList()}
  ${qCard()}
  <div class="ac-card"><h3>🎨 Giao diện & giọng đọc</h3><div class="flex flex-wrap gap-2 items-center"><button class="ac-btn" onclick="ENTX.openTheme()">🎨 Chủ đề / nền</button><button class="ac-btn" onclick="changeFont(-1)">A−</button><button class="ac-btn" onclick="changeFont(1)">A+</button></div>
