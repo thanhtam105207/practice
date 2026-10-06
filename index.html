@@ -391,7 +391,7 @@ return{all:D,next,flat,pool};
             <!-- Unit Selector & ShortCut Info -->
             <div class="flex items-center space-x-3">
                 
-                <!-- Không đặt nút Cài app trong giao diện; trình duyệt sẽ tự cung cấp Install/Add to Home Screen trong menu. -->
+                <button id="pwa-install-btn" onclick="ENT303UX.openInstall()" class="px-3 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-xs font-bold hidden" title="Cài app">📲 <span class="hidden sm:inline">Cài app</span></button><button id="host-admin-btn" onclick="ENT303HOST.open()" class="px-3 py-1.5 bg-violet-50 border border-violet-200 text-violet-700 rounded-xl text-xs font-bold hidden" title="Bảng điều khiển Host">👑 <span class="hidden sm:inline">Host</span></button>
                 <button onclick="ENTX.openTheme()" class="px-3 py-1.5 bg-rose-50 border border-rose-200 text-rose-600 rounded-xl text-xs font-bold" title="Giao diện">🎨</button>
                 <div class="flex items-center bg-white border border-rose-200 rounded-xl overflow-hidden text-xs font-bold text-rose-600" title="Cỡ chữ">
                     <button onclick="changeFont(-1)" class="px-3 py-2 hover:bg-rose-50">A−</button>
@@ -437,7 +437,7 @@ return{all:D,next,flat,pool};
         <!-- DYNAMIC SECTIONS CONTENT -->
         <div id="content-area">
 
-            <div id="home-section" class="hidden space-y-4"><section class="home-row"><div class="home-card p-4"><div class="flex items-center gap-4"><button type="button" onclick="document.getElementById('profile-image-input').click()" class="profile-avatar shrink-0" title="Đổi ảnh đại diện"><img id="profile-image" alt="" class="hidden"><span id="profile-placeholder" class="text-4xl">🐣</span></button><div class="min-w-0 flex-1"><p id="welcome-name-mini" class="text-xs font-extrabold text-rose-500"></p><h2 class="text-lg font-extrabold text-slateCustom leading-tight">Góc học tập của bạn</h2><div class="mt-2"><div class="flex justify-between text-[11px] font-black text-slateCustom"><span id="lv-chip">Lv.1</span><span id="lv-xp"></span></div><div class="h-2.5 rounded-full bg-black/10 overflow-hidden mt-1"><div id="lv-bar" class="h-full rounded-full" style="width:0;background:linear-gradient(90deg,var(--acc),#fbbf24);transition:width .6s"></div></div></div></div></div><input id="profile-image-input" type="file" accept="image/*" class="hidden" onchange="handleProfileFile(event)"><div class="quote-in mt-3 rounded-2xl p-3 flex items-start gap-2"><span class="text-xl bob">💬</span><div class="flex-1 min-w-0"><p id="hq-text" class="text-sm font-extrabold text-slateCustom leading-snug"></p><p id="hq-author" class="text-[11px] font-bold text-gray-400 mt-1"></p></div><button onclick="ENTX.quote(true)" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 font-black shrink-0" title="Quote khác">↻</button></div></div><div class="streak-card shadow-lg"><div class="streak-orb"></div><div class="relative z-10"><div class="flex items-center justify-between"><div><p class="text-[11px] font-black uppercase tracking-wider">🔥 Chuỗi ngày học</p><div class="flex items-end gap-1.5 mt-1"><span id="home-streak-number" class="text-4xl font-black leading-none">0</span><span class="text-sm font-extrabold pb-0.5">ngày</span></div></div><span class="text-3xl bob">🔥</span></div><div id="streak-week" class="grid grid-cols-7 gap-1 mt-3"></div><p id="streak-hint"></p></div></div><div class="home-card p-4 flex flex-col justify-center gap-2"><div class="stat-mini"><span>📚 Tổng từ</span><b id="stat-total" class="text-slateCustom">0</b></div><div class="stat-mini"><span>🌱 Đã học</span><b id="stat-learned" class="text-emerald-600">0</b></div><div class="stat-mini"><span>🐣 Chưa học</span><b id="stat-not-learned" class="text-amber-600">0</b></div></div></section><section id="multiplayer-card" class="mp-card p-5 sm:p-6"><div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4"><div><p class="text-xs font-black uppercase tracking-[.18em] text-violet-600">🏆 Học cùng bạn bè</p><h2 class="text-xl font-black text-slateCustom mt-1">🏆 Bảng xếp hạng tuần</h2><p id="mp-subtitle" class="text-xs text-gray-500 mt-1"></p></div><div class="flex gap-2"><button id="mp-auth-btn" onclick="ENT303MP.openAuth()" class="px-4 py-2.5 bg-violet-500 hover:bg-violet-600 text-white rounded-xl text-xs font-extrabold">Đăng nhập</button><button id="mp-refresh-btn" onclick="ENT303MP.refresh()" class="hidden px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-extrabold">↻ Cập nhật</button></div></div><div id="mp-profile-bar" class="hidden mt-4 p-4 rounded-2xl bg-violet-50 border border-violet-100"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3"><div><b id="mp-user-name" class="text-sm text-violet-900">Bạn</b><p id="mp-user-meta" class="text-[11px] text-violet-700 mt-1"></p></div><button onclick="ENT303MP.logout()" class="text-[11px] font-extrabold text-rose-600 hover:underline">Đăng xuất</button></div></div><div id="mp-leaderboard" class="mt-4 space-y-2"><div class="rounded-2xl bg-gray-50 border border-dashed p-5 text-center text-xs text-gray-400">Đăng nhập để xem bảng xếp hạng 🌱</div></div><div id="mp-weekly-message" class="hidden mt-4 rounded-2xl bg-amber-50 border border-amber-100 p-4 text-sm font-bold text-amber-900"></div></section><section class="grid grid-cols-2 md:grid-cols-4 gap-3"><button onclick="switchSection('flashcard')" class="home-action"><span class="text-2xl">🃏</span><b class="block mt-1 text-sm">Học bằng thẻ</b></button><button onclick="openQuizPicker()" class="home-action"><span class="text-2xl">🧠</span><b class="block mt-1 text-sm">Quiz</b></button><button onclick="switchSection('notes')" class="home-action"><span class="text-2xl">📝</span><b class="block mt-1 text-sm">Ghi chú</b></button><button onclick="switchSection('add')" class="home-action"><span class="text-2xl">✨</span><b class="block mt-1 text-sm">Thêm từ</b></button></section></div>
+            <div id="home-section" class="hidden space-y-4"><section class="home-row"><div class="home-card p-4"><div class="flex items-center gap-4"><button type="button" onclick="document.getElementById('profile-image-input').click()" class="profile-avatar shrink-0" title="Đổi ảnh đại diện"><img id="profile-image" alt="" class="hidden"><span id="profile-placeholder" class="text-4xl">🐣</span></button><div class="min-w-0 flex-1"><p id="welcome-name-mini" class="text-xs font-extrabold text-rose-500"></p><h2 class="text-lg font-extrabold text-slateCustom leading-tight">Góc học tập của bạn</h2><div class="mt-2"><div class="flex justify-between text-[11px] font-black text-slateCustom"><span id="lv-chip">Lv.1</span><span id="lv-xp"></span></div><div class="h-2.5 rounded-full bg-black/10 overflow-hidden mt-1"><div id="lv-bar" class="h-full rounded-full" style="width:0;background:linear-gradient(90deg,var(--acc),#fbbf24);transition:width .6s"></div></div></div></div></div><input id="profile-image-input" type="file" accept="image/*" class="hidden" onchange="handleProfileFile(event)"><div class="quote-in mt-3 rounded-2xl p-3 flex items-start gap-2"><span class="text-xl bob">💬</span><div class="flex-1 min-w-0"><p id="hq-text" class="text-sm font-extrabold text-slateCustom leading-snug"></p><p id="hq-author" class="text-[11px] font-bold text-gray-400 mt-1"></p></div><button onclick="ENTX.quote(true)" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 font-black shrink-0" title="Quote khác">↻</button></div></div><div class="streak-card shadow-lg"><div class="streak-orb"></div><div class="relative z-10"><div class="flex items-center justify-between"><div><p class="text-[11px] font-black uppercase tracking-wider">🔥 Chuỗi ngày học</p><div class="flex items-end gap-1.5 mt-1"><span id="home-streak-number" class="text-4xl font-black leading-none">0</span><span class="text-sm font-extrabold pb-0.5">ngày</span></div></div><span class="text-3xl bob">🔥</span></div><div id="streak-week" class="grid grid-cols-7 gap-1 mt-3"></div><p id="streak-hint"></p></div></div><div class="home-card p-4 flex flex-col justify-center gap-2"><div class="stat-mini"><span>📚 Tổng từ</span><b id="stat-total" class="text-slateCustom">0</b></div><div class="stat-mini"><span>🌱 Đã học</span><b id="stat-learned" class="text-emerald-600">0</b></div><div class="stat-mini"><span>🐣 Chưa học</span><b id="stat-not-learned" class="text-amber-600">0</b></div></div></section><section id="multiplayer-card" class="mp-card p-5 sm:p-6"><div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4"><div><p class="text-xs font-black uppercase tracking-[.18em] text-violet-600">🏆 Học cùng bạn bè</p><h2 class="text-xl font-black text-slateCustom mt-1">🏆 Bảng xếp hạng tuần</h2><p id="mp-subtitle" class="text-xs text-gray-500 mt-1"></p></div><div class="flex gap-2"><button id="mp-auth-btn" onclick="ENT303MP.openAuth()" class="px-4 py-2.5 bg-violet-500 hover:bg-violet-600 text-white rounded-xl text-xs font-extrabold">Đăng nhập</button><button id="mp-refresh-btn" onclick="ENT303MP.refresh()" class="hidden px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-extrabold">↻ Cập nhật</button></div></div><div id="mp-profile-bar" class="hidden mt-4 p-4 rounded-2xl bg-violet-50 border border-violet-100"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3"><div><b id="mp-user-name" class="text-sm text-violet-900">Bạn</b><p id="mp-user-meta" class="text-[11px] text-violet-700 mt-1"></p></div><button onclick="ENT303MP.logout()" class="text-[11px] font-extrabold text-rose-600 hover:underline">Đăng xuất</button></div></div><div id="mp-leaderboard" class="mt-4 space-y-2"><div class="rounded-2xl bg-gray-50 border border-dashed p-5 text-center text-xs text-gray-400">Đăng nhập để xem bảng xếp hạng 🌱</div></div><div id="mp-weekly-message" class="hidden mt-4 rounded-2xl bg-amber-50 border border-amber-100 p-4 text-sm font-bold text-amber-900"></div></section><section id="shared-announcements" class="hidden home-card p-5"><div class="flex items-center justify-between gap-3"><div><p class="text-xs font-black uppercase tracking-[.18em] text-rose-500">📣 Thông báo lớp</p><h2 class="text-xl font-black text-slateCustom mt-1">Tin mới từ Host</h2></div><span class="text-xs font-bold text-gray-400">Cập nhật tự động</span></div><div id="shared-announcement-list" class="mt-4 space-y-3"></div></section><section class="grid grid-cols-2 md:grid-cols-4 gap-3"><button onclick="switchSection('flashcard')" class="home-action"><span class="text-2xl">🃏</span><b class="block mt-1 text-sm">Học bằng thẻ</b></button><button onclick="openQuizPicker()" class="home-action"><span class="text-2xl">🧠</span><b class="block mt-1 text-sm">Quiz</b></button><button onclick="switchSection('notes')" class="home-action"><span class="text-2xl">📝</span><b class="block mt-1 text-sm">Ghi chú</b></button><button onclick="switchSection('add')" class="home-action"><span class="text-2xl">✨</span><b class="block mt-1 text-sm">Thêm từ</b></button></section></div>
             <div id="notes-section" class="hidden"><div class="grid grid-cols-1 md:grid-cols-[210px_1fr] gap-4"><div class="home-card rounded-[24px] p-3"><button onclick="ENTX.newNote()" class="w-full py-2.5 rounded-xl bg-rose-500 text-white font-extrabold text-sm mb-2">＋ Ghi chú mới</button><div id="nt-list" class="space-y-2 max-h-[40vh] md:max-h-[65vh] overflow-y-auto"></div></div><div class="home-card rounded-[24px] p-4"><input id="nt-title" placeholder="Tiêu đề" class="w-full text-xl font-extrabold bg-transparent outline-none mb-2" oninput="ENTX.saveNote()"><div class="nt-tb flex gap-1.5 overflow-x-auto pb-2 border-b border-gray-100" onmousedown="if(event.target.tagName!=='SELECT'&&event.target.type!=='color')event.preventDefault()"><button onclick="ENTX.c('bold')"><b>B</b></button><button onclick="ENTX.c('italic')"><i>I</i></button><button onclick="ENTX.c('underline')"><u>U</u></button><button onclick="ENTX.c('strikeThrough')"><s>S</s></button><button onclick="ENTX.c('formatBlock','h1')">H1</button><button onclick="ENTX.c('formatBlock','h2')">H2</button><button onclick="ENTX.c('formatBlock','p')">¶</button><button onclick="ENTX.c('insertUnorderedList')">• List</button><button onclick="ENTX.c('insertOrderedList')">1. List</button><button onclick="ENTX.c('formatBlock','blockquote')">❝</button><button onclick="ENTX.c('justifyLeft')">⇤</button><button onclick="ENTX.c('justifyCenter')">≡</button><button onclick="ENTX.c('justifyRight')">⇥</button><select onchange="ENTX.c('fontSize',this.value);this.value=''"><option value="">Cỡ</option><option value="2">Nhỏ</option><option value="3">Vừa</option><option value="5">Lớn</option><option value="6">Rất lớn</option></select><input type="color" value="#e11d48" title="Màu chữ" onchange="ENTX.c('foreColor',this.value)" class="w-8 h-8 rounded-lg"><input type="color" value="#fde047" title="Tô nổi" onchange="ENTX.c('hiliteColor',this.value)" class="w-8 h-8 rounded-lg"><button onclick="ENTX.c('undo')">↶</button><button onclick="ENTX.c('redo')">↷</button><button onclick="ENTX.c('removeFormat')">✕</button></div><div id="nt-ed" contenteditable="true" data-ph="Viết ghi chú ở đây..." class="mt-3" oninput="ENTX.saveNote()"></div><div class="flex justify-between items-center mt-3 text-xs text-gray-400 font-bold"><span id="nt-count">0 ký tự</span><button onclick="ENTX.delNote()" class="text-rose-500">🗑 Xóa ghi chú</button></div></div></div></div>
             <!-- 1. VOCABULARY LIST SECTION -->
             <div id="list-section" class="space-y-6">
@@ -451,7 +451,7 @@ return{all:D,next,flat,pool};
                         <span class="flex items-center gap-2"><i class="fa-solid fa-layer-group text-rose-500"></i> List </span>
                         <span data-guide="1" class="text-xs font-normal text-gray-400">Bấm vào một từ để xem đầy đủ thông tin (bấm lại hoặc bấm ra ngoài để đóng)</span>
                     </h2>
-                    <div class="flex flex-wrap gap-2 mb-3"><select id="vocab-folder-filter" onchange="filterVocab()" class="px-3 py-2 bg-white border border-rose-100 rounded-xl text-xs font-bold text-gray-600"><option value="">📁 Tất cả folder</option></select></div><div id="vocab-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                    <div class="flex flex-wrap gap-2 mb-3"><select id="vocab-folder-filter" onchange="filterVocab()" class="px-3 py-2 bg-white border border-rose-100 rounded-xl text-xs font-bold text-gray-600"><option value="">📁 Tất cả folder</option></select><select id="vocab-status-filter" onchange="ENT303UX.filterVocabStatus()" class="px-3 py-2 bg-white border border-rose-100 rounded-xl text-xs font-bold text-gray-600"><option value="all">📚 Tất cả trạng thái</option><option value="new">🆕 Chưa học</option><option value="learning">🌱 Đang học</option><option value="learned">✅ Đã thuộc</option></select><button onclick="ENT303UX.showLearningOverview()" class="px-3 py-2 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-xl text-xs font-extrabold">📊 Tiến độ từ</button></div><div id="vocab-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                 </div>
 
                 <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-3xl border border-amber-200/60 shadow-sm">
@@ -817,7 +817,7 @@ return{all:D,next,flat,pool};
                 <div class="flex justify-between py-1 border-b border-gray-50"><span>Phát âm từ vựng:</span> <kbd class="px-2 py-0.5 bg-gray-100 rounded font-bold">Ctrl + X</kbd></div>
                 <div class="flex justify-between py-1 border-b border-gray-50"><span>Đã thuộc / Chưa thuộc:</span> <kbd class="px-2 py-0.5 bg-gray-100 rounded font-bold">></kbd> / <kbd class="px-2 py-0.5 bg-gray-100 rounded font-bold"><</kbd></div>
                 
-                <p class="font-bold text-xs text-purple-500 uppercase tracking-wider pt-2">Trong Slide Quiz & Quiz 2 Cột:</p>
+                <p class="font-bold text-xs text-emerald-600 uppercase tracking-wider pt-2">Điều hướng:</p><div class="flex justify-between py-1 border-b border-gray-50"><span>Quay lại màn trước:</span> <kbd class="px-2 py-0.5 bg-gray-100 rounded font-bold">← Back</kbd></div><div class="flex justify-between py-1 border-b border-gray-50"><span>Đổi phần học:</span> <span class="text-xs font-bold text-gray-500">dùng thanh điều hướng</span></div><div class="flex justify-between py-1 border-b border-gray-50"><span>Cài app:</span> <span class="text-xs font-bold text-gray-500">📲 Cài app</span></div><p class="font-bold text-xs text-purple-500 uppercase tracking-wider pt-2">Trong Slide Quiz & Quiz 2 Cột:</p>
                 <div class="flex justify-between py-1 border-b border-gray-50"><span>Chọn đáp án trắc nghiệm:</span> <kbd class="px-2 py-0.5 bg-gray-100 rounded font-bold">1, 2, 3, 4</kbd></div>
                 <div class="flex justify-between py-1 border-b border-gray-50"><span>Nộp bài & Sang câu tiếp:</span> <kbd class="px-2 py-0.5 bg-gray-100 rounded font-bold">Enter</kbd></div>
             </div>
@@ -850,14 +850,41 @@ return{all:D,next,flat,pool};
             }, 2000);
         }
 
-        function speakWord(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(String(text).replace(/\s*\/\s*/g, ', '));
-                utterance.lang = 'en-US';
-                utterance.rate = 0.9;
-                window.speechSynthesis.speak(utterance);
+        function pickEnglishVoice() {
+            if (!('speechSynthesis' in window)) return null;
+            const voices = window.speechSynthesis.getVoices?.() || [];
+            const english = voices.filter(v => /^en(?:-|_)/i.test(v.lang || '') || /\bEnglish\b/i.test(v.name || ''));
+            return english.find(v => /^en-US/i.test(v.lang || ''))
+                || english.find(v => /^en-GB/i.test(v.lang || ''))
+                || english[0]
+                || null;
+        }
+
+        function speakWord(text, rate = 0.9) {
+            if (!('speechSynthesis' in window)) {
+                showToast?.('Thiết bị này không hỗ trợ phát âm 😭');
+                return;
             }
+            const phrase = String(text || '').replace(/\s*\/\s*/g, ', ').trim();
+            if (!phrase) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(phrase);
+            const voice = pickEnglishVoice();
+            if (voice) {
+                utterance.voice = voice;
+                utterance.lang = voice.lang;
+            } else {
+                // Android/iOS can lazily load voices. en-US is a safer fallback than vi-VN.
+                utterance.lang = 'en-US';
+            }
+            utterance.rate = rate;
+            utterance.pitch = 1;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.addEventListener?.('voiceschanged', () => window.__ent303EnglishVoice = pickEnglishVoice());
+            setTimeout(() => window.__ent303EnglishVoice = pickEnglishVoice(), 500);
         }
 
         // DATABASE NGỮ PHÁP CHI TIẾT TẤT CẢ 10 UNITS (B1-B2 VSTEP NÂNG CẤP DỄ HIỂU)
@@ -2201,8 +2228,26 @@ small talk | expression | nói chuyện xã giao`
 
   // ---------- app navigation / back ----------
   const navHistory=[];let navReady=false;const _switch=window.switchSection;
-  window.switchSection=function(sec){const prev=currentSection;if(navReady&&sec!==prev)navHistory.push(prev);navReady=true;_switch(sec);updateNameUI();$v('app-back-row')?.classList.toggle('hidden',sec==='home'&&navHistory.length===0);};
-  window.appGoBack=function(){const p=navHistory.pop();if(p){_switch(p);$v('app-back-row')?.classList.toggle('hidden',p==='home'&&navHistory.length===0)}else _switch('home');};
+  window.switchSection=function(sec){
+    const prev=currentSection;
+    if(navReady&&sec!==prev){
+      if(navHistory[navHistory.length-1]!==prev) navHistory.push(prev);
+    }
+    navReady=true;
+    _switch(sec);
+    updateNameUI();
+    $v('app-back-row')?.classList.toggle('hidden',sec==='home'&&navHistory.length===0);
+  };
+  window.appGoBack=function(){
+    const p=navHistory.pop();
+    if(p){
+      _switch(p);
+      $v('app-back-row')?.classList.toggle('hidden',p==='home'&&navHistory.length===0);
+    } else {
+      _switch('home');
+      $v('app-back-row')?.classList.add('hidden');
+    }
+  };
   const _openQuizPicker=window.openQuizPicker;window.openQuizPicker=function(){_openQuizPicker();};
 
   // ---------- feedback sounds + confetti ----------
@@ -2344,6 +2389,14 @@ function modal(on){const m=$('auth-modal');m.classList.toggle('hidden',!on);m.cl
 let amode='login';
 const HINT={login:'Chưa có tài khoản? Bấm "Tạo tài khoản". Đã tạo rồi thì nhập đúng tên và mật khẩu 4 số lúc đó.',reg:'📝 Hãy nhớ tên và mật khẩu 4 số này! Lần sau bạn cần đúng 2 thứ đó để đăng nhập lại (app chưa có chức năng quên mật khẩu).'};
 X.mode=m=>{amode=m;$('au-t-login').classList.toggle('on',m==='login');$('au-t-reg').classList.toggle('on',m==='reg');$('au-hint').innerText=HINT[m];$('au-go').innerText=m==='login'?'Đăng nhập ✨':'Tạo tài khoản ✨';$('au-pin').setAttribute('autocomplete',m==='login'?'current-password':'new-password');err('')};
+async function maybeClaimHost(nm,pin){
+  if(!sb||!user) return;
+  try {
+    const r=await sb.rpc('claim_host_account',{p_username:nm,p_pin:pin});
+    if(r.error) console.warn('host claim',r.error);
+  } catch(e) { console.warn('host claim',e); }
+}
+
 X.auth=async function(){const nm=$('au-name').value.trim().replace(/\s+/g,' '),pin=$('au-pin').value.trim();if(!nm)return err('Nhập tên đã nha');
 if(!sb){LS.setItem('ENT303_NAME',nm);modal(false);name();window.COLX&&COLX.start();return}
 if(!/^\d{4}$/.test(pin))return err('Mật khẩu gồm đúng 4 chữ số');err('Đang vào...');
@@ -2352,10 +2405,11 @@ if(amode==='login'){const r=await sb.auth.signInWithPassword({email,password});
 if(r.error)return err(/invalid|credential/i.test(r.error.message)?'Sai tên hoặc mật khẩu. Nếu chưa có tài khoản, bấm "Tạo tài khoản".':r.error.message);user=r.data.user}
 else{const s=await sb.auth.signUp({email,password,options:{data:{display_name:nm}}});
 if(s.error)return err(/regist|exist/i.test(s.error.message)?'Tên này đã có người dùng. Hãy chọn tên khác, hoặc bấm "Đăng nhập" nếu là bạn.':s.error.message);
-if(!s.data.session)return err('Supabase đang bắt xác nhận email — cần tắt "Confirm email".');
+if(!s.data.session)return err('Supabase đang bắt xác nhận email — vào Authentication → Providers → Email và tắt Confirm email.');
 user=s.data.user;await sb.from('profiles').upsert({id:user.id,display_name:nm})}
+await maybeClaimHost(nm,pin);
 LS.setItem('PE_REMEMBER',$('au-remember').checked?'1':'0');LS.removeItem('PE_GUEST');sessionStorage.setItem('pe_alive','1');
-modal(false);err('');$('au-pin').value='';await loadProfile()};
+modal(false);err('');$('au-pin').value='';await loadProfile();await hostCheck()};
 X.skip=()=>{if(!user){LS.setItem('PE_GUEST','1');if(!LS.getItem('ENT303_NAME'))LS.setItem('ENT303_NAME','Khách')}modal(false);name();window.COLX&&COLX.start()};
 function wipe(){Object.keys(LS).filter(k=>/^(ENT303_|PE_GUEST)/.test(k)).forEach(k=>LS.removeItem(k));sessionStorage.clear()}
 X.wipe=wipe;
@@ -2930,6 +2984,216 @@ window.addEventListener('load',()=>setTimeout(()=>{
   if(!cur()||cur().hidden){active='ent303'}
   buildHeader();if(!folderOf(currentUnit)||!cur().folders.some(f=>f.id===currentUnit))switchUnit(cur().folders[0].id);else applyType();
 },0));
+})();
+</script>
+
+
+<script id="ent303-v6-upgrades">
+(function(){
+  'use strict';
+  const $=id=>document.getElementById(id), LS=localStorage;
+  const cfg=window.ENT303_SUPABASE_CONFIG||{};
+  const sb=(cfg.url&&cfg.anonKey&&window.supabase)?window.supabase.createClient(cfg.url,cfg.anonKey):null;
+  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+  /* ---------- 1. navigation that behaves like a real app ---------- */
+  const stack=[]; let internalBack=false, tabNavigation=false;
+  const sectionLabels={home:'Trang chủ',list:'Từ vựng',flashcard:'Flashcard',grammar:'Ngữ pháp',quiz:'Quiz',fastquiz:'Quiz 2 cột',listenquiz:'Nghe chép',notes:'Ghi chú',add:'Thêm'};
+  const originalSwitch=window.switchSection;
+  function state(){return {section:typeof currentSection!=='undefined'?currentSection:'home',unit:typeof currentUnit!=='undefined'?currentUnit:1};}
+  function same(a,b){return a&&b&&a.section===b.section&&a.unit===b.unit;}
+  function updateBack(){
+    const row=$('app-back-row'), btn=row?.querySelector('.back-btn'), mini=$('welcome-name-mini');
+    if(!row)return;
+    const can=stack.length>0 && (currentSection!=='home' || stack.length>0);
+    row.classList.toggle('hidden',!can);
+    if(btn)btn.innerHTML=stack.length?`<i class="fa-solid fa-arrow-left"></i><span>Quay lại</span>`:`<i class="fa-solid fa-house"></i><span>Trang chủ</span>`;
+    if(mini){const prev=stack[stack.length-1]; mini.innerText=prev?`← ${sectionLabels[prev.section]||'Màn trước'}`:'';}
+  }
+  window.appGoBack=function(){
+    if(stack.length){
+      const target=stack.pop(); internalBack=true;
+      try{ originalSwitch(target.section); if(typeof switchUnit==='function' && target.unit!==currentUnit) switchUnit(target.unit); }
+      finally{internalBack=false;}
+      updateBack(); return;
+    }
+    if(currentSection!=='home'){internalBack=true;try{originalSwitch('home')}finally{internalBack=false};updateBack();}
+  };
+  window.appNavigate=function(sec){
+    tabNavigation=true;
+    try{originalSwitch(sec)}finally{tabNavigation=false;}
+    stack.length=0; updateBack();
+  };
+  window.switchSection=function(sec){
+    const before=state();
+    if(!internalBack && !tabNavigation && !same(before,{section:sec,unit:before.unit}) && before.section!==sec){
+      stack.push(before); if(stack.length>12)stack.shift();
+    }
+    originalSwitch(sec); updateBack();
+  };
+  // Make the fixed navigation true tabs: switching tabs must not create a giant Back history.
+  ['home','list','flashcard','grammar','notes','add'].forEach(k=>{const b=$('nav-'+k);if(b)b.onclick=()=>appNavigate(k)});
+  const qb=$('nav-quiz'); if(qb)qb.onclick=()=>{stack.length=0;tabNavigation=true;try{window.openQuizPicker()}finally{tabNavigation=false}updateBack()};
+  // Back button should always have a stable icon/label.
+  updateBack();
+
+  /* ---------- 2. English pronunciation: choose an English voice, not the phone UI voice ---------- */
+  let voices=[];
+  function loadVoices(){try{voices=speechSynthesis.getVoices().filter(v=>v&&/^en([_-]|$)/i.test(v.lang));}catch(e){voices=[]}}
+  if('speechSynthesis' in window){loadVoices();speechSynthesis.addEventListener?.('voiceschanged',loadVoices);}
+  function bestVoice(){
+    const pref=['en-US','en-GB','en-AU','en-CA'];
+    for(const lang of pref){const v=voices.find(x=>x.lang.toUpperCase()===lang);if(v)return v;}
+    return voices.find(x=>/^en/i.test(x.lang))||null;
+  }
+  window.ENT303UX=window.ENT303UX||{};
+  window.ENT303UX.speakEnglish=function(text){
+    if(!('speechSynthesis' in window))return showToast?.('Thiết bị này không hỗ trợ phát âm bằng trình duyệt.');
+    const clean=String(text||'').replace(/\s*\/\s*/g,', '); speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(clean); const v=bestVoice();
+    if(v)u.voice=v; u.lang=v?.lang||'en-US'; u.rate=.9; u.pitch=1; u.volume=1; speechSynthesis.speak(u);
+  };
+  // Replace the existing speaker function globally so every existing button benefits.
+  window.speakWord=window.ENT303UX.speakEnglish;
+  window.speakCurrentListeningWord=(function(old){return function(rate=.9){
+    const item=listenQuizItems?.[listenQuizIndex];
+    if(item&&window.ENT303UX?.speakEnglish){
+      speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(item.word),v=bestVoice(); if(v)u.voice=v;u.lang=v?.lang||'en-US';u.rate=rate;u.pitch=1;speechSynthesis.speak(u);
+    }else if(old)old(rate);
+  }})(window.speakCurrentListeningWord);
+
+  /* ---------- 3. vocabulary progress filters ---------- */
+  function status(word){
+    if(learnedCardsSet?.has(word))return 'learned';
+    if(unlearnedCardsSet?.has(word))return 'learning';
+    return 'new';
+  }
+  function applyStatusFilter(){
+    const f=$('vocab-status-filter')?.value||'all';
+    const v=(unitsData?.[currentUnit]?.vocab)||[];
+    const folder=$('vocab-folder-filter')?.value||'', q=($('vocab-search')?.value||'').toLowerCase().trim();
+    const idx=v.map((x,i)=>({x,i})).filter(o=>{
+      const okFolder=!folder||o.x.folder===folder, okQ=!q||JSON.stringify(o.x).toLowerCase().includes(q), st=status(o.x.word);
+      return okFolder&&okQ&&(f==='all'||st===f);
+    }).map(o=>o.i);
+    window.renderVocabGrid(idx);
+    updateProgressBar();
+  }
+  window.ENT303UX.filterVocabStatus=applyStatusFilter;
+  const oldFilter=window.filterVocab;
+  window.filterVocab=function(){try{if($('vocab-status-filter')?.value&&$('vocab-status-filter').value!=='all')return applyStatusFilter();}catch(e){} oldFilter&&oldFilter();updateProgressBar();};
+  function updateProgressBar(){
+    const v=(unitsData?.[currentUnit]?.vocab)||[]; const total=v.length,learned=v.filter(x=>status(x.word)==='learned').length,learning=v.filter(x=>status(x.word)==='learning').length,newc=total-learned-learning;
+    const el=$('vocab-progress-summary'); if(el)el.innerHTML=`<span>📚 ${total}</span><span class="text-emerald-600">✅ ${learned}</span><span class="text-amber-600">🌱 ${learning}</span><span class="text-gray-500">🆕 ${newc}</span>`;
+  }
+  window.ENT303UX.showLearningOverview=function(){
+    let m=$('learning-overview-modal');if(!m){document.body.insertAdjacentHTML('beforeend',`<div id="learning-overview-modal" class="hidden fixed inset-0 z-[6200] bg-black/40 backdrop-blur-sm items-center justify-center p-4"><div class="w-full max-w-lg max-h-[85vh] overflow-y-auto bg-white rounded-[28px] p-5 shadow-2xl"><div class="flex items-center justify-between"><div><p class="text-xs font-black uppercase tracking-wider text-emerald-600">📊 Tiến độ từ vựng</p><h3 class="text-xl font-black text-slateCustom">Từ của Unit hiện tại</h3></div><button onclick="ENT303UX.closeLearningOverview()" class="w-9 h-9 rounded-xl bg-gray-100">✕</button></div><div id="learning-overview-body" class="mt-4 space-y-2"></div></div></div>`);m=$('learning-overview-modal')}
+    const v=(unitsData?.[currentUnit]?.vocab)||[]; const groups={learned:[],learning:[],new:[]};v.forEach(x=>groups[status(x.word)].push(x.word));
+    $('learning-overview-body').innerHTML=[['learned','✅ Đã thuộc','emerald'],['learning','🌱 Đang học','amber'],['new','🆕 Chưa học','gray']].map(([k,t,c])=>`<details open class="rounded-2xl border border-${c}-100 bg-${c}-50/40 p-3"><summary class="cursor-pointer font-black text-sm">${t} <span class="text-xs font-bold text-gray-400">(${groups[k].length})</span></summary><div class="mt-2 flex flex-wrap gap-2">${groups[k].map(w=>`<button onclick="ENT303UX.closeLearningOverview();document.getElementById('vocab-search').value=${JSON.stringify(w)};document.getElementById('vocab-status-filter').value='all';filterVocab()" class="px-2.5 py-1.5 rounded-xl bg-white border border-gray-100 text-xs font-bold">${esc(w)}</button>`).join('')||'<span class="text-xs text-gray-400">Chưa có</span>'}</div></details>`).join('');
+    m.classList.remove('hidden');m.classList.add('flex');
+  };
+  window.ENT303UX.closeLearningOverview=function(){const m=$('learning-overview-modal');m?.classList.add('hidden');m?.classList.remove('flex')};
+  const _ml=window.markWordLearned,_mu=window.markWordUnlearned;
+  window.markWordLearned=function(w){_ml(w);setTimeout(()=>{applyStatusFilter()},0)};
+  window.markWordUnlearned=function(w){_mu(w);setTimeout(()=>{applyStatusFilter()},0)};
+
+  /* ---------- 4. grammar practice CTA below every grammar point ---------- */
+  function addGrammarPracticeButtons(){
+    const c=$('grammar-container'); if(!c)return;
+    c.querySelectorAll('[data-g]').forEach(card=>{
+      if(card.querySelector('.grammar-practice-cta'))return;
+      const i=card.getAttribute('data-g');
+      card.insertAdjacentHTML('beforeend',`<div class="grammar-practice-cta mt-5 pt-4 border-t border-blue-100"><button onclick="ENT303UX.practiceGrammar(${Number(i)})" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-blue-50 border border-blue-200 text-blue-700 font-black text-sm hover:bg-blue-100 transition"><span class="text-lg">📝</span> Luyện tập ngữ pháp này <span>→</span></button><p class="text-[11px] text-gray-400 mt-2">Mở khu Quiz Ngữ pháp để luyện ngay.</p></div>`);
+    });
+  }
+  window.ENT303UX.practiceGrammar=function(i){
+    try{LS.setItem('ENT303_GRAMMAR_TARGET',String(i));}catch(e){}
+    if(typeof openGrammarQuizPicker==='function')openGrammarQuizPicker(); else {window.openQuizPicker?.();showToast?.('Đã mở khu luyện tập ngữ pháp.');}
+  };
+  const gc=$('grammar-container'); if(gc)new MutationObserver(addGrammarPracticeButtons).observe(gc,{childList:true,subtree:true}); setTimeout(addGrammarPracticeButtons,300);
+
+  /* ---------- 5. PWA install UX ---------- */
+  let deferredInstall=null;
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('pwa-install-btn')?.classList.remove('hidden');});
+  window.addEventListener('appinstalled',()=>{deferredInstall=null;$('pwa-install-btn')?.classList.add('hidden');showToast?.('Đã cài Practice English như một ứng dụng ✨');});
+  function isIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)||(/Macintosh/i.test(navigator.userAgent)&&navigator.maxTouchPoints>1)}
+  window.ENT303UX.openInstall=async function(){
+    if(deferredInstall){deferredInstall.prompt();try{await deferredInstall.userChoice}catch(e){}deferredInstall=null;return;}
+    let m=$('install-help-modal');if(!m){document.body.insertAdjacentHTML('beforeend',`<div id="install-help-modal" class="hidden fixed inset-0 z-[6300] bg-black/40 backdrop-blur-sm items-center justify-center p-4"><div class="w-full max-w-md bg-white rounded-[28px] p-6 shadow-2xl"><div class="flex justify-between items-center"><div><p class="text-xs font-black uppercase tracking-wider text-emerald-600">📲 Cài app</p><h3 class="text-xl font-black text-slateCustom">Practice English</h3></div><button onclick="ENT303UX.closeInstall()" class="w-9 h-9 rounded-xl bg-gray-100">✕</button></div><div id="install-help-content" class="mt-4 text-sm text-gray-700 leading-relaxed"></div><button onclick="ENT303UX.closeInstall()" class="w-full mt-5 py-3 bg-rose-500 text-white rounded-2xl font-black">Đã hiểu</button></div></div>`);m=$('install-help-modal')}
+    $('install-help-content').innerHTML=isIOS()?'<b>iPhone/iPad (Safari):</b><ol class="list-decimal pl-5 mt-2 space-y-1"><li>Bấm <b>Chia sẻ</b>.</li><li>Chọn <b>Thêm vào Màn hình chính</b>.</li><li>Bấm <b>Thêm</b>.</li></ol>':'<b>Android/Chrome:</b> mở menu <b>⋮</b> → <b>Cài đặt ứng dụng / Add to Home screen</b>.<br><br><b>Windows/macOS:</b> dùng biểu tượng cài đặt ở thanh địa chỉ hoặc menu của Chrome/Edge.<br><br>Nếu chưa thấy tùy chọn, hãy mở app bằng HTTPS và tải lại một lần.';
+    m.classList.remove('hidden');m.classList.add('flex');
+  };
+  window.ENT303UX.closeInstall=()=>{const m=$('install-help-modal');m?.classList.add('hidden');m?.classList.remove('flex')};
+
+  /* ---------- 6. Shared announcements + shared vocabulary + community questions ---------- */
+  const HOST=window.ENT303HOST={ready:false,isHost:false,user:null,client:sb};
+  async function getUser(){if(!sb)return null;try{return (await sb.auth.getUser()).data.user||null}catch(e){return null}}
+  async function hostCheck(){
+    HOST.user=await getUser();
+    if(!HOST.user||!sb){HOST.isHost=false;$('host-admin-btn')?.classList.add('hidden');return false;}
+    try{
+      const r=await sb.from('app_roles').select('role').eq('user_id',HOST.user.id).maybeSingle();
+      if(r.error) throw r.error;
+      HOST.isHost=r.data?.role==='host';
+    }catch(e){
+      HOST.isHost=false;
+      console.warn('hostCheck',e);
+    }
+    $('host-admin-btn')?.classList.toggle('hidden',!HOST.isHost);
+    return HOST.isHost;
+  }
+  function modal(id,html){let m=$(id);if(!m){document.body.insertAdjacentHTML('beforeend',html);m=$(id)}return m}
+  async function loadAnnouncements(){
+    if(!sb)return; try{const r=await sb.from('shared_announcements').select('*').eq('published',true).order('created_at',{ascending:false}).limit(8);if(r.error)throw r.error;const list=$('shared-announcement-list');if(!list)return;if(!r.data?.length){$('shared-announcements').classList.add('hidden');return}$('shared-announcements').classList.remove('hidden');list.innerHTML=r.data.map(a=>`<article class="rounded-2xl border border-rose-100 bg-rose-50/50 p-4"><div class="flex items-start justify-between gap-3"><h3 class="font-black text-sm text-slateCustom">${esc(a.title)}</h3><time class="text-[10px] font-bold text-gray-400">${new Date(a.created_at).toLocaleDateString('vi-VN')}</time></div><p class="text-sm text-gray-600 mt-2 whitespace-pre-line">${esc(a.body)}</p></article>`).join('')}
+    catch(e){console.warn('announcements',e)}
+  }
+  async function loadSharedVocab(){
+    if(!sb)return; try{const r=await sb.from('shared_vocab').select('*').eq('published',true).order('created_at',{ascending:true});if(r.error)throw r.error;const rows=r.data||[];for(const row of rows){const u=Number(row.unit_id);if(!unitsData?.[u])continue;const payload=row.payload||{};const word=String(payload.word||'').trim();if(!word)continue;const arr=unitsData[u].vocab||[];const local=arr.find(v=>String(v.word||'').toLowerCase()===word.toLowerCase());if(local)continue;arr.push({...payload,shared:true,sharedId:row.id});}if(typeof renderSectionContent==='function'&&currentSection==='list')renderSectionContent();updateProgressBar();}catch(e){console.warn('shared vocab',e)}
+  }
+  async function refreshCommunityButton(){
+    const picker=document.getElementById('quiz-mode-picker'); if(!picker)return;
+    const step=picker.querySelector('.grid.grid-cols-1.md\\:grid-cols-4');
+    if(step&&!step.querySelector('#community-quiz-btn'))step.insertAdjacentHTML('beforeend',`<button id="community-quiz-btn" onclick="ENT303COMM.openQuiz()" class="quiz-choice"><span class="text-3xl">👥</span><b class="block mt-3 text-sm">Quiz cộng đồng</b><span class="text-xs text-gray-500">Câu hỏi do lớp cùng tạo</span></button>`);
+    const parent=picker.querySelector('.space-y-5');
+    if(parent&&!parent.querySelector('#community-create-btn'))parent.insertAdjacentHTML('beforeend',`<div class="rounded-[24px] border border-indigo-100 bg-indigo-50/50 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3"><div><b class="text-sm text-indigo-900">👥 Cùng tạo ngân hàng câu hỏi</b><p class="text-xs text-indigo-700/70 mt-1">Tự tạo câu hỏi riêng hoặc gửi để Host duyệt cho cả lớp.</p></div><button id="community-create-btn" onclick="ENT303COMM.openForm()" class="px-4 py-2.5 bg-indigo-500 text-white rounded-xl text-xs font-black">＋ Tạo câu hỏi</button></div>`);
+  }
+  window.ENT303COMM={
+    openForm(){
+      const m=modal('community-q-modal',`<div id="community-q-modal" class="hidden fixed inset-0 z-[6400] bg-black/40 backdrop-blur-sm items-center justify-center p-4"><div class="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-white rounded-[28px] p-5 shadow-2xl"><div class="flex justify-between items-center"><div><p class="text-xs font-black uppercase tracking-wider text-indigo-600">👥 Community</p><h3 class="text-xl font-black text-slateCustom">Tạo câu hỏi</h3></div><button onclick="ENT303COMM.closeForm()" class="w-9 h-9 rounded-xl bg-gray-100">✕</button></div><div class="space-y-3 mt-4"><label class="block text-xs font-black text-gray-500">Unit<select id="cq-unit" class="mt-1 w-full px-3 py-2.5 rounded-xl border border-indigo-100"><option value="1">Unit 1</option><option value="2">Unit 2</option><option value="3">Unit 3</option><option value="4">Unit 4</option><option value="5">Unit 5</option><option value="6">Unit 6</option><option value="7">Unit 7</option><option value="8">Unit 8</option><option value="9">Unit 9</option><option value="10">Unit 10</option></select></label><label class="block text-xs font-black text-gray-500">Câu hỏi<textarea id="cq-question" rows="3" class="mt-1 w-full px-3 py-2.5 rounded-xl border border-indigo-100" placeholder="VD: Which sentence is correct?"></textarea></label>${[0,1,2,3].map(i=>`<label class="block text-xs font-black text-gray-500">Đáp án ${i+1}<input id="cq-opt-${i}" class="mt-1 w-full px-3 py-2.5 rounded-xl border border-indigo-100" placeholder="Option ${i+1}"></label>`).join('')}<label class="block text-xs font-black text-gray-500">Đáp án đúng<select id="cq-correct" class="mt-1 w-full px-3 py-2.5 rounded-xl border border-indigo-100"><option value="0">Đáp án 1</option><option value="1">Đáp án 2</option><option value="2">Đáp án 3</option><option value="3">Đáp án 4</option></select></label><p id="cq-msg" class="text-xs font-bold text-rose-500 min-h-4"></p><button onclick="ENT303COMM.save()" class="w-full py-3 bg-indigo-500 text-white rounded-2xl font-black">Gửi câu hỏi ✨</button></div></div></div>`);m.classList.remove('hidden');m.classList.add('flex');
+    },
+    closeForm(){const m=$('community-q-modal');m?.classList.add('hidden');m?.classList.remove('flex')},
+    async save(){
+      const user=await getUser(); if(!user){ENT303MP?.openAuth?.();return;}
+      const q=$('cq-question')?.value.trim(),opts=[0,1,2,3].map(i=>$('cq-opt-'+i)?.value.trim()),unit=Number($('cq-unit')?.value),correct=Number($('cq-correct')?.value);if(!q||opts.some(x=>!x)||new Set(opts).size<4){$('cq-msg').innerText='Điền đủ câu hỏi và 4 đáp án, không trùng nhau nha.';return}
+      if(!sb)return;const r=await sb.from('community_questions').insert({unit_id:unit,created_by:user.id,payload:{question:q,options:opts,correct}});if(r.error){$('cq-msg').innerText=r.error.message;return}this.closeForm();showToast?.('Đã gửi! Câu hỏi sẽ xuất hiện sau khi Host duyệt 🌱');
+    },
+    async openQuiz(){
+      if(!sb){showToast?.('Quiz cộng đồng cần kết nối tài khoản lớp.');return}
+      const r=await sb.from('community_questions').select('*').eq('status','approved').order('created_at',{ascending:false}).limit(100);if(r.error||!r.data?.length){showToast?.('Chưa có câu hỏi cộng đồng được duyệt.');return}
+      const rows=[...r.data].sort(()=>Math.random()-.5).slice(0,10),slides=[];for(const x of rows){const p=x.payload||{};if(p.question&&Array.isArray(p.options)&&p.options.length===4)slides.push({type:'mc_community',title:'👥 Câu hỏi cộng đồng',questionText:esc(p.question),targetWord:'',correctAnswer:p.options[Number(p.correct)||0],options:p.options.map(esc)});}
+      if(!slides.length)return; quizSlidesList=slides;currentQuizSlideIndex=0;quizScore=0;userWrongSlides=[];userCorrectSlides=[];selectedSlideChoice=null;
+      document.querySelectorAll('#home-section,#list-section,#add-section,#flashcard-section,#grammar-section,#fastquiz-section,#listenquiz-section,#notes-section').forEach(x=>x.classList.add('hidden'));$('unit-hero')?.classList.add('hidden');$('quiz-section')?.classList.remove('hidden');$('quiz-mode-picker')?.classList.add('hidden');$('quiz-run-area')?.classList.remove('hidden');currentSection='quiz';updateBottomNav('quiz');$('quiz-slide-total').innerText=slides.length;renderCurrentSlideContent();
+    }
+  };
+
+  HOST.open=async function(){if(!(await hostCheck())){showToast?.('Tài khoản này chưa có quyền Host.');return}let m=modal('host-modal',`<div id="host-modal" class="hidden fixed inset-0 z-[6500] bg-black/50 backdrop-blur-sm items-center justify-center p-3"><div class="w-full max-w-3xl max-h-[92vh] overflow-y-auto bg-white rounded-[30px] p-5 shadow-2xl"><div class="flex justify-between items-center gap-3"><div><p class="text-xs font-black uppercase tracking-[.18em] text-violet-600">👑 Host dashboard</p><h2 class="text-2xl font-black text-slateCustom">Quản lý nội dung lớp</h2><p class="text-xs text-gray-500 mt-1">Nội dung chung đồng bộ qua Supabase cho cả lớp. Học viên có thể tự tạo câu hỏi, Host duyệt trước khi công khai.</p></div><button onclick="ENT303HOST.close()" class="w-10 h-10 rounded-xl bg-gray-100">✕</button></div><div class="grid md:grid-cols-2 gap-4 mt-5"><section class="rounded-2xl border border-rose-100 p-4"><h3 class="font-black">📣 Thông báo mới</h3><input id="ha-title" class="mt-3 w-full px-3 py-2.5 rounded-xl border" placeholder="Tiêu đề"><textarea id="ha-body" rows="5" class="mt-2 w-full px-3 py-2.5 rounded-xl border" placeholder="Nội dung thông báo"></textarea><button onclick="ENT303HOST.addAnnouncement()" class="mt-2 w-full py-2.5 rounded-xl bg-rose-500 text-white font-black text-sm">Đăng thông báo</button></section><section class="rounded-2xl border border-emerald-100 p-4"><h3 class="font-black">📚 Từ vựng chung</h3><select id="hv-unit" class="mt-3 w-full px-3 py-2.5 rounded-xl border"><option value="1">Unit 1</option><option value="2">Unit 2</option><option value="3">Unit 3</option><option value="4">Unit 4</option><option value="5">Unit 5</option><option value="6">Unit 6</option><option value="7">Unit 7</option><option value="8">Unit 8</option><option value="9">Unit 9</option><option value="10">Unit 10</option></select><input id="hv-word" class="mt-2 w-full px-3 py-2.5 rounded-xl border" placeholder="Word / phrase"><input id="hv-pos" class="mt-2 w-full px-3 py-2.5 rounded-xl border" placeholder="Part of speech, e.g. noun"><input id="hv-vi" class="mt-2 w-full px-3 py-2.5 rounded-xl border" placeholder="Nghĩa tiếng Việt"><input id="hv-en" class="mt-2 w-full px-3 py-2.5 rounded-xl border" placeholder="English meaning"><input id="hv-ipa" class="mt-2 w-full px-3 py-2.5 rounded-xl border" placeholder="IPA"><input id="hv-image" class="mt-2 w-full px-3 py-2.5 rounded-xl border" placeholder="Image URL (optional) — dán link ảnh"><button onclick="ENT303HOST.addVocab()" class="mt-2 w-full py-2.5 rounded-xl bg-emerald-500 text-white font-black text-sm">Đăng từ chung</button></section></div><section class="mt-4 rounded-2xl border border-indigo-100 p-4"><div class="flex items-center justify-between"><h3 class="font-black">🧹 Duyệt câu hỏi học viên</h3><button onclick="ENT303HOST.loadPending()" class="px-3 py-2 rounded-xl bg-indigo-50 text-indigo-700 text-xs font-black">↻ Tải lại</button></div><div id="host-pending" class="mt-3 space-y-2"></div></section></div></div>`);m.classList.remove('hidden');m.classList.add('flex');HOST.loadPending();};
+  HOST.close=()=>{const m=$('host-modal');m?.classList.add('hidden');m?.classList.remove('flex')};
+  HOST.addAnnouncement=async()=>{if(!HOST.isHost)return;const title=$('ha-title')?.value.trim(),body=$('ha-body')?.value.trim();if(!title||!body)return showToast?.('Điền tiêu đề và nội dung nha.');const r=await sb.from('shared_announcements').insert({title,body,created_by:HOST.user.id,published:true});if(r.error)return showToast?.(r.error.message);$('ha-title').value='';$('ha-body').value='';await loadAnnouncements();showToast?.('Đã đăng thông báo 📣');};
+  HOST.addVocab=async()=>{if(!HOST.isHost)return;const p={word:$('hv-word')?.value.trim(),pos:$('hv-pos')?.value.trim()||'noun',def:$('hv-vi')?.value.trim(),en:$('hv-en')?.value.trim(),phonetic:$('hv-ipa')?.value.trim(),image:$('hv-image')?.value.trim()};const unit=Number($('hv-unit')?.value);if(!p.word||!p.def)return showToast?.('Cần có từ và nghĩa tiếng Việt.');const r=await sb.from('shared_vocab').insert({unit_id:unit,payload:p,created_by:HOST.user.id,published:true});if(r.error)return showToast?.(r.error.message);await loadSharedVocab();showToast?.(`Đã đăng "${p.word}" cho lớp ✨`);};
+  HOST.loadPending=async()=>{if(!HOST.isHost||!sb)return;const box=$('host-pending');if(!box)return;const r=await sb.from('community_questions').select('*').eq('status','pending').order('created_at',{ascending:true}).limit(50);if(r.error){box.innerHTML=`<p class="text-xs text-rose-500">${esc(r.error.message)}</p>`;return}box.innerHTML=r.data?.length?r.data.map(x=>{const p=x.payload||{};return `<div class="rounded-2xl border border-gray-100 p-3"><p class="text-sm font-black">${esc(p.question||'')}</p><p class="text-xs text-gray-500 mt-1">${(p.options||[]).map((o,i)=>`${i+1}. ${esc(o)}`).join(' • ')}</p><div class="flex gap-2 mt-2"><button onclick="ENT303HOST.moderate(${x.id},'approved')" class="px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-black">✓ Duyệt</button><button onclick="ENT303HOST.moderate(${x.id},'rejected')" class="px-3 py-2 rounded-xl bg-rose-50 text-rose-700 text-xs font-black">✕ Từ chối</button></div></div>`}).join(''):'<p class="text-xs text-gray-400">Không có câu hỏi chờ duyệt.</p>';};
+  HOST.moderate=async(id,status)=>{if(!HOST.isHost)return;const r=await sb.from('community_questions').update({status,reviewed_by:HOST.user.id,reviewed_at:new Date().toISOString()}).eq('id',id);if(r.error)return showToast?.(r.error.message);HOST.loadPending();};
+
+  /* ---------- 7. boot: load shared data and expose install/help ---------- */
+  async function boot(){
+    await hostCheck();
+    await loadAnnouncements();
+    await loadSharedVocab();
+    setTimeout(refreshCommunityButton,600);
+    updateProgressBar();
+    if($('pwa-install-btn') && !deferredInstall && !window.matchMedia('(display-mode: standalone)').matches)$('pwa-install-btn').classList.remove('hidden');
+  }
+  window.addEventListener('load',()=>setTimeout(boot,900));
+  if(sb)sb.auth.onAuthStateChange(()=>setTimeout(boot,500));
 })();
 </script>
 
