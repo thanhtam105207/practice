@@ -24,3 +24,38 @@ Frontend vẫn chạy trên GitHub Pages, còn tài khoản + XP + leaderboard d
 Chi tiết: xem `README-MULTIPLAYER.md`.
 
 > Không bao giờ đưa `service_role` key vào GitHub. Frontend chỉ dùng anon/public key và RLS trong Supabase.
+
+
+## V6 — Host, nội dung chung và Quiz cộng đồng
+Sau khi chạy lại `supabase-schema.sql`, tài khoản có role `host` sẽ thấy nút 👑 Host.
+
+### Cấp quyền Host cho tài khoản của bạn
+1. Tạo/đăng nhập tài khoản của bạn trong app.
+2. Vào Supabase → SQL Editor.
+3. Tìm user của bạn trong Authentication → Users để lấy UUID, rồi chạy:
+
+```sql
+insert into public.app_roles(user_id, role)
+values ('UUID_CUA_BAN', 'host')
+on conflict (user_id) do update set role='host';
+```
+
+Host có thể đăng thông báo, thêm từ vựng chung và duyệt câu hỏi học viên. Học viên có thể tự tạo câu hỏi; chỉ câu hỏi được Host duyệt mới vào Quiz cộng đồng.
+
+### Đồng bộ từ vựng chung
+Từ Host được tải từ Supabase. Nếu tài khoản học viên đã có một từ trùng theo cách viết (không phân biệt hoa/thường), app giữ bản cá nhân và không chèn bản Host vào tài khoản đó. Vì vậy Host có thể cập nhật nội dung chung mà không phá dữ liệu riêng của học viên.
+
+
+## V7 Host setup
+- Host username: `phamthithanhtam`
+- Host PIN: `2007`
+- Create the account once from the app's “Tạo tài khoản” screen. The app automatically calls `claim_host_account` after successful authentication and grants the Host role server-side.
+- In Supabase Authentication → Providers → Email, turn off email confirmation because this app uses a username + 4-digit PIN flow.
+
+
+## V8 changes
+- Account moved to bottom navigation after Add.
+- Account menu includes theme, install, guide and notifications.
+- Host can globally edit vocabulary and image content through Supabase overrides.
+- Added top announcement strip and improved authentication icon.
+- Host claim RPC for phamthithanhtam / PIN 2007.

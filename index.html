@@ -369,6 +369,10 @@ return{all:D,next,flat,pool};
 })();
 </script>
 <style>body[data-mode="dark"] #auth-modal,body[data-mode="dark"] #col-ov{background:#12132a!important}#auth-modal,#col-ov{background:#faf9f6}</style>
+
+<style id="ent-v8-ui">
+.account-action{width:100%;display:flex;align-items:center;gap:13px;text-align:left;padding:14px 15px;border:1px solid #f1e6e9;background:#fff;border-radius:18px;transition:.18s}.account-action:hover{border-color:#fecdd3;background:#fff7f8;transform:translateY(-1px)}.account-action>span:first-child{width:38px;height:38px;border-radius:12px;background:#fff1f2;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}.account-action b{display:block;font-size:14px;color:#2d3748}.account-action small{display:block;margin-top:2px;color:#9ca3af;font-size:11px;font-weight:600}.guide-card{padding:15px 16px;border:1px solid #f1e6e9;border-radius:18px;background:#fffdfd}.guide-card b{display:block;font-size:14px;color:#334155}.guide-card p{margin-top:5px;font-size:13px;line-height:1.65;color:#64748b}.bottom-nav{overflow-x:auto;scrollbar-width:none}.bottom-nav::-webkit-scrollbar{display:none}.bottom-nav-inner{grid-template-columns:repeat(8,minmax(76px,1fr));min-width:608px}.bottom-nav button{min-width:76px}.bottom-nav button#nav-account{color:#7c3aed}.bottom-nav button#nav-account.active{background:#f5f3ff;color:#7c3aed;box-shadow:inset 0 0 0 1px #ddd6fe}.host-editable .host-edit-badge{display:inline-flex}.host-edit-badge{display:none}.vocab-memory-image{width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none;border:1px solid #ffe4e6}.top-announcement-item{font-size:12px;font-weight:800;color:#92400e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.top-announcement-item time{font-weight:600;color:#b45309;margin-left:6px}.host-global-note{font-size:11px;color:#7c3aed;font-weight:800;background:#f5f3ff;border:1px solid #ddd6fe;padding:4px 8px;border-radius:999px}@media(max-width:700px){.bottom-nav{width:calc(100% - 8px);border-radius:18px}.bottom-nav-inner{min-width:640px}.bottom-nav button{min-height:55px}.top-announcement-bar{padding-top:8px}}
+</style>
 </head>
 <body class="text-gray-800 min-h-screen flex flex-col relative pb-12" onclick="closeHoverPopupOutside(event)">
     <div id="cute-loader" class="cute-loader"><div class="text-center"><div class="loader-buddy text-6xl">🐣</div><div class="mt-3 text-lg font-black text-slateCustom">Đang mở góc học tập...</div><div class="mt-2 flex items-center justify-center gap-2"><span class="loader-dot w-2 h-2 rounded-full bg-rose-400"></span><span class="loader-dot w-2 h-2 rounded-full bg-amber-400"></span><span class="loader-dot w-2 h-2 rounded-full bg-emerald-400"></span></div></div></div>
@@ -388,17 +392,9 @@ return{all:D,next,flat,pool};
                 </div>
             </div>
 
-            <!-- Unit Selector & ShortCut Info -->
-            <div class="flex items-center space-x-3">
-                
-                <button id="pwa-install-btn" onclick="ENT303UX.openInstall()" class="px-3 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-xs font-bold hidden" title="Cài app">📲 <span class="hidden sm:inline">Cài app</span></button><button id="host-admin-btn" onclick="ENT303HOST.open()" class="px-3 py-1.5 bg-violet-50 border border-violet-200 text-violet-700 rounded-xl text-xs font-bold hidden" title="Bảng điều khiển Host">👑 <span class="hidden sm:inline">Host</span></button>
-                <button onclick="ENTX.openTheme()" class="px-3 py-1.5 bg-rose-50 border border-rose-200 text-rose-600 rounded-xl text-xs font-bold" title="Giao diện">🎨</button>
-                <div class="flex items-center bg-white border border-rose-200 rounded-xl overflow-hidden text-xs font-bold text-rose-600" title="Cỡ chữ">
-                    <button onclick="changeFont(-1)" class="px-3 py-2 hover:bg-rose-50">A−</button>
-                    <span id="font-pct" class="px-1.5 text-gray-500 w-11 text-center">120%</span>
-                    <button onclick="changeFont(1)" class="px-3 py-2 hover:bg-rose-50 text-sm">A+</button>
-                </div>
-                <select id="unit-select" onchange="switchUnit(parseInt(this.value))" class="px-4 py-2 bg-rose-50 border border-rose-200 text-rose-600 font-bold rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-400">
+            <!-- Unit selector -->
+            <div class="flex items-center gap-2 min-w-0">
+                <select id="unit-select" onchange="switchUnit(parseInt(this.value))" class="px-3 sm:px-4 py-2 bg-rose-50 border border-rose-200 text-rose-600 font-bold rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-rose-400 max-w-[190px] sm:max-w-none">
                     <option value="1">Unit 1: Make Small Talk</option>
                     <option value="2">Unit 2: Health Matters</option>
                     <option value="3">Unit 3: Getting Things Done</option>
@@ -414,6 +410,65 @@ return{all:D,next,flat,pool};
         </div>
     <div id="app-back-row" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-1 pb-2 hidden"><button class="back-btn" onclick="appGoBack()">← Quay lại</button><span id="welcome-name-mini" class="ml-2 text-xs font-bold text-gray-400"></span></div>
 </header>
+
+    <!-- Thông báo lớp: nằm ngay phía trên nội dung -->
+    <section id="top-announcement-bar" class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-3 hidden">
+        <div class="rounded-2xl border border-amber-200 bg-amber-50/80 shadow-sm overflow-hidden">
+            <div class="flex items-center gap-3 px-4 py-3">
+                <span class="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-lg shrink-0">📣</span>
+                <div class="min-w-0 flex-1">
+                    <p class="text-[10px] font-black uppercase tracking-wider text-amber-700">Thông báo</p>
+                    <div id="top-announcement-list" class="mt-0.5 space-y-1"></div>
+                </div>
+                <button onclick="ENT303ACCOUNT.openNotifications()" class="text-xs font-black text-amber-700 hover:underline shrink-0">Xem tất cả</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACCOUNT MENU -->
+    <div id="account-modal" class="hidden fixed inset-0 z-[6700] bg-black/40 backdrop-blur-sm items-end sm:items-center justify-center p-3" onclick="if(event.target===this)ENT303ACCOUNT.close()">
+        <div class="w-full max-w-md max-h-[88vh] overflow-y-auto bg-white rounded-[30px] shadow-2xl p-5 sm:p-6">
+            <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-user"></i></div>
+                    <div class="min-w-0"><p class="text-[10px] font-black uppercase tracking-wider text-rose-500">Tài khoản</p><h2 id="account-menu-name" class="text-xl font-black text-slateCustom truncate">Chưa đăng nhập</h2></div>
+                </div>
+                <button onclick="ENT303ACCOUNT.close()" class="w-9 h-9 rounded-xl bg-gray-100 text-gray-500">✕</button>
+            </div>
+            <div id="account-host-area" class="hidden mt-4">
+                <button onclick="ENT303ACCOUNT.close();ENT303HOST.open()" class="w-full rounded-2xl bg-violet-50 border border-violet-200 text-violet-700 p-4 text-left font-black flex items-center gap-3"><span class="text-2xl">👑</span><span><b class="block">Host / Quản lý lớp</b><small class="font-semibold text-violet-500">Sửa nội dung chung, thông báo và duyệt câu hỏi</small></span></button>
+            </div>
+            <div class="mt-4 grid gap-2">
+                <button onclick="ENT303ACCOUNT.openTheme()" class="account-action"><span>🎨</span><span><b>Giao diện</b><small>Chế độ sáng/tối, màu chủ đề, cỡ chữ</small></span></button>
+                <button onclick="ENT303ACCOUNT.openInstall()" class="account-action"><span>📲</span><span><b>Cài app</b><small>Hướng dẫn cài trên điện thoại và máy tính</small></span></button>
+                <button onclick="ENT303ACCOUNT.openGuide()" class="account-action"><span>❓</span><span><b>Hướng dẫn sử dụng</b><small>Cách học, điều hướng, tạo câu hỏi và dùng Host</small></span></button>
+                <button onclick="ENT303ACCOUNT.openNotifications()" class="account-action"><span>📣</span><span><b>Thông báo</b><small>Xem thông báo mới của lớp</small></span></button>
+            </div>
+            <div id="account-login-area" class="mt-4 pt-4 border-t border-gray-100">
+                <button id="account-login-btn" onclick="ENT303ACCOUNT.close();ENT303MP.openAuth('login')" class="w-full py-3.5 rounded-2xl bg-rose-500 text-white font-black">Đăng nhập / Tạo tài khoản</button>
+                <button id="account-logout-btn" onclick="ENTX.logout()" class="hidden w-full py-3.5 rounded-2xl bg-rose-50 text-rose-600 font-black">Đăng xuất</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACCOUNT HELP / NOTIFICATION MODALS -->
+    <div id="account-guide-modal" class="hidden fixed inset-0 z-[6750] bg-black/40 backdrop-blur-sm items-center justify-center p-3">
+      <div class="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-[30px] shadow-2xl p-5 sm:p-7">
+        <div class="flex justify-between items-center gap-3"><div><p class="text-[10px] font-black uppercase tracking-wider text-rose-500">Hướng dẫn</p><h2 class="text-2xl font-black text-slateCustom">Dùng Practice English dễ hơn ✨</h2></div><button onclick="ENT303ACCOUNT.closeGuide()" class="w-9 h-9 rounded-xl bg-gray-100">✕</button></div>
+        <div class="mt-5 grid gap-3">
+          <article class="guide-card"><b>🧭 1. Di chuyển</b><p>Thanh công cụ ở dưới cùng là menu chính. Bấm Từ vựng, Thẻ, Ngữ pháp, Quiz, Ghi chú, Thêm hoặc Tài khoản. Nút Quay lại chỉ quay về màn hình trước.</p></article>
+          <article class="guide-card"><b>📚 2. Học từ vựng</b><p>Bấm một từ để xem đầy đủ thông tin. Dùng bộ lọc để xem Chưa học, Đang học hoặc Đã thuộc. Bấm biểu tượng loa để nghe phát âm tiếng Anh.</p></article>
+          <article class="guide-card"><b>📝 3. Grammar → Practice</b><p>Mỗi phần ngữ pháp có nút luyện tập. Bấm vào đó để làm đúng quiz của grammar đang học.</p></article>
+          <article class="guide-card"><b>👥 4. Tự tạo câu hỏi</b><p>Học viên có thể tự tạo câu hỏi. Câu hỏi chung sẽ chờ Host duyệt trước khi xuất hiện cho cả lớp.</p></article>
+          <article class="guide-card"><b>👑 5. Nếu là Host</b><p>Host có quyền chỉnh sửa nội dung chung. Khi Host sửa một từ rồi bấm Lưu, thay đổi sẽ được đồng bộ cho tất cả tài khoản.</p></article>
+          <article class="guide-card"><b>📲 6. Cài trên điện thoại</b><p><b>Android/Chrome:</b> mở menu ⋮ → Cài đặt ứng dụng / Add to Home screen. <br><b>iPhone/iPad:</b> Safari → Chia sẻ → Thêm vào Màn hình chính. <br><b>PC:</b> Chrome/Edge → biểu tượng Cài đặt ứng dụng ở thanh địa chỉ hoặc menu → Install.</p></article>
+          <article class="guide-card"><b>💻 7. Dùng nhiều thiết bị</b><p>Đăng nhập cùng một tài khoản trên điện thoại, laptop hoặc máy tính khác. Dữ liệu tài khoản được đồng bộ qua Supabase.</p></article>
+        </div>
+      </div>
+    </div>
+    <div id="account-notifications-modal" class="hidden fixed inset-0 z-[6750] bg-black/40 backdrop-blur-sm items-center justify-center p-3">
+      <div class="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-[30px] shadow-2xl p-5 sm:p-7"><div class="flex justify-between items-center"><div><p class="text-[10px] font-black uppercase tracking-wider text-amber-600">📣 Thông báo</p><h2 class="text-2xl font-black text-slateCustom">Thông báo của lớp</h2></div><button onclick="ENT303ACCOUNT.closeNotifications()" class="w-9 h-9 rounded-xl bg-gray-100">✕</button></div><div id="account-notification-list" class="mt-5 space-y-3"><p class="text-sm text-gray-400">Đang tải...</p></div></div>
+    </div>
 
     <!-- Main Content Container -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
@@ -750,7 +805,7 @@ return{all:D,next,flat,pool};
 <div id="folder-modal" class="hidden fixed inset-0 z-[6400] bg-black/30 backdrop-blur-sm items-center justify-center p-4"><div class="w-full max-w-md bg-white rounded-3xl p-6 shadow-2xl"><div class="flex justify-between items-center"><h3 id="folder-modal-title" class="text-lg font-black text-slateCustom">📁 Folder</h3><button onclick="closeFolderModal()" class="text-gray-400 text-xl">×</button></div><div class="flex gap-2 mt-4"><input id="new-folder-input" class="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm font-bold" placeholder="Tên folder mới..." onkeydown="if(event.key==='Enter')createFolder()"><button onclick="createFolder()" class="px-4 py-3 bg-violet-500 text-white rounded-xl font-extrabold">＋</button></div><div id="folder-list" class="mt-4 space-y-2 max-h-64 overflow-auto"></div></div></div>
 <div id="grammar-quiz-modal" class="hidden fixed inset-0 z-[6300] bg-black/35 backdrop-blur-sm items-center justify-center p-4"><div class="w-full max-w-xl bg-white rounded-[30px] p-6 sm:p-7 shadow-2xl"><div class="flex justify-between items-start"><div><p class="text-xs font-black uppercase tracking-wider text-indigo-500">📖 Grammar Lab</p><h3 class="text-2xl font-black text-slateCustom mt-1">Hôm nay luyện kiểu nào?</h3><p class="text-xs text-gray-500 mt-1">Không tính “đã thuộc”. Cứ luyện thoải mái nha 💗</p></div><button onclick="closeGrammarQuizPicker()" class="text-gray-400 text-xl">×</button></div><div class="grid gap-3 mt-5"><button class="grammar-quiz-type" onclick="startGrammarQuiz('mc')"><b>🎯 Chọn đáp án</b><span class="block text-xs text-gray-500 mt-1">10 câu trắc nghiệm</span></button><button class="grammar-quiz-type" onclick="startGrammarQuiz('fill')"><b>✍️ Điền từ</b><span class="block text-xs text-gray-500 mt-1">10 câu điền vào chỗ trống</span></button><button class="grammar-quiz-type" onclick="startGrammarQuiz('reorder')"><b>🧩 Ghép câu đúng</b><span class="block text-xs text-gray-500 mt-1">10 câu sắp xếp từ</span></button></div></div></div>
 <div id="grammar-quiz-run" class="hidden fixed inset-0 z-[6200] bg-[#faf9f6] overflow-y-auto"><div class="max-w-2xl mx-auto p-4 sm:p-8 min-h-full flex items-center"><div class="w-full bg-white rounded-[30px] border border-indigo-100 shadow-xl p-6 sm:p-8"><div class="flex justify-between items-center border-b pb-4"><div><span class="text-xs font-black text-indigo-500">📖 GRAMMAR QUIZ</span><h3 id="gq-title" class="text-xl font-black text-slateCustom mt-1">10 câu</h3></div><button onclick="closeGrammarQuiz()" class="text-gray-400 text-xl">×</button></div><div class="flex justify-between text-xs font-bold text-gray-400 mt-4"><span>Câu <b id="gq-current">1</b>/10</span><span>Điểm: <b id="gq-score" class="text-indigo-600">0</b></span></div><div id="gq-body" class="mt-6"></div><div id="gq-feedback" class="mt-4"></div><div class="mt-5 flex justify-end"><button id="gq-next" onclick="submitGrammarQuizAnswer()" class="px-6 py-3 bg-indigo-500 text-white rounded-2xl font-extrabold">Kiểm tra →</button></div></div></div></div>
-<nav class="bottom-nav safe-bottom" aria-label="Điều hướng chính"><div class="bottom-nav-inner"><button id="nav-home" onclick="switchSection('home')"><span class="nav-emoji">🏠</span><span>Trang chủ</span></button><button id="nav-list" onclick="switchSection('list')"><span class="nav-emoji">📚</span><span>Từ vựng</span></button><button id="nav-flashcard" onclick="switchSection('flashcard')"><span class="nav-emoji">🃏</span><span>Thẻ</span></button><button id="nav-grammar" onclick="switchSection('grammar')"><span class="nav-emoji">📖</span><span>Ngữ pháp</span></button><button id="nav-quiz" onclick="openQuizPicker()"><span class="nav-emoji">🧠</span><span>Quiz</span></button><button id="nav-notes" onclick="switchSection('notes')"><span class="nav-emoji">📝</span><span>Ghi chú</span></button><button id="nav-add" onclick="switchSection('add')"><span class="nav-emoji">➕</span><span>Thêm</span></button></div></nav>    <!-- HOVER VOCABULARY POPUP (DYNAMICALLY POSITIONED NEAR CARD) -->
+<nav class="bottom-nav safe-bottom" aria-label="Điều hướng chính"><div class="bottom-nav-inner"><button id="nav-home" onclick="switchSection('home')"><span class="nav-emoji">🏠</span><span>Trang chủ</span></button><button id="nav-list" onclick="switchSection('list')"><span class="nav-emoji">📚</span><span>Từ vựng</span></button><button id="nav-flashcard" onclick="switchSection('flashcard')"><span class="nav-emoji">🃏</span><span>Thẻ</span></button><button id="nav-grammar" onclick="switchSection('grammar')"><span class="nav-emoji">📖</span><span>Ngữ pháp</span></button><button id="nav-quiz" onclick="openQuizPicker()"><span class="nav-emoji">🧠</span><span>Quiz</span></button><button id="nav-notes" onclick="switchSection('notes')"><span class="nav-emoji">📝</span><span>Ghi chú</span></button><button id="nav-add" onclick="switchSection('add')"><span class="nav-emoji">➕</span><span>Thêm</span></button><button id="nav-account" onclick="ENT303ACCOUNT.open()"><span class="nav-emoji">👤</span><span>Tài khoản</span></button></div></nav>    <!-- HOVER VOCABULARY POPUP (DYNAMICALLY POSITIONED NEAR CARD) -->
     <div id="vocab-hover-popup" class="hidden opacity-0 scale-95 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-rose-200 p-5 space-y-3 transition-all duration-200">
         <!-- Dynamic Popup Content Generated via JS -->
     </div>
@@ -833,7 +888,7 @@ return{all:D,next,flat,pool};
         <span id="toast-message" class="text-sm">Đã lưu dữ liệu vĩnh viễn!</span>
     </div>
 
-    <div id="auth-modal" class="hidden fixed inset-0 items-center justify-center p-4 overflow-y-auto" style="z-index:6600"><div class="w-full max-w-sm bg-white rounded-[28px] p-6 shadow-2xl text-center"><div class="text-5xl bob">🐩</div><h2 class="text-2xl font-black text-slateCustom mt-2">Practice English</h2><div id="au-tabs" class="grid grid-cols-2 gap-2 mt-4"><button id="au-t-login" class="th-opt on" onclick="ENTX.mode('login')">Đăng nhập</button><button id="au-t-reg" class="th-opt" onclick="ENTX.mode('reg')">Tạo tài khoản</button></div><input id="au-name" maxlength="20" autocomplete="username" placeholder="Tên của bạn" class="mt-4 w-full px-4 py-3 rounded-2xl border border-rose-200 text-center font-extrabold outline-none"><input id="au-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" placeholder="Mật khẩu 4 số" class="mt-3 w-full px-4 py-3 rounded-2xl border border-rose-200 text-center font-extrabold tracking-[.5em] outline-none" onkeydown="if(event.key==='Enter')ENTX.auth()"><label id="au-rem-row" class="mt-3 flex items-center justify-center gap-2 text-xs font-bold text-gray-600 cursor-pointer"><input id="au-remember" type="checkbox" checked class="w-4 h-4 accent-rose-500"> Ghi nhớ đăng nhập trên máy này</label><p id="au-hint" class="text-[11px] leading-relaxed text-gray-500 mt-3 px-1"></p><p id="au-err" class="text-xs font-bold text-rose-500 mt-2 min-h-4"></p><button id="au-go" onclick="ENTX.auth()" class="mt-2 w-full py-3.5 bg-rose-500 text-white rounded-2xl font-black">Đăng nhập ✨</button><button id="au-skip" onclick="ENTX.skip()" class="mt-3 text-[11px] text-gray-400 font-bold">Dùng thử không cần tài khoản</button></div></div>
+    <div id="auth-modal" class="hidden fixed inset-0 items-center justify-center p-4 overflow-y-auto" style="z-index:6600"><div class="w-full max-w-sm bg-white rounded-[28px] p-6 shadow-2xl text-center"><div class="w-14 h-14 mx-auto rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center text-2xl shadow-sm"><i class="fa-solid fa-book-open"></i></div><h2 class="text-2xl font-black text-slateCustom mt-2">Practice English</h2><div id="au-tabs" class="grid grid-cols-2 gap-2 mt-4"><button id="au-t-login" class="th-opt on" onclick="ENTX.mode('login')">Đăng nhập</button><button id="au-t-reg" class="th-opt" onclick="ENTX.mode('reg')">Tạo tài khoản</button></div><input id="au-name" maxlength="20" autocomplete="username" placeholder="Tên của bạn" class="mt-4 w-full px-4 py-3 rounded-2xl border border-rose-200 text-center font-extrabold outline-none"><input id="au-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" placeholder="Mật khẩu 4 số" class="mt-3 w-full px-4 py-3 rounded-2xl border border-rose-200 text-center font-extrabold tracking-[.5em] outline-none" onkeydown="if(event.key==='Enter')ENTX.auth()"><label id="au-rem-row" class="mt-3 flex items-center justify-center gap-2 text-xs font-bold text-gray-600 cursor-pointer"><input id="au-remember" type="checkbox" checked class="w-4 h-4 accent-rose-500"> Ghi nhớ đăng nhập trên máy này</label><p id="au-hint" class="text-[11px] leading-relaxed text-gray-500 mt-3 px-1"></p><p id="au-err" class="text-xs font-bold text-rose-500 mt-2 min-h-4"></p><button id="au-go" onclick="ENTX.auth()" class="mt-2 w-full py-3.5 bg-rose-500 text-white rounded-2xl font-black">Đăng nhập ✨</button><button id="au-skip" onclick="ENTX.skip()" class="mt-3 text-[11px] text-gray-400 font-bold">Dùng thử không cần tài khoản</button></div></div>
 <div id="theme-modal" class="hidden fixed inset-0 z-[6500] bg-black/40 backdrop-blur-sm items-center justify-center p-4" onclick="if(event.target===this)ENTX.closeTheme()"><div class="w-full max-w-sm bg-white rounded-[28px] p-5 shadow-2xl max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center"><h3 class="font-black text-lg text-slateCustom">🎨 Giao diện</h3><button onclick="ENTX.closeTheme()" class="text-gray-400 text-xl">✕</button></div><div class="grid grid-cols-2 gap-2 mt-4"><button class="th-opt" id="md-light" onclick="ENTX.mode('light')">☀️ Sáng</button><button class="th-opt" id="md-dark" onclick="ENTX.mode('dark')">🌙 Tối</button></div><div class="grid grid-cols-2 gap-2 mt-3" id="th-grid"></div><p class="text-xs font-black text-gray-500 mt-4 mb-2">🖼️ Hình nền</p><div class="grid grid-cols-4 gap-2" id="bg-presets"></div><div class="flex gap-2 mt-2"><label class="th-opt flex-1 text-center cursor-pointer">📁 Ảnh của bạn<input type="file" accept="image/*" class="hidden" onchange="ENTX.bgFile(event)"></label><button class="th-opt" onclick="ENTX.bgUrl()" title="Dán link ảnh">🔗</button><button class="th-opt" onclick="ENTX.bgClear()" title="Bỏ hình nền">🚫</button></div><div id="acct-row" class="hidden mt-4 pt-3 border-t border-gray-100 flex items-center justify-between"><b id="acct-name" class="text-sm text-slateCustom"></b><button onclick="ENTX.logout()" class="text-xs font-extrabold text-rose-500">Đăng xuất</button></div></div></div>
 
     <!-- APPLICATION SCRIPT ENGINE WITH LOCALSTORAGE PERSISTENCE -->
@@ -1086,7 +1141,7 @@ localStorage.setItem('ENT303_PDF_V6','1');localStorage.setItem('ENT303_USER_UNIT
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-2 flex-wrap">
                             <h3 class="text-lg font-extrabold text-slateCustom group-hover:text-rose-500 transition-colors">${esc(v.word)}</h3>
-                            <span class="text-xs px-2 py-0.5 bg-rose-50 text-rose-600 font-bold rounded-md border border-rose-100">${esc(v.pos || 'noun')}</span>
+                            <span class="text-xs px-2 py-0.5 bg-rose-50 text-rose-600 font-bold rounded-md border border-rose-100">${esc(v.pos || 'noun')}</span>${window.ENT303HOST?.isHost ? '<span class="host-edit-badge host-global-note">✎ Host có thể sửa</span>' : ''}
                         </div>
                         ${v.phonetic ? `<p class="text-xs font-semibold text-amber-700 mt-0.5">${esc(v.phonetic)}</p>` : ''}
                         <p class="text-sm font-semibold text-rose-600 mt-1">${esc(v.def)}</p>
@@ -1452,21 +1507,19 @@ small talk | expression | nói chuyện xã giao`
             ev.stopPropagation();
             hidePopupNow();
             const m = $('entry-menu'), r = ev.currentTarget.getBoundingClientRect();
-            const imageBtn = $('em-image');
+            const imageBtn = $('em-image'), editBtn = $('em-edit'), delBtn = $('em-del');
+            const canGlobalEdit = !!window.ENT303HOST?.isHost;
             imageBtn.classList.toggle('hidden', kind !== 'vocab');
+            editBtn.classList.toggle('hidden', !canGlobalEdit);
+            delBtn.classList.toggle('hidden', !canGlobalEdit);
             m.classList.remove('hidden');
             const h = m.offsetHeight;
             m.style.left = Math.max(8, Math.min(r.right - 144, window.innerWidth - 152)) + 'px';
             m.style.top = (r.bottom + h + 8 > window.innerHeight ? r.top - h - 4 : r.bottom + 4) + 'px';
-            imageBtn.onclick = e => {
-                e.stopPropagation();
-                hideEntryMenu();
-                if (kind === 'vocab') openImageMemoryModal(i);
-            };
-            $('em-edit').onclick = e => { e.stopPropagation(); hideEntryMenu(); kind === 'grammar' ? openGrammarForm(i) : editEntry(kind, i); };
-            $('em-del').onclick = e => { e.stopPropagation(); hideEntryMenu(); kind === 'grammar' ? deleteGrammar(i) : deleteEntry(kind, i); };
+            imageBtn.onclick = e => { e.stopPropagation(); hideEntryMenu(); if(kind === 'vocab') openImageMemoryModal(i); };
+            editBtn.onclick = e => { e.stopPropagation(); hideEntryMenu(); if(!canGlobalEdit){showToast('Chỉ Host mới có thể sửa nội dung chung.');return;} kind === 'grammar' ? openGrammarForm(i) : editEntry(kind, i); };
+            delBtn.onclick = e => { e.stopPropagation(); hideEntryMenu(); if(!canGlobalEdit){showToast('Chỉ Host mới có thể xóa nội dung chung.');return;} kind === 'grammar' ? deleteGrammar(i) : deleteEntry(kind, i); };
         }
-
 
         // ---------- ẢNH GỢI NHỚ: copy & paste trực tiếp
         let imageEditingIndex = null;
@@ -2390,11 +2443,11 @@ let amode='login';
 const HINT={login:'Chưa có tài khoản? Bấm "Tạo tài khoản". Đã tạo rồi thì nhập đúng tên và mật khẩu 4 số lúc đó.',reg:'📝 Hãy nhớ tên và mật khẩu 4 số này! Lần sau bạn cần đúng 2 thứ đó để đăng nhập lại (app chưa có chức năng quên mật khẩu).'};
 X.mode=m=>{amode=m;$('au-t-login').classList.toggle('on',m==='login');$('au-t-reg').classList.toggle('on',m==='reg');$('au-hint').innerText=HINT[m];$('au-go').innerText=m==='login'?'Đăng nhập ✨':'Tạo tài khoản ✨';$('au-pin').setAttribute('autocomplete',m==='login'?'current-password':'new-password');err('')};
 async function maybeClaimHost(nm,pin){
-  if(!sb||!user) return;
-  try {
+  if(!sb||!user)return;
+  try{
     const r=await sb.rpc('claim_host_account',{p_username:nm,p_pin:pin});
     if(r.error) console.warn('host claim',r.error);
-  } catch(e) { console.warn('host claim',e); }
+  }catch(e){console.warn('host claim',e)}
 }
 
 X.auth=async function(){const nm=$('au-name').value.trim().replace(/\s+/g,' '),pin=$('au-pin').value.trim();if(!nm)return err('Nhập tên đã nha');
@@ -3148,7 +3201,30 @@ window.addEventListener('load',()=>setTimeout(()=>{
     catch(e){console.warn('announcements',e)}
   }
   async function loadSharedVocab(){
-    if(!sb)return; try{const r=await sb.from('shared_vocab').select('*').eq('published',true).order('created_at',{ascending:true});if(r.error)throw r.error;const rows=r.data||[];for(const row of rows){const u=Number(row.unit_id);if(!unitsData?.[u])continue;const payload=row.payload||{};const word=String(payload.word||'').trim();if(!word)continue;const arr=unitsData[u].vocab||[];const local=arr.find(v=>String(v.word||'').toLowerCase()===word.toLowerCase());if(local)continue;arr.push({...payload,shared:true,sharedId:row.id});}if(typeof renderSectionContent==='function'&&currentSection==='list')renderSectionContent();updateProgressBar();}catch(e){console.warn('shared vocab',e)}
+    if(!sb)return;
+    try{
+      const [sharedRes, overrideRes]=await Promise.all([
+        sb.from('shared_vocab').select('*').eq('published',true).order('created_at',{ascending:true}),
+        sb.from('content_overrides').select('*')
+      ]);
+      if(sharedRes.error)throw sharedRes.error;
+      if(overrideRes.error)throw overrideRes.error;
+      const overrides=new Map((overrideRes.data||[]).map(x=>[`${x.unit_id}::${String(x.word_key).toLowerCase()}`,x.payload||{}]));
+      for(const row of sharedRes.data||[]){
+        const u=Number(row.unit_id); if(!unitsData?.[u])continue;
+        const payload={...(row.payload||{})}; const word=String(payload.word||'').trim(); if(!word)continue;
+        const arr=unitsData[u].vocab||[];
+        const local=arr.find(v=>String(v.word||'').toLowerCase()===word.toLowerCase());
+        if(local) Object.assign(local,payload,{shared:true,sharedId:row.id}); else arr.push({...payload,shared:true,sharedId:row.id});
+      }
+      for(const [key,payload] of overrides){
+        const [unitStr,wordKey]=key.split('::'); const u=Number(unitStr); if(!unitsData?.[u])continue;
+        const lists=[unitsData[u].vocab||[],unitsData[u].idioms||[]];
+        for(const arr of lists){ const it=arr.find(v=>String(v.word||v.phrase||'').toLowerCase()===wordKey); if(it) Object.assign(it,payload,{globalOverride:true}); }
+      }
+      if(typeof renderSectionContent==='function'&&currentSection==='list')renderSectionContent();
+      updateProgressBar();
+    }catch(e){console.warn('shared vocab/overrides',e)}
   }
   async function refreshCommunityButton(){
     const picker=document.getElementById('quiz-mode-picker'); if(!picker)return;
@@ -3183,7 +3259,148 @@ window.addEventListener('load',()=>setTimeout(()=>{
   HOST.loadPending=async()=>{if(!HOST.isHost||!sb)return;const box=$('host-pending');if(!box)return;const r=await sb.from('community_questions').select('*').eq('status','pending').order('created_at',{ascending:true}).limit(50);if(r.error){box.innerHTML=`<p class="text-xs text-rose-500">${esc(r.error.message)}</p>`;return}box.innerHTML=r.data?.length?r.data.map(x=>{const p=x.payload||{};return `<div class="rounded-2xl border border-gray-100 p-3"><p class="text-sm font-black">${esc(p.question||'')}</p><p class="text-xs text-gray-500 mt-1">${(p.options||[]).map((o,i)=>`${i+1}. ${esc(o)}`).join(' • ')}</p><div class="flex gap-2 mt-2"><button onclick="ENT303HOST.moderate(${x.id},'approved')" class="px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-black">✓ Duyệt</button><button onclick="ENT303HOST.moderate(${x.id},'rejected')" class="px-3 py-2 rounded-xl bg-rose-50 text-rose-700 text-xs font-black">✕ Từ chối</button></div></div>`}).join(''):'<p class="text-xs text-gray-400">Không có câu hỏi chờ duyệt.</p>';};
   HOST.moderate=async(id,status)=>{if(!HOST.isHost)return;const r=await sb.from('community_questions').update({status,reviewed_by:HOST.user.id,reviewed_at:new Date().toISOString()}).eq('id',id);if(r.error)return showToast?.(r.error.message);HOST.loadPending();};
 
-  /* ---------- 7. boot: load shared data and expose install/help ---------- */
+  /* ---------- V8: account menu + global Host editing ---------- */
+window.ENT303ACCOUNT={
+  open(){
+    const m=$('account-modal'); if(!m)return;
+    const name=(window.ENT303MP?.user?.() && (window.ENT303MP.user().user_metadata?.display_name||LS.getItem('ENT303_NAME'))) || LS.getItem('ENT303_NAME') || 'Chưa đăng nhập';
+    $('account-menu-name').innerText=name;
+    $('account-host-area').classList.toggle('hidden',!window.ENT303HOST?.isHost);
+    $('account-login-btn').classList.toggle('hidden',!!window.ENT303MP?.user?.());
+    $('account-logout-btn').classList.toggle('hidden',!window.ENT303MP?.user?.());
+    m.classList.remove('hidden');m.classList.add('flex');
+  },
+  close(){const m=$('account-modal');m?.classList.add('hidden');m?.classList.remove('flex')},
+  openTheme(){this.close();ENTX.openTheme()},
+  openInstall(){this.close();ENT303UX.openInstall()},
+  openGuide(){this.close();const m=$('account-guide-modal');m.classList.remove('hidden');m.classList.add('flex')},
+  closeGuide(){const m=$('account-guide-modal');m.classList.add('hidden');m.classList.remove('flex')},
+  async openNotifications(){
+    this.close();const m=$('account-notifications-modal');m.classList.remove('hidden');m.classList.add('flex');
+    const box=$('account-notification-list');box.innerHTML='<p class="text-sm text-gray-400">Đang tải...</p>';
+    if(!sb){box.innerHTML='<p class="text-sm text-gray-400">Chưa kết nối Supabase.</p>';return}
+    const r=await sb.from('shared_announcements').select('*').eq('published',true).order('created_at',{ascending:false}).limit(30);
+    if(r.error){box.innerHTML=`<p class="text-sm text-rose-500">${esc(r.error.message)}</p>`;return}
+    box.innerHTML=r.data?.length?r.data.map(a=>`<article class="rounded-2xl border border-amber-100 bg-amber-50/50 p-4"><div class="flex items-start justify-between gap-3"><h3 class="font-black text-sm text-slateCustom">${esc(a.title)}</h3><time class="text-[10px] font-bold text-gray-400">${new Date(a.created_at).toLocaleDateString('vi-VN')}</time></div><p class="text-sm text-gray-600 mt-2 whitespace-pre-line">${esc(a.body)}</p></article>`).join(''):'<p class="text-sm text-gray-400">Chưa có thông báo mới.</p>';
+  },
+  closeNotifications(){const m=$('account-notifications-modal');m.classList.add('hidden');m.classList.remove('flex')}
+};
+
+// Keep account menu state in sync after login/logout/role changes.
+const _v8HostCheck=window.ENT303HOST?.hostCheck;
+if(_v8HostCheck){ window.ENT303HOST.hostCheck=async function(){const ok=await _v8HostCheck();try{if(document.getElementById('account-host-area'))document.getElementById('account-host-area').classList.toggle('hidden',!ok)}catch(e){};return ok}; }
+
+// Host edits the common vocabulary: save the changed entry to Supabase as an override.
+const _v8AddWord=window.addWord;
+if(_v8AddWord){
+  window.addWord=async function(){
+    const wasEditing=!!editing;
+    const editUnit=currentUnit;
+    const newWord=($('aw-word')?.value||'').trim();
+    const oldWord=wasEditing ? String(getEntry(editing.kind,editing.i)?.word||getEntry(editing.kind,editing.i)?.phrase||'').trim() : '';
+    const kind=wasEditing?editing.kind:null;
+    const result=_v8AddWord();
+    if(wasEditing && window.ENT303HOST?.isHost && sb){
+      try{
+        const arr=kind==='idiom'?unitsData[editUnit].idioms:unitsData[editUnit].vocab;
+        const item=arr.find(x=>String(x.word||x.phrase||'').trim().toLowerCase()===newWord.toLowerCase()) || arr.find(x=>String(x.word||x.phrase||'').trim().toLowerCase()===oldWord.toLowerCase());
+        if(item){
+          const payload=JSON.parse(JSON.stringify(item)); delete payload.custom; delete payload.shared; delete payload.sharedId; delete payload.globalOverride;
+          const r=await sb.from('content_overrides').upsert({unit_id:editUnit,word_key:oldWord.toLowerCase(),payload,updated_by:window.ENT303HOST.user.id},{onConflict:'unit_id,word_key'});
+          if(r.error)throw r.error;
+          await loadSharedVocab();
+          showToast(`Đã lưu thay đổi của "${newWord}" cho cả lớp ✨`);
+        }
+      }catch(e){console.error(e);showToast('Lưu chung thất bại: '+(e.message||'Kiểm tra Supabase'))}
+    }
+    return result;
+  };
+}
+
+// Host image changes are also shared with everyone.
+const _v8SaveImage=window.saveEntryImage;
+if(_v8SaveImage){
+  window.saveEntryImage=async function(){
+    const idx=imageEditingIndex, unit=currentUnit, isHost=!!window.ENT303HOST?.isHost;
+    _v8SaveImage();
+    if(isHost && sb && idx!==null){
+      try{const item=unitsData[unit].vocab[idx]; if(!item)return; const key=String(item.word||'').toLowerCase(); const payload=JSON.parse(JSON.stringify(item)); delete payload.custom; delete payload.shared; delete payload.sharedId; delete payload.globalOverride; const r=await sb.from('content_overrides').upsert({unit_id:unit,word_key:key,payload,updated_by:window.ENT303HOST.user.id},{onConflict:'unit_id,word_key'}); if(r.error)throw r.error; await loadSharedVocab(); showToast('Ảnh đã được đồng bộ cho cả lớp 🖼️');}catch(e){console.error(e);showToast('Không đồng bộ được ảnh: '+(e.message||''));}
+    }
+  };
+}
+
+// Render a compact announcement strip near the top.
+async function v8TopAnnouncements(){
+  if(!sb)return; const box=$('top-announcement-list'),bar=$('top-announcement-bar'); if(!box||!bar)return;
+  const r=await sb.from('shared_announcements').select('title,body,created_at').eq('published',true).order('created_at',{ascending:false}).limit(3);
+  if(r.error||!r.data?.length){bar.classList.add('hidden');return}
+  bar.classList.remove('hidden'); box.innerHTML=r.data.map(a=>`<div class="top-announcement-item">${esc(a.title)}<time>${new Date(a.created_at).toLocaleDateString('vi-VN')}</time></div>`).join('');
+}
+
+// Apply Host grammar edits stored in the same global override table.
+async function v8ApplyGrammarOverrides(){
+  if(!sb)return;
+  try{
+    const r=await sb.from('content_overrides').select('*').like('word_key','grammar::%');
+    if(r.error)throw r.error;
+    for(const row of r.data||[]){
+      const u=Number(row.unit_id); if(!unitsData?.[u])continue;
+      const key=String(row.word_key).slice('grammar::'.length).toLowerCase();
+      const list=unitsData[u].grammar||[];
+      const g=list.find(x=>String(x.title||'').replace(/<[^>]+>/g,'').toLowerCase()===key);
+      if(g && row.payload?.__deleted) g.__deleted=true;
+      else if(g) Object.assign(g,row.payload||{}, {globalOverride:true});
+    }
+    for(let u=1;u<=10;u++){ if(unitsData[u]?.grammar) unitsData[u].grammar=unitsData[u].grammar.filter(g=>!g.__deleted); }
+    if(currentSection==='grammar'&&typeof renderGrammar==='function')renderGrammar();
+  }catch(e){console.warn('grammar overrides',e)}
+}
+
+// Update the account button appearance.
+function v8SyncAccount(){try{const b=$('nav-account');if(!b)return;b.classList.toggle('active',false);if(window.ENT303MP?.user?.()){$('account-menu-name').innerText=window.ENT303MP.user().user_metadata?.display_name||LS.getItem('ENT303_NAME')||'Bạn học'}}catch(e){}}
+const _v8DeleteGrammar=window.deleteGrammar;
+if(_v8DeleteGrammar){
+  window.deleteGrammar=async function(i){
+    const oldTitle=String(unescMin(unitsData[currentUnit].grammar[i]?.title||'')).trim();
+    if(window.ENT303HOST?.isHost && sb && oldTitle && confirm(`Xóa mục ngữ pháp "${oldTitle}" cho cả lớp?`)){
+      try{
+        const r=await sb.from('content_overrides').upsert({unit_id:currentUnit,word_key:'grammar::'+oldTitle.toLowerCase(),payload:{__deleted:true},updated_by:window.ENT303HOST.user.id},{onConflict:'unit_id,word_key'});
+        if(r.error)throw r.error;
+        unitsData[currentUnit].grammar.splice(i,1); saveUnitsDataToLocalStorage(); renderGrammar(); showToast('Đã xóa ngữ pháp cho cả lớp.');
+      }catch(e){console.error(e);showToast('Không đồng bộ được việc xóa: '+(e.message||''));}
+      return;
+    }
+    return _v8DeleteGrammar(i);
+  };
+}
+
+// Host grammar edits are global too. The key is the original title so renaming is supported.
+const _v8SaveGrammar=window.saveGrammar;
+if(_v8SaveGrammar){
+  window.saveGrammar=async function(){
+    const wasEditing=editingGrammar!==null;
+    const unit=currentUnit;
+    const oldTitle=wasEditing?String(unescMin(unitsData[unit].grammar[editingGrammar]?.title||'')).trim():'';
+    const newTitle=($('gm-title')?.value||'').trim();
+    _v8SaveGrammar();
+    if(wasEditing && window.ENT303HOST?.isHost && sb){
+      try{
+        const item=(unitsData[unit].grammar||[]).find(g=>unescMin(g.title||'').trim().toLowerCase()===newTitle.toLowerCase()) || unitsData[unit].grammar.find(g=>unescMin(g.title||'').trim().toLowerCase()===oldTitle.toLowerCase());
+        if(item){
+          const payload=JSON.parse(JSON.stringify(item)); delete payload.__deleted; delete payload.globalOverride;
+          const r=await sb.from('content_overrides').upsert({unit_id:unit,word_key:'grammar::'+oldTitle.toLowerCase(),payload,updated_by:window.ENT303HOST.user.id},{onConflict:'unit_id,word_key'});
+          if(r.error)throw r.error;
+          await v8ApplyGrammarOverrides();
+          showToast('Đã lưu ngữ pháp cho cả lớp ✨');
+        }
+      }catch(e){console.error(e);showToast('Không đồng bộ được ngữ pháp: '+(e.message||''));}
+    }
+  };
+}
+
+setTimeout(v8TopAnnouncements,1200); setTimeout(v8SyncAccount,1200);
+
+/* ---------- 7. boot: load shared data and expose install/help ---------- */
   async function boot(){
     await hostCheck();
     await loadAnnouncements();
