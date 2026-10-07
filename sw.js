@@ -1,5 +1,5 @@
-const CACHE='mimi-v20-20261008';
-const APP=['./','./index.html','./ent-v8.js','./hsk1-data.js','./hsk1-app.js','./ja-app.js','./hsk1-listen.js','./mimi.js','./write.js','./hoc-ngoai-ngu.html','./supabase-config.js','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
+const CACHE='mimi-v22-20261008';
+const APP=['./','./index.html','./ent-v8.js','./hsk1-data.js','./hsk1-app.js','./ja-app.js','./hsk1-listen.js','./mimi.js','./write.js','./app-redesign.js','./hoc-ngoai-ngu.html','./supabase-config.js','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
 const CDN=/^https:\/\/(cdn\.jsdelivr\.net|cdn\.tailwindcss\.com|cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)\//;
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>Promise.all(APP.map(u=>c.add(u).catch(()=>{})))).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
