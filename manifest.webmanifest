@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "ENT303 Study Hub",
-  "short_name": "ENT303",
-  "description": "Luyện từ vựng, ngữ pháp và quiz Top Notch 3.",
+  "name": "Mimi – Language Practice",
+  "short_name": "Mimi",
+  "description": "Học và luyện English, 中文 (HSK) và 日本語 (N5): từ vựng, nghe, nói, viết, quiz và ôn tập.",
   "lang": "vi",
   "start_url": "./",
   "scope": "./",

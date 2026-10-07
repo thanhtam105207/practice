@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Practice English - luyện từ vựng, ngữ pháp, flashcard và quiz.">
-    <title>ENT303 Study Hub</title>
+    <meta name="description" content="Mimi – Language Practice: học và luyện English, 中文 (HSK) và 日本語 (N5) với từ vựng, nghe, nói, viết, quiz và ôn tập.">
+    <title>Mimi – Language Practice</title>
 
     <!-- PWA / Mobile App -->
     <meta name="theme-color" content="#f43f5e">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="ENT303">
+    <meta name="apple-mobile-web-app-title" content="Mimi">
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <link rel="icon" type="image/png" href="icons/icon-192.png">
@@ -373,19 +373,19 @@ return{all:D,next,flat,pool};
 <style>body[data-mode="dark"] #auth-modal,body[data-mode="dark"] #col-ov{background:#12132a!important}#auth-modal,#col-ov{background:#faf9f6}</style>
 </head>
 <body class="text-gray-800 min-h-screen flex flex-col relative pb-12" onclick="closeHoverPopupOutside(event)">
-    <div id="cute-loader" class="cute-loader"><div class="text-center"><div class="loader-buddy text-6xl">🐣</div><div class="mt-3 text-lg font-black text-slateCustom">Đang mở góc học tập...</div><div class="mt-2 flex items-center justify-center gap-2"><span class="loader-dot w-2 h-2 rounded-full bg-rose-400"></span><span class="loader-dot w-2 h-2 rounded-full bg-amber-400"></span><span class="loader-dot w-2 h-2 rounded-full bg-emerald-400"></span></div></div></div>
+    <div id="cute-loader" class="cute-loader"><div class="text-center"><div class="loader-buddy text-6xl">🌸</div><div class="mt-3 text-lg font-black text-slateCustom">Mimi đang mở góc học tập...</div><div class="mt-2 flex items-center justify-center gap-2"><span class="loader-dot w-2 h-2 rounded-full bg-rose-400"></span><span class="loader-dot w-2 h-2 rounded-full bg-amber-400"></span><span class="loader-dot w-2 h-2 rounded-full bg-emerald-400"></span></div></div></div>
 
     <!-- Top Navigation Header -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-rose-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-12 flex justify-between items-center">
             
             <!-- Logo -->
-            <div onclick="switchSection('list')" class="flex items-center space-x-3 cursor-pointer group transition-all" title="Trở về Trang chủ từ vựng">
+            <div onclick="COLX.gate()" class="flex items-center space-x-3 cursor-pointer group transition-all" title="Chọn môn học (Mimi)">
                 <div class="w-10 h-10 bg-rose-500 rounded-2xl flex items-center justify-center text-white shadow-md shadow-rose-200 group-hover:scale-105 transition-transform">
-                    <i class="fa-solid fa-book-open text-lg"></i>
+                    <span class="text-xl leading-none">🌸</span>
                 </div>
                 <div>
-                    <span class="text-2xl font-extrabold text-slateCustom tracking-tight group-hover:text-rose-500 transition-colors">ENT303 <span class="text-rose-500 font-medium text-base">Master Hub</span></span>
+                    <span class="text-2xl font-extrabold text-slateCustom tracking-tight group-hover:text-rose-500 transition-colors">Mimi <span id="mimi-subj" class="text-rose-500 font-medium text-base">English</span></span>
                     <p data-guide="1" class="text-xs text-gray-400 font-medium">Vocabulary & Grammar • Flashcard • Quiz • Nghe chép • Tự động lưu</p>
                 </div>
             </div>
@@ -835,7 +835,7 @@ return{all:D,next,flat,pool};
         <span id="toast-message" class="text-sm">Đã lưu dữ liệu vĩnh viễn!</span>
     </div>
 
-    <div id="auth-modal" class="hidden fixed inset-0 items-center justify-center p-4 overflow-y-auto" style="z-index:6600"><div class="w-full max-w-sm bg-white rounded-[28px] p-6 shadow-2xl text-center"><div class="text-5xl bob">🐩</div><h2 class="text-2xl font-black text-slateCustom mt-2">Practice English</h2><div id="au-tabs" class="grid grid-cols-2 gap-2 mt-4"><button id="au-t-login" class="th-opt on" onclick="ENTX.mode('login')">Đăng nhập</button><button id="au-t-reg" class="th-opt" onclick="ENTX.mode('reg')">Tạo tài khoản</button></div><input id="au-name" maxlength="20" autocomplete="username" placeholder="Tên của bạn" class="mt-4 w-full px-4 py-3 rounded-2xl border border-rose-200 text-center font-extrabold outline-none"><input id="au-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" placeholder="Mật khẩu 4 số" class="mt-3 w-full px-4 py-3 rounded-2xl border border-rose-200 text-center font-extrabold tracking-[.5em] outline-none" onkeydown="if(event.key==='Enter')ENTX.auth()"><label id="au-rem-row" class="mt-3 flex items-center justify-center gap-2 text-xs font-bold text-gray-600 cursor-pointer"><input id="au-remember" type="checkbox" checked class="w-4 h-4 accent-rose-500"> Ghi nhớ đăng nhập trên máy này</label><p id="au-hint" class="text-[11px] leading-relaxed text-gray-500 mt-3 px-1"></p><p id="au-err" class="text-xs font-bold text-rose-500 mt-2 min-h-4"></p><button id="au-go" onclick="ENTX.auth()" class="mt-2 w-full py-3.5 bg-rose-500 text-white rounded-2xl font-black">Đăng nhập ✨</button><button id="au-skip" onclick="ENTX.skip()" class="mt-3 text-[11px] text-gray-400 font-bold">Dùng thử không cần tài khoản</button></div></div>
+    <div id="auth-modal" class="hidden fixed inset-0 items-center justify-center p-4 overflow-y-auto" style="z-index:6600"><div class="w-full max-w-sm bg-white rounded-[28px] p-6 shadow-2xl text-center"><div class="text-5xl bob">🌸</div><h2 class="text-2xl font-black text-slateCustom mt-2">Mimi – Language Practice</h2><div id="au-tabs" class="grid grid-cols-2 gap-2 mt-4"><button id="au-t-login" class="th-opt on" onclick="ENTX.mode('login')">Đăng nhập</button><button id="au-t-reg" class="th-opt" onclick="ENTX.mode('reg')">Tạo tài khoản</button></div><input id="au-name" maxlength="20" autocomplete="username" placeholder="Tên của bạn" class="mt-4 w-full px-4 py-3 rounded-2xl border border-rose-200 text-center font-extrabold outline-none"><input id="au-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" placeholder="Mật khẩu 4 số" class="mt-3 w-full px-4 py-3 rounded-2xl border border-rose-200 text-center font-extrabold tracking-[.5em] outline-none" onkeydown="if(event.key==='Enter')ENTX.auth()"><label id="au-rem-row" class="mt-3 flex items-center justify-center gap-2 text-xs font-bold text-gray-600 cursor-pointer"><input id="au-remember" type="checkbox" checked class="w-4 h-4 accent-rose-500"> Ghi nhớ đăng nhập trên máy này</label><p id="au-hint" class="text-[11px] leading-relaxed text-gray-500 mt-3 px-1"></p><p id="au-err" class="text-xs font-bold text-rose-500 mt-2 min-h-4"></p><button id="au-go" onclick="ENTX.auth()" class="mt-2 w-full py-3.5 bg-rose-500 text-white rounded-2xl font-black">Đăng nhập ✨</button><button id="au-skip" onclick="ENTX.skip()" class="mt-3 text-[11px] text-gray-400 font-bold">Dùng thử không cần tài khoản</button></div></div>
 <div id="theme-modal" class="hidden fixed inset-0 z-[6500] bg-black/40 backdrop-blur-sm items-center justify-center p-4" onclick="if(event.target===this)ENTX.closeTheme()"><div class="w-full max-w-sm bg-white rounded-[28px] p-5 shadow-2xl max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center"><h3 class="font-black text-lg text-slateCustom">🎨 Giao diện</h3><button onclick="ENTX.closeTheme()" class="text-gray-400 text-xl">✕</button></div><div class="grid grid-cols-2 gap-2 mt-4"><button class="th-opt" id="md-light" onclick="ENTX.mode('light')">☀️ Sáng</button><button class="th-opt" id="md-dark" onclick="ENTX.mode('dark')">🌙 Tối</button></div><div class="grid grid-cols-2 gap-2 mt-3" id="th-grid"></div><p class="text-xs font-black text-gray-500 mt-4 mb-2">🖼️ Hình nền</p><div class="grid grid-cols-4 gap-2" id="bg-presets"></div><div class="flex gap-2 mt-2"><label class="th-opt flex-1 text-center cursor-pointer">📁 Ảnh của bạn<input type="file" accept="image/*" class="hidden" onchange="ENTX.bgFile(event)"></label><button class="th-opt" onclick="ENTX.bgUrl()" title="Dán link ảnh">🔗</button><button class="th-opt" onclick="ENTX.bgClear()" title="Bỏ hình nền">🚫</button></div><div id="acct-row" class="hidden mt-4 pt-3 border-t border-gray-100 flex items-center justify-between"><b id="acct-name" class="text-sm text-slateCustom"></b><button onclick="ENTX.logout()" class="text-xs font-extrabold text-rose-500">Đăng xuất</button></div></div></div>
 
     <!-- APPLICATION SCRIPT ENGINE WITH LOCALSTORAGE PERSISTENCE -->
@@ -2774,7 +2774,7 @@ window.allVocabItems=function(){const o=[];(cur().folders||[]).forEach(f=>(units
 function buildHeader(){
   const c=cur(),ent=!!c.builtin;
   const brand=document.querySelector('header span.text-2xl');
-  if(brand)brand.innerHTML='Practice <span class="text-rose-500 font-medium text-base">English</span>';const sub=document.querySelector('header p[data-guide]');if(sub)sub.innerText=c.emoji+' '+c.name+' • Từ vựng • Ngữ pháp • Quiz';
+  if(brand)brand.innerHTML='Mimi <span id="mimi-subj" class="text-rose-500 font-medium text-base">English</span>';const sub=document.querySelector('header p[data-guide]');if(sub)sub.innerText=c.emoji+' '+c.name+' • Từ vựng • Ngữ pháp • Quiz';
   const opts=c.folders.map(f=>`<option value="${f.id}">${ent?('Unit '+f.id+': '+esc(fname(f))):('📁 '+esc(fname(f)))}</option>`).join('');
   ['unit-select','aw-unit'].forEach(id=>{const s=$(id);if(s)s.innerHTML=opts});
   if(!$('col-tools')){const s=$('unit-select');s.insertAdjacentHTML('afterend','<span id="col-tools" class="flex gap-1.5"><button onclick="COLX.folders()" title="Quản lý folder" class="px-3 py-1.5 bg-rose-50 border border-rose-200 text-rose-600 rounded-xl text-xs font-bold">📁</button><button onclick="COLX.lib(true)" title="Bộ sưu tập" class="px-3 py-1.5 bg-rose-50 border border-rose-200 text-rose-600 rounded-xl text-xs font-bold">🗂</button></span>')}
@@ -2818,6 +2818,7 @@ function closeOv(){ov().classList.add('hidden')}
 function card(onclick,emoji,title,sub,extra){return `<div class="home-card rounded-[26px] p-5 text-left cursor-pointer hover:shadow-lg transition" onclick="${onclick}"><div class="flex items-center gap-4"><span class="text-4xl">${emoji}</span><div class="min-w-0 flex-1"><b class="block text-lg font-black text-slateCustom truncate">${title}</b><span class="block text-xs font-bold text-gray-500 mt-0.5">${sub}</span></div></div>${extra||''}</div>`}
 function gate(){
   const n=LS.getItem('ENT303_NAME')||'',e=col('ent303'),hid=e.hidden;
+  if(window.Mimi){ov().innerHTML=Mimi.hub(n,acct());ov().classList.remove('hidden');ov().scrollTop=0;return}
   ov().innerHTML=`<div class="max-w-xl mx-auto px-5 py-10"><div class="text-center"><div class="text-6xl bob">🐩</div><h1 class="text-2xl font-black text-slateCustom mt-3">${n?'Hi '+esc(n)+'! ':''}Hôm nay học gì nào?</h1><p class="text-sm text-gray-500 mt-1">Chọn một chế độ để bắt đầu</p></div><div class="grid gap-4 mt-8">${card(hid?'COLX.restoreEnt()':"COLX.go('ent303')",'🎓',hid?'Khôi phục ENT303':'Học ENT303',hid?'Bộ ENT303 đang được ẩn • bấm để bật lại':'Top Notch 3 • 10 Units • '+words(e)+' từ')}${card('COLX.free()','✏️','Luyện từ vựng & ngữ pháp','Tự tạo bộ sưu tập, folder, từ và ngữ pháp của riêng bạn')}</div>${acct()}</div>`;
   ov().classList.remove('hidden');
 }
@@ -2866,7 +2867,7 @@ window.COLX=X;X.free=function(){lib(false);if(!cols.some(c=>!c.builtin))X.newCol
 let started=false;
 X.start=function(){if(started)return;started=true;
   if(!cur()||cur().hidden){const o=cols.find(c=>!c.hidden);active=o?o.id:'ent303'}
-  if(LS.getItem('ENT303_ONBOARDED')==='1')enter(active);else gate()};
+  if(LS.getItem('ENT303_ONBOARDED')==='1'){const ls=window.Mimi?Mimi.saved:'en';enter(active);if((ls==='zh'||ls==='ja')&&window.Mimi)setTimeout(()=>Mimi.open(ls),0)}else gate()};
 function acct(){const P=window.ENT303MP,n=LS.getItem('ENT303_NAME')||'',on=P&&P.user&&P.user();
   return `<div class="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between gap-3"><span class="text-sm font-bold text-slateCustom truncate">👤 ${esc(n||'Khách')}${on?'':' <small class="text-gray-400">(chưa đăng nhập)</small>'}</span>${on?`<button class="px-3 py-2 rounded-xl bg-rose-50 text-rose-600 text-xs font-extrabold" onclick="COLX.logout()">↪ Đăng xuất / đổi tài khoản</button>`:`<button class="px-3 py-2 rounded-xl bg-violet-50 text-violet-700 text-xs font-extrabold" onclick="COLX.login()">Đăng nhập / tạo tài khoản</button>`}</div>`}
 X.logout=function(){if(confirm('Đăng xuất khỏi tài khoản này?\nDữ liệu học đã được lưu trong tài khoản và sẽ tải lại khi bạn đăng nhập. Nhớ tên và mật khẩu 4 số nhé!'))ENT303MP.logout()};
@@ -2936,5 +2937,8 @@ window.addEventListener('load',()=>setTimeout(()=>{
 </script>
 
 <script src="ent-v8.js"></script>
+<script src="hsk1-data.js"></script>
+<script src="hsk1-app.js"></script>
+<script src="mimi.js"></script>
 </body>
 </html>

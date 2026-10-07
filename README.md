@@ -1,6 +1,8 @@
-# 🐩 ENT303 - Top Notch 3 Study Hub v5
+# 🌸 Mimi – Language Practice
 
-Website/PWA học **Vocabulary + Grammar + Quiz** cho Top Notch 3, nay có thêm chế độ **Study With Friends**: tài khoản, mã lớp, XP và bảng xếp hạng theo tuần.
+Website/PWA học và luyện ngoại ngữ với **3 môn ngang hàng**: 🇬🇧 English, 🇨🇳 中文 (HSK) và 🇯🇵 日本語 (N5). Có chế độ **Study With Friends**: tài khoản, mã lớp, XP và bảng xếp hạng theo tuần.
+
+> Mimi phát triển từ app ENT303 Study Hub. Toàn bộ chức năng English/ENT303 vẫn được giữ nguyên trong môn English.
 
 ## Chế độ offline
 - Học từ vựng, flashcard, quiz, nghe/chép.

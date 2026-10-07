@@ -1,5 +1,5 @@
-const CACHE='ent303-v15-20261007';
-const APP=['./','./index.html','./ent-v8.js','./hsk1-data.js','./hsk1-app.js','./supabase-config.js','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
+const CACHE='mimi-v16-20261007';
+const APP=['./','./index.html','./ent-v8.js','./hsk1-data.js','./hsk1-app.js','./mimi.js','./hoc-ngoai-ngu.html','./supabase-config.js','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./icons/icon-maskable-512.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>Promise.all(APP.map(u=>c.add(u).catch(()=>{})))).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET'||!r.url.startsWith('http'))return;

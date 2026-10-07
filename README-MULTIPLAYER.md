@@ -1,4 +1,4 @@
-# 🐩 ENT303 Study With Friends — bật học chung + leaderboard
+# 🌸 Mimi – Study With Friends — bật học chung + leaderboard
 
 Bản này giữ toàn bộ chế độ học offline của ENT303. Muốn bật tài khoản, XP và bảng xếp hạng chung thì nối Supabase.
 

@@ -115,7 +115,7 @@ function render(){const a=$('account-section');if(!a)return;const n=LS.getItem('
  <div class="ac-card"><h3>📣 Thông báo</h3>${anns.length?anns.map(x=>`<div class="text-sm py-1 border-b border-gray-100">${esc(x.text)} <small class="text-gray-400">${new Date(x.created_at).toLocaleDateString('vi-VN')}</small>${isHost?` <button class="text-rose-500 text-xs" onclick="ENT8.delAnn(${x.id})">xóa</button>`:''}</div>`).join(''):'<p class="text-sm text-gray-400">Chưa có thông báo.</p>'}
  ${isHost?'<textarea id="ann-in" rows="2" class="w-full mt-2 p-3 border border-rose-100 rounded-xl text-sm" placeholder="Nội dung thông báo cho cả lớp..."></textarea><button class="ac-btn pri mt-2" onclick="ENT8.postAnn()">Đăng thông báo</button>':''}</div>
  ${isHost?'<div class="ac-card"><h3>🛠 Công cụ Host</h3><p class="text-xs text-gray-500 mb-2">Sửa từ/ngữ pháp bằng nút ⋮ như bình thường, rồi bấm Xuất bản để mọi tài khoản nhận thay đổi.</p><div class="flex flex-wrap gap-2"><button class="ac-btn pri" onclick="ENT8.publish()">📤 Xuất bản cho cả lớp</button><button class="ac-btn" onclick="ENT8.pull(true)">⬇ Tải lại bản đã xuất bản</button></div></div>':''}
- <div class="ac-card"><h3>🌏 Học Tiếng Trung · Tiếng Nhật</h3><p class="text-xs text-gray-500 mb-2">HSK1–2 và N5 cho người mới bắt đầu.</p><a class="ac-btn pri" href="hoc-ngoai-ngu.html">Mở trang học</a></div>
+ <div class="ac-card"><h3>🌸 Chọn môn học</h3><p class="text-xs text-gray-500 mb-2">English • 中文 (HSK) • 日本語 (N5) — 3 môn ngang hàng trong Mimi.</p><button class="ac-btn pri" onclick="COLX.gate()">Mở Mimi</button></div>
  ${stuCard()}
  ${wordsList()}
  ${qCard()}
@@ -154,5 +154,4 @@ if(sb)sb.auth.onAuthStateChange(()=>checkHost());
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 addEventListener('load',()=>setTimeout(async()=>{setup();injectQ();await checkHost();E8.pull();loadAnns()},900));
 })();
-/* Tiếng Trung HSK1: nạp dữ liệu rồi nạp phần giao diện */
-(function(){const L=s=>new Promise(r=>{const e=document.createElement('script');e.src=s;e.onload=e.onerror=r;document.body.appendChild(e)});L('hsk1-data.js').then(()=>L('hsk1-app.js'))})();
+/* hsk1-data.js, hsk1-app.js và mimi.js được nạp trực tiếp bằng <script> trong index.html (đúng thứ tự). */

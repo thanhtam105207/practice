@@ -1,4 +1,4 @@
-/* Tiếng Trung HSK1 trong app ENT303: Bước 0 (thanh điệu, phụ âm, vần, chữ Hán) + 15 bài + luyện tập. Dữ liệu: hsk1-data.js */
+/* Tiếng Trung HSK1 trong Mimi: Bước 0 (thanh điệu, phụ âm, vần, chữ Hán) + 15 bài + luyện tập. Dữ liệu: hsk1-data.js */
 (()=>{
 const H=(window.HSK1||{}).lessons;if(!H)return;
 const $=id=>document.getElementById(id),LS=localStorage,toast=m=>{try{showToast(m)}catch(e){alert(m)}};
@@ -58,5 +58,5 @@ Object.assign(window.Z_,{next:()=>{Q.n++;draw()},again:()=>{Q=mk(Z.i);draw()}});
 /* ---- Gắn vào điều hướng của app (Back, nút Back điện thoại, lịch sử) ---- */
 const prev=window.switchSection;
 window.switchSection=function(s){prev.apply(this,arguments);if(s==='zh'){const st=history.state;Z=(st&&st.s==='zh'&&st.z)||{v:'home'};if(Z.v!=='quiz')Q=null;sec.classList.remove('hidden');$('unit-hero')?.classList.add('hidden');draw()}else sec.classList.add('hidden')};
-const g=document.querySelector('#home-section section.grid');if(g)g.insertAdjacentHTML('beforeend','<button onclick="switchSection(\'zh\')" class="home-action"><span class="text-2xl">🇨🇳</span><b class="block mt-1 text-sm">Tiếng Trung</b></button>');
+/* Mimi: Tiếng Trung là môn ngang hàng, mở từ màn chọn môn (không còn là nút phụ trong trang chủ English). */
 })();
