@@ -154,3 +154,5 @@ if(sb)sb.auth.onAuthStateChange(()=>checkHost());
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 addEventListener('load',()=>setTimeout(async()=>{setup();injectQ();await checkHost();E8.pull();loadAnns()},900));
 })();
+/* Tiếng Trung HSK1: nạp dữ liệu rồi nạp phần giao diện */
+(function(){const L=s=>new Promise(r=>{const e=document.createElement('script');e.src=s;e.onload=e.onerror=r;document.body.appendChild(e)});L('hsk1-data.js').then(()=>L('hsk1-app.js'))})();
