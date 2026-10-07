@@ -11,9 +11,9 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 /* Tạm thời: số từ hiện có trong hoc-ngoai-ngu.html (Hiragana + N5 cơ bản). Cập nhật ở Bước 11. */
 const JA_TOTAL=53;
 const SUBJ={
-  en:{flag:'🇬🇧',name:'English',label:'Tiếng Anh',chip:'English',sub:'Top Notch 3 • Từ vựng • Ngữ pháp • Quiz',c1:'#f43f5e',c2:'#fb923c'},
-  zh:{flag:'🇨🇳',name:'中文',label:'Tiếng Trung • HSK1',chip:'中文 HSK1',navLabel:'Tiếng Trung',sub:'Thanh điệu • Pinyin • Chữ Hán • 15 bài',c1:'#dc2626',c2:'#f59e0b'},
-  ja:{flag:'🇯🇵',name:'日本語',label:'Tiếng Nhật • N5',chip:'日本語 N5',navLabel:'Tiếng Nhật',sub:'Hiragana • Katakana • Minna no Nihongo',c1:'#ec4899',c2:'#6366f1'}
+  en:{flag:'🇬🇧',name:'English',label:'Tiếng Anh',chip:'English',sub:'Top Notch 3 • Từ vựng • Ngữ pháp • Quiz',items:['📚 Từ vựng','📐 Ngữ pháp','🧠 Quiz','🎧 Nghe & chép','🃏 Flashcard'],c1:'#f43f5e',c2:'#fb923c'},
+  zh:{flag:'🇨🇳',name:'中文',label:'Tiếng Trung • HSK1',chip:'中文 HSK1',navLabel:'Tiếng Trung',sub:'Thanh điệu • Pinyin • Chữ Hán • 15 bài',items:['🌱 Thanh điệu & Pinyin','📚 Từ vựng 15 bài','✍️ Luyện viết chữ Hán','🎧 Quiz nghe/đọc'],c1:'#dc2626',c2:'#f59e0b'},
+  ja:{flag:'🇯🇵',name:'日本語',label:'Tiếng Nhật • N5',chip:'日本語 N5',navLabel:'Tiếng Nhật',sub:'Hiragana • Katakana • Minna no Nihongo',items:['あ Hiragana','ア Katakana','✍️ Luyện viết kana','📚 Từ vựng N5'],c1:'#ec4899',c2:'#6366f1'}
 };
 let cur='en';
 const saved=LS.getItem('MIMI_SUBJ')||'en'; /* môn lần trước – đọc trước khi app tự chuyển trang */
@@ -47,7 +47,7 @@ body[data-mode=dark] .mm-wrap{color:#e5e7eb}
 .mm-name{font-size:24px;font-weight:900;line-height:1.15}
 .mm-lab{font-size:13px;font-weight:800;opacity:.75}
 .mm-sub{font-size:12px;font-weight:700;opacity:.55;line-height:1.35;margin-top:2px}
-.mm-go{margin-top:6px;font-size:12px;font-weight:900;color:var(--c1)}
+.mm-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}.mm-chips i{font-style:normal;font-size:12px;font-weight:800;padding:3px 9px;border-radius:99px;background:rgba(0,0,0,.06)}body[data-mode=dark] .mm-chips i{background:rgba(255,255,255,.12)}@media(min-width:720px){.mm-chips{justify-content:center}}.mm-go{margin-top:6px;font-size:12px;font-weight:900;color:var(--c1)}
 @media(min-width:720px){.mm-card{flex-direction:column;text-align:center;padding:22px 16px 18px}.mm-txt{align-items:center}.mm-card:before{width:auto;height:7px;right:0;bottom:auto;background:linear-gradient(90deg,var(--c1),var(--c2))}.mm-flag{font-size:46px}}
 .mm-box{margin-top:20px;border-radius:26px;padding:18px;border:1px solid var(--acc-b,#ffe4e6);background:var(--card,rgba(255,255,255,.96));box-shadow:0 8px 25px rgba(0,0,0,.05)}
 .mm-box h3{font-size:16px;font-weight:900;margin:0 0 12px}
@@ -92,10 +92,10 @@ body[data-mode=dark] .mm-road .mm-st{background:rgba(255,255,255,.12)}
 /* ---------- Hub chọn môn ---------- */
 function hub(name,acctHtml){
   const st=stats(),canClose=LS.getItem('ENT303_ONBOARDED')==='1';
-  const card=k=>{const s=SUBJ[k];return `<button type="button" class="mm-card" style="--c1:${s.c1};--c2:${s.c2}" onclick="Mimi.open('${k}')"><span class="mm-flag">${s.flag}</span><span class="mm-txt"><b class="mm-name">${s.name}</b><span class="mm-lab">${s.label}</span><span class="mm-sub">${s.sub}</span><span class="mm-go">Vào học →</span></span></button>`};
+  const card=k=>{const s=SUBJ[k];return `<button type="button" class="mm-card" style="--c1:${s.c1};--c2:${s.c2}" onclick="Mimi.open('${k}')"><span class="mm-flag">${s.flag}</span><span class="mm-txt"><b class="mm-name">${s.name}</b><span class="mm-lab">${s.label}</span><span class="mm-chips">${s.items.map(i=>`<i>${i}</i>`).join("")}</span><span class="mm-go">Vào học →</span></span></button>`};
   const row=k=>{const s=SUBJ[k],[n,t]=st[k],p=pct(n,t);return `<div class="mm-row" style="--c1:${s.c1};--c2:${s.c2}"><div class="mm-rl"><span>${s.flag} ${k==='zh'?'HSK1':k==='ja'?'N5':'English'}</span><small>${n}/${t} từ • ${p}%</small></div><span class="mm-bar"><i style="width:${p}%"></i></span></div>`};
   return `<div class="mm-wrap">${canClose?'<div class="mm-top"><button class="back-btn" onclick="COLX.close()">← Đóng</button></div>':''}
-<div class="mm-hero"><div class="mm-logo">🌸</div><h1>Mimi</h1><div class="mm-tag">Language Practice</div><div class="mm-hi">${name?'Hi '+esc(name)+'! ':''}Hôm nay học gì nào?</div></div>
+<div class="mm-hero"><div class="mm-logo">🌸</div><h1>Mimi</h1><div class="mm-tag">Language Practice</div><div class="mm-hi">${name?'Hi '+esc(name)+'! ':''}Hôm nay học gì nào?</div><div class="mm-tag" style="margin-top:6px">Chọn 1 trong 3 môn · mỗi môn có sẵn các phần bên dưới</div></div>
 <div class="mm-grid">${card('en')}${card('zh')}${card('ja')}</div>
 <div class="mm-box"><h3>📊 Mimi Progress</h3>${row('en')}${row('zh')}${row('ja')}</div>
 <div class="mm-extra"><button class="mm-btn" onclick="COLX.free()">🗂 Bộ sưu tập English của tôi</button></div>
@@ -135,9 +135,9 @@ function jaSec(){let s=$('ja-section');if(!s){const c=$('content-area');if(!c)re
 function drawJa(){
   const s=jaSec();if(!s)return;
   const [n,t]=statJa(),p=pct(n,t);
-  const road=[['あ','Hiragana','Có bản luyện cơ bản',1],['ア','Katakana','Sắp có',0],['🔊','Phát âm','Sắp có',0],['📚','Từ vựng N5','Có bản luyện cơ bản',1],['漢','Kanji','Sắp có',0],['📖','Minna no Nihongo (từng bài)','Sắp có',0],['🎧','Listening','Sắp có',0],['🗣️','Speaking','Sắp có',0],['✍️','Writing (tracing)','Sắp có',0],['🎯','Practice & Review','Sắp có',0]];
+  const road=[['あ','Hiragana','Có luyện viết',1],['ア','Katakana','Có luyện viết',1],['🔊','Phát âm','Sắp có',0],['📚','Từ vựng N5','Có bản luyện cơ bản',1],['漢','Kanji','Sắp có',0],['📖','Minna no Nihongo (từng bài)','Sắp có',0],['🎧','Listening','Sắp có',0],['🗣️','Speaking','Sắp có',0],['✍️','Writing (tracing)','Sắp có',0],['🎯','Practice & Review','Sắp có',0]];
   s.innerHTML=`<div class="mm-jhero"><div style="font-size:42px">🇯🇵</div><h2>日本語 N5</h2><p>Minna no Nihongo • Hiragana → Katakana → Từ vựng → Kanji → Luyện tập</p><span class="mm-bar"><i style="width:${p}%"></i></span><p style="margin-top:6px;font-size:12px">${n}/${t} từ đã thuộc (bản luyện hiện có)</p></div>
-<div class="mm-box"><h3>🚧 Đang xây dựng</h3><p style="font-size:14px;font-weight:700;opacity:.8;line-height:1.5">Giáo trình đầy đủ sẽ được thêm theo Minna no Nihongo sau khi HSK1 hoàn chỉnh. Trong lúc chờ, bạn có thể luyện Hiragana và từ N5 cơ bản ở trang luyện hiện có.</p><div class="mm-extra"><a class="mm-btn pri" href="hoc-ngoai-ngu.html">Mở trang luyện Hiragana · N5</a></div></div>
+<div class="mm-box"><h3>🚧 Đang xây dựng</h3><p style="font-size:14px;font-weight:700;opacity:.8;line-height:1.5">Giáo trình đầy đủ sẽ được thêm theo Minna no Nihongo sau khi HSK1 hoàn chỉnh. Trong lúc chờ, bạn có thể luyện Hiragana và từ N5 cơ bản ở trang luyện hiện có.</p><div class="mm-extra"><button class="mm-btn pri" onclick="Write.kana('hira')">✍️ Viết Hiragana</button><button class="mm-btn pri" onclick="Write.kana('kata')">✍️ Viết Katakana</button><a class="mm-btn" href="hoc-ngoai-ngu.html">Mở trang luyện Hiragana · N5</a></div></div>
 <div class="mm-box"><h3>🗺️ Lộ trình N5</h3><ol class="mm-road">${road.map(r=>`<li><span style="font-size:20px;width:28px;text-align:center">${r[0]}</span><span>${r[1]}</span><span class="mm-st ${r[3]?'ok':''}">${r[2]}</span></li>`).join('')}</ol></div>`;
 }
 
