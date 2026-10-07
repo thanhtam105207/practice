@@ -2,7 +2,7 @@
 (()=>{
 const H=(window.HSK1||{}).lessons;if(!H)return;
 const $=id=>document.getElementById(id),LS=localStorage,toast=m=>{try{showToast(m)}catch(e){alert(m)}};
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),shuf=a=>[...a].sort(()=>Math.random()-.5);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 let P={};try{P=JSON.parse(LS.getItem('PE_ZH')||'{}')}catch(e){}const save=()=>{try{LS.setItem('PE_ZH',JSON.stringify(P))}catch(e){}};
 const xp=(k,ref)=>{try{window.ent303AwardXP&&window.ent303AwardXP(k,ref)}catch(e){}};
 const EM=['👋','🙏','🪪','👩‍🏫','🔢','🍜','📅','🍵','🏥','🪑','⏰','🌦️','📞','👗','✈️'],ALL=H.flatMap(l=>l.w);

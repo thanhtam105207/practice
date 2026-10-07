@@ -60,6 +60,11 @@ body[data-mode=dark] .mm-bar{background:rgba(255,255,255,.14)}
 .mm-extra{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .mm-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:10px 18px;border-radius:16px;border:1px solid var(--acc-b,#ffd7dd);background:var(--card,#fff);color:inherit;font-weight:900;font-size:14px;text-decoration:none;cursor:pointer}
 .mm-btn.pri{background:linear-gradient(135deg,#f43f5e,#fb923c);color:#fff;border:0}
+.mm-sw{display:flex;gap:6px;max-width:860px;margin:8px auto 0;padding:0 max(12px,env(safe-area-inset-left));position:sticky;top:0;z-index:900}
+.mm-sw button{flex:1;min-height:44px;border-radius:16px;border:1px solid var(--acc-b,#ffd7dd);background:var(--card,#fff);color:inherit;font-weight:800;font-size:13px;opacity:.75;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
+.mm-sw button.on{opacity:1;color:#fff;border:0;font-weight:900;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.18);background:linear-gradient(135deg,var(--c1),var(--c2))}
+.mm-sw button.on:after{content:"● đang học";font-size:9px;font-weight:800;opacity:.9}
+.mm-card.cur{outline:3px solid var(--c1);box-shadow:0 14px 34px rgba(0,0,0,.18)}.mm-card.cur .mm-go:before{content:"● Đang học · "}
 /* Chip môn học + nav theo môn */
 #mimi-subj{white-space:nowrap}
 #nav-mimi,#nav-subj{display:none}
@@ -92,10 +97,10 @@ body[data-mode=dark] .mm-road .mm-st{background:rgba(255,255,255,.12)}
 /* ---------- Hub chọn môn ---------- */
 function hub(name,acctHtml){
   const st=stats(),canClose=LS.getItem('ENT303_ONBOARDED')==='1';
-  const card=k=>{const s=SUBJ[k];return `<button type="button" class="mm-card" style="--c1:${s.c1};--c2:${s.c2}" onclick="Mimi.open('${k}')"><span class="mm-flag">${s.flag}</span><span class="mm-txt"><b class="mm-name">${s.name}</b><span class="mm-lab">${s.label}</span><span class="mm-chips">${s.items.map(i=>`<i>${i}</i>`).join("")}</span><span class="mm-go">Vào học →</span></span></button>`};
+  const card=k=>{const s=SUBJ[k];return `<button type="button" class="mm-card ${k===cur?'cur':''}" style="--c1:${s.c1};--c2:${s.c2}" onclick="Mimi.open('${k}')"><span class="mm-flag">${s.flag}</span><span class="mm-txt"><b class="mm-name">${s.name}</b><span class="mm-lab">${s.label}</span><span class="mm-chips">${s.items.map(i=>`<i>${i}</i>`).join("")}</span><span class="mm-go">Vào học →</span></span></button>`};
   const row=k=>{const s=SUBJ[k],[n,t]=st[k],p=pct(n,t);return `<div class="mm-row" style="--c1:${s.c1};--c2:${s.c2}"><div class="mm-rl"><span>${s.flag} ${k==='zh'?'HSK1':k==='ja'?'N5':'English'}</span><small>${n}/${t} từ • ${p}%</small></div><span class="mm-bar"><i style="width:${p}%"></i></span></div>`};
   return `<div class="mm-wrap">${canClose?'<div class="mm-top"><button class="back-btn" onclick="COLX.close()">← Đóng</button></div>':''}
-<div class="mm-hero"><div class="mm-logo">🌸</div><h1>Mimi</h1><div class="mm-tag">Language Practice</div><div class="mm-hi">${name?'Hi '+esc(name)+'! ':''}Hôm nay học gì nào?</div><div class="mm-tag" style="margin-top:6px">Chọn 1 trong 3 môn · mỗi môn có sẵn các phần bên dưới</div></div>
+<div class="mm-hero"><div class="mm-logo">🌸</div><h1>Mimi</h1><div class="mm-tag">Language Practice</div><div class="mm-hi">${name?'Hi '+esc(name)+'! ':''}Hôm nay học gì nào?</div><div class="mm-tag" style="margin-top:6px">Bấm vào môn bạn muốn học · môn có viền sáng là môn đang học</div></div>
 <div class="mm-grid">${card('en')}${card('zh')}${card('ja')}</div>
 <div class="mm-box"><h3>📊 Mimi Progress</h3>${row('en')}${row('zh')}${row('ja')}</div>
 <div class="mm-extra"><button class="mm-btn" onclick="COLX.free()">🗂 Bộ sưu tập English của tôi</button></div>
@@ -121,9 +126,11 @@ function open(k){
 function set(s){
   if(!SUBJ[s])return;cur=s;LS.setItem('MIMI_SUBJ',s);
   document.body.dataset.subject=s;
-  const chip=$('mimi-subj');if(chip)chip.textContent=SUBJ[s].chip;
+  paintSwitch();const chip=$('mimi-subj');if(chip)chip.textContent=SUBJ[s].chip;
   const nb=$('nav-subj');if(nb){const e=nb.querySelector('.nav-emoji'),l=nb.querySelector('.nav-lbl');if(s!=='en'){if(e)e.textContent=SUBJ[s].flag;if(l)l.textContent=SUBJ[s].navLabel}}
 }
+function setupSwitch(){if($('mm-sw'))return;const h=document.querySelector('header');if(!h)return;h.insertAdjacentHTML('afterend','<div id="mm-sw" class="mm-sw">'+['en','zh','ja'].map(k=>`<button type="button" data-k="${k}" style="--c1:${SUBJ[k].c1};--c2:${SUBJ[k].c2}" onclick="Mimi.open('${k}')">${SUBJ[k].flag} ${SUBJ[k].name}</button>`).join('')+'</div>');paintSwitch()}
+function paintSwitch(){document.querySelectorAll('#mm-sw button').forEach(b=>b.classList.toggle('on',b.dataset.k===cur))}
 function setupNav(){
   const nav=document.querySelector('.bottom-nav-inner');if(!nav||$('nav-mimi'))return;
   nav.insertAdjacentHTML('beforeend','<button id="nav-mimi" onclick="COLX.gate()" title="Chọn môn học"><span class="nav-emoji">🌸</span><span>Mimi</span></button><button id="nav-subj" onclick="Mimi.home()"><span class="nav-emoji">🇨🇳</span><span class="nav-lbl">Tiếng Trung</span></button>');
@@ -153,8 +160,8 @@ window.switchSection=function(s){
   const nb=$('nav-subj');if(nb)nb.classList.toggle('active',s==='zh'||s==='ja');
 };
 
-setupNav();
+setupNav();setupSwitch();
 document.body.dataset.subject='en';
-window.addEventListener('load',()=>setTimeout(setupNav,0));
+window.addEventListener('load',()=>setTimeout(()=>{setupNav();setupSwitch()},0));
 window.Mimi={hub,open,home,stats,set,saved,subjects:SUBJ,current:()=>cur};
 })();
