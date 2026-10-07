@@ -1,0 +1,68 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Học Trung · Nhật</title>
+<style>
+:root{--bg:#fff7f8;--c:#fff;--t:#2b2430;--m:#7a6f80;--p:#e11d63;--ok:#16a34a}
+@media(prefers-color-scheme:dark){:root{--bg:#17131a;--c:#241d29;--t:#f3ecf6;--m:#a99db0}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 system-ui,"Noto Sans SC","Noto Sans JP",sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+main{max-width:720px;margin:auto;padding:12px}
+.bar{display:flex;gap:8px;align-items:center;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:2}
+button{font:inherit;border:0;border-radius:12px;padding:10px 14px;background:var(--c);color:var(--t);box-shadow:0 1px 4px #0002;cursor:pointer;min-height:44px}
+button.on,button.pri{background:var(--p);color:#fff}.card{background:var(--c);border-radius:16px;padding:14px;margin:10px 0;box-shadow:0 1px 6px #0001}
+.w{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #8882}.w:last-child{border:0}
+.h{font-size:1.6rem;min-width:3.2rem}.r{color:var(--p);font-size:.9rem}.m{color:var(--m);font-size:.9rem}.g{flex:1}
+.done{opacity:.55}.pg{height:6px;background:#8883;border-radius:9px;overflow:hidden;margin-top:6px}.pg i{display:block;height:100%;background:var(--ok)}
+.opt{display:block;width:100%;margin:6px 0;text-align:left}.good{background:var(--ok)!important;color:#fff}.bad{background:#dc2626!important;color:#fff}
+h2,h3{margin:.4em 0}small{color:var(--m)}
+</style></head><body><main>
+<div class="bar"><button onclick="back()" id="bk">← Quay lại</button><b id="ttl" style="flex:1"></b><a href="index.html"><button>🏠</button></a></div>
+<div id="app"></div></main>
+<script>
+/* ===== DỮ LIỆU: thêm chuyên đề/từ mới bằng cách thêm vào các mảng này (w = [chữ, cách đọc, nghĩa]) ===== */
+const D={
+zh:{name:"🇨🇳 Tiếng Trung",lang:"zh-CN",lv:[
+{id:"HSK1",topics:[
+{t:"Chào hỏi",w:[["你好","nǐ hǎo","xin chào"],["谢谢","xièxie","cảm ơn"],["不客气","bú kèqi","không có gì"],["对不起","duìbuqǐ","xin lỗi"],["再见","zàijiàn","tạm biệt"],["请","qǐng","xin mời / làm ơn"]]},
+{t:"Số đếm",w:[["一","yī","một"],["二","èr","hai"],["三","sān","ba"],["四","sì","bốn"],["五","wǔ","năm"],["十","shí","mười"]]},
+{t:"Gia đình",w:[["爸爸","bàba","bố"],["妈妈","māma","mẹ"],["哥哥","gēge","anh trai"],["姐姐","jiějie","chị gái"],["朋友","péngyou","bạn bè"],["老师","lǎoshī","giáo viên"]]},
+{t:"Ăn uống",w:[["水","shuǐ","nước"],["茶","chá","trà"],["米饭","mǐfàn","cơm"],["苹果","píngguǒ","quả táo"],["吃","chī","ăn"],["喝","hē","uống"]]},
+{t:"Đại từ & hỏi",w:[["我","wǒ","tôi"],["你","nǐ","bạn"],["他","tā","anh ấy"],["什么","shénme","cái gì"],["谁","shéi","ai"],["哪儿","nǎr","ở đâu"]]}]},
+{id:"HSK2",topics:[
+{t:"Thời gian",w:[["今天","jīntiān","hôm nay"],["明天","míngtiān","ngày mai"],["昨天","zuótiān","hôm qua"],["现在","xiànzài","bây giờ"],["星期","xīngqī","tuần"],["时候","shíhou","lúc, khi"]]},
+{t:"Đời sống",w:[["漂亮","piàoliang","xinh đẹp"],["便宜","piányi","rẻ"],["贵","guì","đắt"],["旅游","lǚyóu","du lịch"],["喜欢","xǐhuan","thích"],["觉得","juéde","cảm thấy"]]}]}],
+tips:["Học thanh điệu ngay từ đầu: 4 thanh + thanh nhẹ. Sai thanh là đổi nghĩa (mā 妈 mẹ ≠ mǎ 马 ngựa).","Đừng học riêng pinyin mà bỏ chữ Hán: mỗi ngày nhìn 5–10 chữ, tập đọc to.","Học từ theo chủ đề và đặt câu ngắn, ví dụ: 我喜欢喝茶.","Ôn cách quãng: học hôm nay, ôn lại sau 1 ngày, 3 ngày, 7 ngày.","HSK1 khoảng 150 từ, HSK2 khoảng 300 từ: mục tiêu 5 từ mới/ngày là đủ."]},
+ja:{name:"🇯🇵 Tiếng Nhật",lang:"ja-JP",lv:[
+{id:"Bảng chữ cái",topics:[
+{t:"Hiragana hàng A",w:[["あ","a","a"],["い","i","i"],["う","u","u"],["え","e","e"],["お","o","o"]]},
+{t:"Hiragana hàng K",w:[["か","ka","ka"],["き","ki","ki"],["く","ku","ku"],["け","ke","ke"],["こ","ko","ko"]]},
+{t:"Hiragana hàng S",w:[["さ","sa","sa"],["し","shi","shi"],["す","su","su"],["せ","se","se"],["そ","so","so"]]}]},
+{id:"N5",topics:[
+{t:"Chào hỏi",w:[["こんにちは","konnichiwa","xin chào"],["ありがとう","arigatou","cảm ơn"],["すみません","sumimasen","xin lỗi / xin phép"],["おはよう","ohayou","chào buổi sáng"],["さようなら","sayounara","tạm biệt"],["はい","hai","vâng"]]},
+{t:"Số đếm",w:[["いち","ichi","một"],["に","ni","hai"],["さん","san","ba"],["よん","yon","bốn"],["ご","go","năm"],["じゅう","juu","mười"]]},
+{t:"Ăn uống",w:[["みず","mizu","nước"],["おちゃ","ocha","trà"],["ごはん","gohan","cơm"],["たべる","taberu","ăn"],["のむ","nomu","uống"],["おいしい","oishii","ngon"]]},
+{t:"Gia đình & người",w:[["わたし","watashi","tôi"],["ともだち","tomodachi","bạn bè"],["せんせい","sensei","giáo viên"],["おかあさん","okaasan","mẹ (người khác)"],["おとうさん","otousan","bố (người khác)"],["がくせい","gakusei","học sinh"]]}]}],
+tips:["Học Hiragana trước (khoảng 1–2 tuần), rồi Katakana, sau đó mới tới Kanji.","Mỗi ngày học 1 hàng chữ, viết tay 5 lần và đọc to.","Học từ bằng hiragana trước, kanji để sau cho đỡ ngợp.","N5 khoảng 800 từ: mục tiêu 5–8 từ/ngày, ôn lại từ cũ mỗi ngày.","Nghe và nhại lại giọng nói, đừng chỉ đọc thầm."]}};
+/* ===== LOGIC ===== */
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+let P={};try{P=JSON.parse(localStorage.getItem('PE_LANG')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('PE_LANG',JSON.stringify(P))}catch(e){}};
+const key=(l,w)=>l+':'+w[0];let st=[{v:'home'}];
+function speak(l,txt){if(!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang=D[l].lang;const v=speechSynthesis.getVoices().find(x=>x.lang.replace('_','-')===D[l].lang)||speechSynthesis.getVoices().find(x=>x.lang.startsWith(D[l].lang.slice(0,2)));if(v)u.voice=v;u.rate=.85;speechSynthesis.speak(u)}
+if(window.speechSynthesis)speechSynthesis.onvoiceschanged=()=>{};
+const go=s=>{st.push(s);draw()},back=()=>{if(st.length>1)st.pop();else location.href='index.html';draw()};
+const prog=ws=>{const n=ws.filter(w=>P[w.k]).length;return[n,ws.length]};
+const bar=([n,m])=>`<div class="pg"><i style="width:${m?n/m*100:0}%"></i></div><small>${n}/${m} đã thuộc</small>`;
+function draw(){const s=st[st.length-1],a=$('app');$('bk').textContent=st.length>1?'← Quay lại':'← Về app';
+if(s.v==='home'){$('ttl').textContent='Học ngoại ngữ';a.innerHTML=Object.keys(D).map(l=>{const ws=D[l].lv.flatMap(x=>x.topics.flatMap(t=>t.w.map(w=>({k:key(l,w)}))));return`<div class="card"><h2>${D[l].name}</h2>${bar(prog(ws))}<p><button class="pri" onclick="go({v:'lang',l:'${l}'})">Vào học</button> <button onclick="go({v:'tips',l:'${l}'})">💡 Mẹo học</button></p></div>`}).join('')+'<p><small>Chưa có tài liệu? Cứ bắt đầu từ chuyên đề đầu tiên. Nội dung sẽ được bổ sung dần.</small></p>'}
+if(s.v==='lang'){$('ttl').textContent=D[s.l].name;a.innerHTML=D[s.l].lv.map((x,i)=>`<h3>${x.id}</h3>`+x.topics.map((t,j)=>`<div class="card"><b>${t.t}</b>${bar(prog(t.w.map(w=>({k:key(s.l,w)}))))}<p><button onclick="go({v:'topic',l:'${s.l}',i:${i},j:${j}})">📖 Xem từ</button> <button class="pri" onclick="go({v:'quiz',l:'${s.l}',i:${i},j:${j}})">✍️ Luyện tập</button></p></div>`).join('')).join('')}
+if(s.v==='topic'){const t=D[s.l].lv[s.i].topics[s.j];$('ttl').textContent=t.t;a.innerHTML=`<div class="card">${t.w.map(w=>`<div class="w ${P[key(s.l,w)]?'done':''}"><span class="h">${esc(w[0])}</span><div class="g"><div class="r">${esc(w[1])}</div><div class="m">${esc(w[2])}</div></div><button onclick="speak('${s.l}','${w[0]}')">🔊</button><button onclick="tg('${s.l}','${w[0]}')">${P[key(s.l,w)]?'✅':'⬜'}</button></div>`).join('')}</div><button class="pri" onclick="go({v:'quiz',l:s.l,i:${s.i},j:${s.j}})">✍️ Luyện tập chuyên đề này</button>`}
+if(s.v==='tips'){$('ttl').textContent='Mẹo học '+D[s.l].name;a.innerHTML=`<div class="card">${D[s.l].tips.map(t=>`<p>💡 ${esc(t)}</p>`).join('')}</div>`}
+if(s.v==='quiz')quiz(s)}
+function tg(l,c){P[l+':'+c]=!P[l+':'+c];save();draw()}
+function quiz(s){const t=D[s.l].lv[s.i].topics[s.j],all=D[s.l].lv.flatMap(x=>x.topics.flatMap(y=>y.w));$('ttl').textContent='Luyện: '+t.t;
+if(s.n==null){s.n=0;s.sc=0;s.q=[...t.w].sort(()=>Math.random()-.5)}
+if(s.n>=s.q.length){$('app').innerHTML=`<div class="card"><h2>Kết quả: ${s.sc}/${s.q.length}</h2><button class="pri" onclick="st.pop();go({v:'quiz',l:'${s.l}',i:${s.i},j:${s.j}})">Làm lại</button></div>`;return}
+const w=s.q[s.n],pool=all.filter(x=>x[2]!==w[2]).sort(()=>Math.random()-.5).slice(0,3),o=[...pool,w].sort(()=>Math.random()-.5);
+$('app').innerHTML=`<div class="card"><small>Câu ${s.n+1}/${s.q.length}</small><p style="font-size:2rem;margin:.2em 0">${esc(w[0])} <button onclick="speak('${s.l}','${w[0]}')">🔊</button></p><p class="r">${esc(w[1])}</p>${o.map(x=>`<button class="opt" data-a="${x[2]===w[2]?1:0}">${esc(x[2])}</button>`).join('')}</div>`;
+document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const ok=b.dataset.a==='1';document.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(x.dataset.a==='1')x.classList.add('good')});if(!ok)b.classList.add('bad');else{s.sc++;P[key(s.l,w)]=true;save()}speak(s.l,w[0]);setTimeout(()=>{s.n++;draw()},1100)})}
+window.addEventListener('popstate',()=>{if(st.length>1){st.pop();draw()}});history.pushState(null,'');
+draw();
+</script></body></html>
