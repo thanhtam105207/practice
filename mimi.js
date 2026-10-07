@@ -9,7 +9,7 @@ if(window.Mimi)return;
 const LS=localStorage,$=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 /* Tạm thời: số từ hiện có trong hoc-ngoai-ngu.html (Hiragana + N5 cơ bản). Cập nhật ở Bước 11. */
-const JA_TOTAL=53;
+const JA_TOTAL=(window.JA&&JA.total)||53;
 const SUBJ={
   en:{flag:'🇬🇧',name:'English',label:'Tiếng Anh',chip:'English',sub:'Top Notch 3 • Từ vựng • Ngữ pháp • Quiz',items:['📚 Từ vựng','📐 Ngữ pháp','🧠 Quiz','🎧 Nghe & chép','🃏 Flashcard'],c1:'#f43f5e',c2:'#fb923c'},
   zh:{flag:'🇨🇳',name:'中文',label:'Tiếng Trung • HSK1',chip:'中文 HSK1',navLabel:'Tiếng Trung',sub:'Thanh điệu • Pinyin • Chữ Hán • 15 bài',items:['🌱 Thanh điệu & Pinyin','📚 Từ vựng 15 bài','✍️ Luyện viết chữ Hán','🎧 Quiz nghe/đọc'],c1:'#dc2626',c2:'#f59e0b'},
@@ -71,7 +71,10 @@ body[data-mode=dark] .mm-bar{background:rgba(255,255,255,.14)}
 body[data-subject=zh] .bottom-nav-inner>button:not(#nav-mimi):not(#nav-subj):not(#nav-account),
 body[data-subject=ja] .bottom-nav-inner>button:not(#nav-mimi):not(#nav-subj):not(#nav-account){display:none!important}
 body[data-subject=zh] #nav-mimi,body[data-subject=zh] #nav-subj,body[data-subject=ja] #nav-mimi,body[data-subject=ja] #nav-subj{display:flex!important}
-body[data-subject=zh] .bottom-nav-inner,body[data-subject=ja] .bottom-nav-inner{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+body[data-subject=zh] .bottom-nav-inner,body[data-subject=ja] .bottom-nav-inner{grid-template-columns:repeat(7,minmax(0,1fr))!important}
+.nav-zj{display:none}body[data-subject=zh] .nav-zj,body[data-subject=ja] .nav-zj{display:flex!important}body[data-subject=zh] #nav-mimi,body[data-subject=zh] #nav-subj,body[data-subject=ja] #nav-mimi,body[data-subject=ja] #nav-subj{display:none!important}
+#nav-account{order:9}.nav-zj{order:1}
+.nav-zj.active{background:linear-gradient(135deg,var(--c1,#f43f5e),var(--c2,#fb923c));color:#fff!important}
 #nav-mimi{order:1}#nav-subj{order:2}#nav-account{order:3}
 body[data-subject=zh] #unit-select,body[data-subject=ja] #unit-select,body[data-subject=zh] #col-tools,body[data-subject=ja] #col-tools,
 body[data-subject=zh] header p[data-guide],body[data-subject=ja] header p[data-guide]{display:none!important}
@@ -115,7 +118,7 @@ function openEn(){
   const c=cols.find(x=>x.id===a&&!x.hidden)||cols.find(x=>!x.hidden);
   if(c)COLX.go(c.id);else COLX.restoreEnt();
 }
-function open(k){
+function open(k){tab='home';
   if(k==='en')return openEn();
   if(!SUBJ[k])return;
   try{COLX.close()}catch(e){}
@@ -131,11 +134,17 @@ function set(s){
 }
 function setupSwitch(){if($('mm-sw'))return;const h=document.querySelector('header');if(!h)return;h.insertAdjacentHTML('afterend','<div id="mm-sw" class="mm-sw">'+['en','zh','ja'].map(k=>`<button type="button" data-k="${k}" style="--c1:${SUBJ[k].c1};--c2:${SUBJ[k].c2}" onclick="Mimi.open('${k}')">${SUBJ[k].flag} ${SUBJ[k].name}</button>`).join('')+'</div>');paintSwitch()}
 function paintSwitch(){document.querySelectorAll('#mm-sw button').forEach(b=>b.classList.toggle('on',b.dataset.k===cur))}
+const TABS=[['home','🏠','Trang chủ'],['words','📚','Từ'],['cards','🃏','Flashcard'],['alpha','🔤','Chữ cái'],['write','✍️','Viết'],['quiz','🎯','Quiz']];
+let tab='home';
+function tabGo(t){tab=t;const z=cur==='ja'?'ja':'zh';switchSection(z);
+ if(z==='zh'){const g=window.Z_&&Z_.go;if(!g)return;({home:()=>g({v:'home'}),words:()=>g({v:'words'}),cards:()=>g({v:'cards',k:0,f:0}),alpha:()=>g({v:'intro',t:'t'}),write:()=>{g({v:'home'});Write.han()},quiz:()=>g({v:'quiz',i:-1})})[t]()}
+ else if(window.JA){({home:()=>JA.show('home'),words:()=>JA.show('words'),cards:()=>JA.show('cards'),alpha:()=>JA.show('kana'),write:()=>{JA.show('kana');Write.kana('hira')},quiz:()=>JA.show('quiz')})[t]()}
+ document.querySelectorAll('.nav-zj').forEach(b=>b.classList.toggle('active',b.dataset.t===t&&t!=='write'))}
 function setupNav(){
   const nav=document.querySelector('.bottom-nav-inner');if(!nav||$('nav-mimi'))return;
-  nav.insertAdjacentHTML('beforeend','<button id="nav-mimi" onclick="COLX.gate()" title="Chọn môn học"><span class="nav-emoji">🌸</span><span>Mimi</span></button><button id="nav-subj" onclick="Mimi.home()"><span class="nav-emoji">🇨🇳</span><span class="nav-lbl">Tiếng Trung</span></button>');
+  nav.insertAdjacentHTML('afterbegin',TABS.map(t=>`<button class="nav-zj" data-t="${t[0]}" onclick="Mimi.tab('${t[0]}')"><span class="nav-emoji">${t[1]}</span><span>${t[2]}</span></button>`).join(''));nav.insertAdjacentHTML('beforeend','<button id="nav-mimi" onclick="COLX.gate()" title="Chọn môn học"><span class="nav-emoji">🌸</span><span>Mimi</span></button><button id="nav-subj" onclick="Mimi.home()"><span class="nav-emoji">🇨🇳</span><span class="nav-lbl">Tiếng Trung</span></button>');
 }
-const home=()=>switchSection(cur==='ja'?'ja':'zh');
+const home=()=>tabGo('home');
 
 /* ---------- Trang chủ Tiếng Nhật ---------- */
 function jaSec(){let s=$('ja-section');if(!s){const c=$('content-area');if(!c)return null;c.insertAdjacentHTML('beforeend','<div id="ja-section" class="hidden"></div>');s=$('ja-section')}return s}
@@ -155,7 +164,7 @@ window.switchSection=function(s){
   const subj=s==='zh'?'zh':s==='ja'?'ja':s==='account'?cur:'en';
   set(subj);
   const ja=jaSec();
-  if(s==='ja'){if(ja){ja.classList.remove('hidden');drawJa()}$('unit-hero')?.classList.add('hidden');window.scrollTo(0,0)}
+  if(s==='ja'){if(ja){ja.classList.remove('hidden');window.JA?JA.draw():drawJa()}$('unit-hero')?.classList.add('hidden');window.scrollTo(0,0)}
   else if(ja)ja.classList.add('hidden');
   const nb=$('nav-subj');if(nb)nb.classList.toggle('active',s==='zh'||s==='ja');
 };
@@ -163,5 +172,5 @@ window.switchSection=function(s){
 setupNav();setupSwitch();
 document.body.dataset.subject='en';
 window.addEventListener('load',()=>setTimeout(()=>{setupNav();setupSwitch()},0));
-window.Mimi={hub,open,home,stats,set,saved,subjects:SUBJ,current:()=>cur};
+window.Mimi={tab:tabGo,drawJa,hub,open,home,stats,set,saved,subjects:SUBJ,current:()=>cur};
 })();
