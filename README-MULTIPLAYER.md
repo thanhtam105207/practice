@@ -16,16 +16,14 @@ Bản này giữ toàn bộ chế độ học offline của ENT303. Muốn bật
 ## 2) Auth
 App dùng Email + Password. Nếu Supabase yêu cầu xác nhận email, người dùng phải bấm link trong email trước khi đăng nhập.
 
-## 3) Mã lớp
-Mặc định là `ENT303-2026`. Bạn bè dùng cùng mã lớp sẽ nằm trong cùng leaderboard. Có thể đổi giá trị mặc định trong `supabase-schema.sql`/giao diện nếu muốn tạo lớp khác.
+## 3) Bảng xếp hạng
+Hiện tất cả người dùng cùng một bảng xếp hạng chung (chưa chia lớp). Muốn chia lớp thì cần thêm cột `class_code` vào `profiles` và lọc trong `get_weekly_leaderboard`.
 
 ## 4) XP tuần
-- Học/đánh dấu từ: +2 XP
-- Đúng grammar: +3 XP (hook sẵn cho các quiz có gọi `ent303AwardXP('grammar_correct')`)
-- Hoàn thành quiz ≥80%: +25 XP
-- Quiz 100%: +50 XP
-- Hoàn thành lesson: +20 XP
-- Giới hạn server: tối đa 300 XP/ngày/người để tránh spam.
+- Học/đánh dấu từ: +2 XP (mỗi từ chỉ tính 1 lần)
+- Trả lời đúng từ vựng: +2 XP · đúng grammar: +3 XP
+- Hoàn thành quiz ≥80%: +25 XP · 100%: +50 XP
+- Không còn giới hạn XP mỗi ngày.
 
 Leaderboard tính theo tuần bắt đầu từ thứ Hai theo múi giờ Việt Nam (Asia/Ho_Chi_Minh).
 

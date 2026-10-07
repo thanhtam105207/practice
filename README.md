@@ -21,7 +21,7 @@ Frontend vẫn chạy trên GitHub Pages, còn tài khoản + XP + leaderboard d
 2. Mở SQL Editor và chạy `supabase-schema.sql`.
 3. Mở `supabase-config.js`, thay `YOUR-PROJECT...` và `YOUR_SUPABASE_ANON_PUBLIC_KEY` bằng Project URL + anon public key.
 4. Push repo lên GitHub Pages.
-5. Bạn bè mở web → **Tạo tài khoản** → nhập cùng mã lớp (mặc định `ENT303-2026`).
+5. Bạn bè mở web → **Tạo tài khoản** → vào học và cùng xuất hiện trên bảng xếp hạng.
 
 Chi tiết: xem `README-MULTIPLAYER.md`.
 
