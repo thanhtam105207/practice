@@ -9,11 +9,11 @@ if(window.Mimi)return;
 const LS=localStorage,$=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 /* Tạm thời: số từ hiện có trong hoc-ngoai-ngu.html (Hiragana + N5 cơ bản). Cập nhật ở Bước 11. */
-const JA_TOTAL=53;
+const JA_TOTAL=(window.JA&&JA.total)||53;
 const SUBJ={
-  en:{flag:'🇬🇧',name:'English',label:'Tiếng Anh',chip:'English',sub:'Top Notch 3 • Từ vựng • Ngữ pháp • Quiz',c1:'#f43f5e',c2:'#fb923c'},
-  zh:{flag:'🇨🇳',name:'中文',label:'Tiếng Trung • HSK1',chip:'中文 HSK1',navLabel:'Tiếng Trung',sub:'Thanh điệu • Pinyin • Chữ Hán • 15 bài',c1:'#dc2626',c2:'#f59e0b'},
-  ja:{flag:'🇯🇵',name:'日本語',label:'Tiếng Nhật • N5',chip:'日本語 N5',navLabel:'Tiếng Nhật',sub:'Hiragana • Katakana • Minna no Nihongo',c1:'#ec4899',c2:'#6366f1'}
+  en:{flag:'🇬🇧',name:'English',label:'Tiếng Anh',chip:'English',sub:'Top Notch 3 • Từ vựng • Ngữ pháp • Quiz',items:['📚 Từ vựng','📐 Ngữ pháp','🧠 Quiz','🎧 Nghe & chép','🃏 Flashcard'],c1:'#f43f5e',c2:'#fb923c'},
+  zh:{flag:'🇨🇳',name:'中文',label:'Tiếng Trung • HSK1',chip:'中文 HSK1',navLabel:'Tiếng Trung',sub:'Thanh điệu • Pinyin • Chữ Hán • 15 bài',items:['🌱 Thanh điệu & Pinyin','📚 Từ vựng 15 bài','✍️ Luyện viết chữ Hán','🎧 Quiz nghe/đọc'],c1:'#dc2626',c2:'#f59e0b'},
+  ja:{flag:'🇯🇵',name:'日本語',label:'Tiếng Nhật • N5',chip:'日本語 N5',navLabel:'Tiếng Nhật',sub:'Hiragana • Katakana • Minna no Nihongo',items:['あ Hiragana','ア Katakana','✍️ Luyện viết kana','📚 Từ vựng N5'],c1:'#ec4899',c2:'#6366f1'}
 };
 let cur='en';
 const saved=LS.getItem('MIMI_SUBJ')||'en'; /* môn lần trước – đọc trước khi app tự chuyển trang */
@@ -47,7 +47,7 @@ body[data-mode=dark] .mm-wrap{color:#e5e7eb}
 .mm-name{font-size:24px;font-weight:900;line-height:1.15}
 .mm-lab{font-size:13px;font-weight:800;opacity:.75}
 .mm-sub{font-size:12px;font-weight:700;opacity:.55;line-height:1.35;margin-top:2px}
-.mm-go{margin-top:6px;font-size:12px;font-weight:900;color:var(--c1)}
+.mm-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}.mm-chips i{font-style:normal;font-size:12px;font-weight:800;padding:3px 9px;border-radius:99px;background:rgba(0,0,0,.06)}body[data-mode=dark] .mm-chips i{background:rgba(255,255,255,.12)}@media(min-width:720px){.mm-chips{justify-content:center}}.mm-go{margin-top:6px;font-size:12px;font-weight:900;color:var(--c1)}
 @media(min-width:720px){.mm-card{flex-direction:column;text-align:center;padding:22px 16px 18px}.mm-txt{align-items:center}.mm-card:before{width:auto;height:7px;right:0;bottom:auto;background:linear-gradient(90deg,var(--c1),var(--c2))}.mm-flag{font-size:46px}}
 .mm-box{margin-top:20px;border-radius:26px;padding:18px;border:1px solid var(--acc-b,#ffe4e6);background:var(--card,rgba(255,255,255,.96));box-shadow:0 8px 25px rgba(0,0,0,.05)}
 .mm-box h3{font-size:16px;font-weight:900;margin:0 0 12px}
@@ -60,13 +60,21 @@ body[data-mode=dark] .mm-bar{background:rgba(255,255,255,.14)}
 .mm-extra{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .mm-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:10px 18px;border-radius:16px;border:1px solid var(--acc-b,#ffd7dd);background:var(--card,#fff);color:inherit;font-weight:900;font-size:14px;text-decoration:none;cursor:pointer}
 .mm-btn.pri{background:linear-gradient(135deg,#f43f5e,#fb923c);color:#fff;border:0}
+.mm-sw{display:flex;gap:6px;max-width:860px;margin:8px auto 0;padding:0 max(12px,env(safe-area-inset-left));position:sticky;top:0;z-index:900}
+.mm-sw button{flex:1;min-height:44px;border-radius:16px;border:1px solid var(--acc-b,#ffd7dd);background:var(--card,#fff);color:inherit;font-weight:800;font-size:13px;opacity:.75;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
+.mm-sw button.on{opacity:1;color:#fff;border:0;font-weight:900;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.18);background:linear-gradient(135deg,var(--c1),var(--c2))}
+.mm-sw button.on:after{content:"● đang học";font-size:9px;font-weight:800;opacity:.9}
+.mm-card.cur{outline:3px solid var(--c1);box-shadow:0 14px 34px rgba(0,0,0,.18)}.mm-card.cur .mm-go:before{content:"● Đang học · "}
 /* Chip môn học + nav theo môn */
 #mimi-subj{white-space:nowrap}
 #nav-mimi,#nav-subj{display:none}
 body[data-subject=zh] .bottom-nav-inner>button:not(#nav-mimi):not(#nav-subj):not(#nav-account),
 body[data-subject=ja] .bottom-nav-inner>button:not(#nav-mimi):not(#nav-subj):not(#nav-account){display:none!important}
 body[data-subject=zh] #nav-mimi,body[data-subject=zh] #nav-subj,body[data-subject=ja] #nav-mimi,body[data-subject=ja] #nav-subj{display:flex!important}
-body[data-subject=zh] .bottom-nav-inner,body[data-subject=ja] .bottom-nav-inner{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+body[data-subject=zh] .bottom-nav-inner,body[data-subject=ja] .bottom-nav-inner{grid-template-columns:repeat(7,minmax(0,1fr))!important}
+.nav-zj{display:none}body[data-subject=zh] .nav-zj,body[data-subject=ja] .nav-zj{display:flex!important}body[data-subject=zh] #nav-mimi,body[data-subject=zh] #nav-subj,body[data-subject=ja] #nav-mimi,body[data-subject=ja] #nav-subj{display:none!important}
+#nav-account{order:9}.nav-zj{order:1}
+.nav-zj.active{background:linear-gradient(135deg,var(--c1,#f43f5e),var(--c2,#fb923c));color:#fff!important}
 #nav-mimi{order:1}#nav-subj{order:2}#nav-account{order:3}
 body[data-subject=zh] #unit-select,body[data-subject=ja] #unit-select,body[data-subject=zh] #col-tools,body[data-subject=ja] #col-tools,
 body[data-subject=zh] header p[data-guide],body[data-subject=ja] header p[data-guide]{display:none!important}
@@ -92,10 +100,10 @@ body[data-mode=dark] .mm-road .mm-st{background:rgba(255,255,255,.12)}
 /* ---------- Hub chọn môn ---------- */
 function hub(name,acctHtml){
   const st=stats(),canClose=LS.getItem('ENT303_ONBOARDED')==='1';
-  const card=k=>{const s=SUBJ[k];return `<button type="button" class="mm-card" style="--c1:${s.c1};--c2:${s.c2}" onclick="Mimi.open('${k}')"><span class="mm-flag">${s.flag}</span><span class="mm-txt"><b class="mm-name">${s.name}</b><span class="mm-lab">${s.label}</span><span class="mm-sub">${s.sub}</span><span class="mm-go">Vào học →</span></span></button>`};
+  const card=k=>{const s=SUBJ[k];return `<button type="button" class="mm-card ${k===cur?'cur':''}" style="--c1:${s.c1};--c2:${s.c2}" onclick="Mimi.open('${k}')"><span class="mm-flag">${s.flag}</span><span class="mm-txt"><b class="mm-name">${s.name}</b><span class="mm-lab">${s.label}</span><span class="mm-chips">${s.items.map(i=>`<i>${i}</i>`).join("")}</span><span class="mm-go">Vào học →</span></span></button>`};
   const row=k=>{const s=SUBJ[k],[n,t]=st[k],p=pct(n,t);return `<div class="mm-row" style="--c1:${s.c1};--c2:${s.c2}"><div class="mm-rl"><span>${s.flag} ${k==='zh'?'HSK1':k==='ja'?'N5':'English'}</span><small>${n}/${t} từ • ${p}%</small></div><span class="mm-bar"><i style="width:${p}%"></i></span></div>`};
   return `<div class="mm-wrap">${canClose?'<div class="mm-top"><button class="back-btn" onclick="COLX.close()">← Đóng</button></div>':''}
-<div class="mm-hero"><div class="mm-logo">🌸</div><h1>Mimi</h1><div class="mm-tag">Language Practice</div><div class="mm-hi">${name?'Hi '+esc(name)+'! ':''}Hôm nay học gì nào?</div></div>
+<div class="mm-hero"><div class="mm-logo">🌸</div><h1>Mimi</h1><div class="mm-tag">Language Practice</div><div class="mm-hi">${name?'Hi '+esc(name)+'! ':''}Hôm nay học gì nào?</div><div class="mm-tag" style="margin-top:6px">Bấm vào môn bạn muốn học · môn có viền sáng là môn đang học</div></div>
 <div class="mm-grid">${card('en')}${card('zh')}${card('ja')}</div>
 <div class="mm-box"><h3>📊 Mimi Progress</h3>${row('en')}${row('zh')}${row('ja')}</div>
 <div class="mm-extra"><button class="mm-btn" onclick="COLX.free()">🗂 Bộ sưu tập English của tôi</button></div>
@@ -110,7 +118,7 @@ function openEn(){
   const c=cols.find(x=>x.id===a&&!x.hidden)||cols.find(x=>!x.hidden);
   if(c)COLX.go(c.id);else COLX.restoreEnt();
 }
-function open(k){
+function open(k){tab='home';
   if(k==='en')return openEn();
   if(!SUBJ[k])return;
   try{COLX.close()}catch(e){}
@@ -121,23 +129,31 @@ function open(k){
 function set(s){
   if(!SUBJ[s])return;cur=s;LS.setItem('MIMI_SUBJ',s);
   document.body.dataset.subject=s;
-  const chip=$('mimi-subj');if(chip)chip.textContent=SUBJ[s].chip;
+  paintSwitch();const chip=$('mimi-subj');if(chip)chip.textContent=SUBJ[s].chip;
   const nb=$('nav-subj');if(nb){const e=nb.querySelector('.nav-emoji'),l=nb.querySelector('.nav-lbl');if(s!=='en'){if(e)e.textContent=SUBJ[s].flag;if(l)l.textContent=SUBJ[s].navLabel}}
 }
+function setupSwitch(){if($('mm-sw'))return;const h=document.querySelector('header');if(!h)return;h.insertAdjacentHTML('afterend','<div id="mm-sw" class="mm-sw">'+['en','zh','ja'].map(k=>`<button type="button" data-k="${k}" style="--c1:${SUBJ[k].c1};--c2:${SUBJ[k].c2}" onclick="Mimi.open('${k}')">${SUBJ[k].flag} ${SUBJ[k].name}</button>`).join('')+'</div>');paintSwitch()}
+function paintSwitch(){document.querySelectorAll('#mm-sw button').forEach(b=>b.classList.toggle('on',b.dataset.k===cur))}
+const TABS=[['home','🏠','Trang chủ'],['words','📚','Từ'],['cards','🃏','Flashcard'],['alpha','🔤','Chữ cái'],['write','✍️','Viết'],['quiz','🎯','Quiz']];
+let tab='home';
+function tabGo(t){tab=t;const z=cur==='ja'?'ja':'zh';switchSection(z);
+ if(z==='zh'){const g=window.Z_&&Z_.go;if(!g)return;({home:()=>g({v:'home'}),words:()=>g({v:'words'}),cards:()=>g({v:'cards',k:0,f:0}),alpha:()=>g({v:'intro',t:'t'}),write:()=>{g({v:'home'});Write.han()},quiz:()=>g({v:'quiz',i:-1})})[t]()}
+ else if(window.JA){({home:()=>JA.show('home'),words:()=>JA.show('words'),cards:()=>JA.show('cards'),alpha:()=>JA.show('kana'),write:()=>{JA.show('kana');Write.kana('hira')},quiz:()=>JA.show('quiz')})[t]()}
+ document.querySelectorAll('.nav-zj').forEach(b=>b.classList.toggle('active',b.dataset.t===t&&t!=='write'))}
 function setupNav(){
   const nav=document.querySelector('.bottom-nav-inner');if(!nav||$('nav-mimi'))return;
-  nav.insertAdjacentHTML('beforeend','<button id="nav-mimi" onclick="COLX.gate()" title="Chọn môn học"><span class="nav-emoji">🌸</span><span>Mimi</span></button><button id="nav-subj" onclick="Mimi.home()"><span class="nav-emoji">🇨🇳</span><span class="nav-lbl">Tiếng Trung</span></button>');
+  nav.insertAdjacentHTML('afterbegin',TABS.map(t=>`<button class="nav-zj" data-t="${t[0]}" onclick="Mimi.tab('${t[0]}')"><span class="nav-emoji">${t[1]}</span><span>${t[2]}</span></button>`).join(''));nav.insertAdjacentHTML('beforeend','<button id="nav-mimi" onclick="COLX.gate()" title="Chọn môn học"><span class="nav-emoji">🌸</span><span>Mimi</span></button><button id="nav-subj" onclick="Mimi.home()"><span class="nav-emoji">🇨🇳</span><span class="nav-lbl">Tiếng Trung</span></button>');
 }
-const home=()=>switchSection(cur==='ja'?'ja':'zh');
+const home=()=>tabGo('home');
 
 /* ---------- Trang chủ Tiếng Nhật ---------- */
 function jaSec(){let s=$('ja-section');if(!s){const c=$('content-area');if(!c)return null;c.insertAdjacentHTML('beforeend','<div id="ja-section" class="hidden"></div>');s=$('ja-section')}return s}
 function drawJa(){
   const s=jaSec();if(!s)return;
   const [n,t]=statJa(),p=pct(n,t);
-  const road=[['あ','Hiragana','Có bản luyện cơ bản',1],['ア','Katakana','Sắp có',0],['🔊','Phát âm','Sắp có',0],['📚','Từ vựng N5','Có bản luyện cơ bản',1],['漢','Kanji','Sắp có',0],['📖','Minna no Nihongo (từng bài)','Sắp có',0],['🎧','Listening','Sắp có',0],['🗣️','Speaking','Sắp có',0],['✍️','Writing (tracing)','Sắp có',0],['🎯','Practice & Review','Sắp có',0]];
+  const road=[['あ','Hiragana','Có luyện viết',1],['ア','Katakana','Có luyện viết',1],['🔊','Phát âm','Sắp có',0],['📚','Từ vựng N5','Có bản luyện cơ bản',1],['漢','Kanji','Sắp có',0],['📖','Minna no Nihongo (từng bài)','Sắp có',0],['🎧','Listening','Sắp có',0],['🗣️','Speaking','Sắp có',0],['✍️','Writing (tracing)','Sắp có',0],['🎯','Practice & Review','Sắp có',0]];
   s.innerHTML=`<div class="mm-jhero"><div style="font-size:42px">🇯🇵</div><h2>日本語 N5</h2><p>Minna no Nihongo • Hiragana → Katakana → Từ vựng → Kanji → Luyện tập</p><span class="mm-bar"><i style="width:${p}%"></i></span><p style="margin-top:6px;font-size:12px">${n}/${t} từ đã thuộc (bản luyện hiện có)</p></div>
-<div class="mm-box"><h3>🚧 Đang xây dựng</h3><p style="font-size:14px;font-weight:700;opacity:.8;line-height:1.5">Giáo trình đầy đủ sẽ được thêm theo Minna no Nihongo sau khi HSK1 hoàn chỉnh. Trong lúc chờ, bạn có thể luyện Hiragana và từ N5 cơ bản ở trang luyện hiện có.</p><div class="mm-extra"><a class="mm-btn pri" href="hoc-ngoai-ngu.html">Mở trang luyện Hiragana · N5</a></div></div>
+<div class="mm-box"><h3>🚧 Đang xây dựng</h3><p style="font-size:14px;font-weight:700;opacity:.8;line-height:1.5">Giáo trình đầy đủ sẽ được thêm theo Minna no Nihongo sau khi HSK1 hoàn chỉnh. Trong lúc chờ, bạn có thể luyện Hiragana và từ N5 cơ bản ở trang luyện hiện có.</p><div class="mm-extra"><button class="mm-btn pri" onclick="Write.kana('hira')">✍️ Viết Hiragana</button><button class="mm-btn pri" onclick="Write.kana('kata')">✍️ Viết Katakana</button><a class="mm-btn" href="hoc-ngoai-ngu.html">Mở trang luyện Hiragana · N5</a></div></div>
 <div class="mm-box"><h3>🗺️ Lộ trình N5</h3><ol class="mm-road">${road.map(r=>`<li><span style="font-size:20px;width:28px;text-align:center">${r[0]}</span><span>${r[1]}</span><span class="mm-st ${r[3]?'ok':''}">${r[2]}</span></li>`).join('')}</ol></div>`;
 }
 
@@ -148,13 +164,13 @@ window.switchSection=function(s){
   const subj=s==='zh'?'zh':s==='ja'?'ja':s==='account'?cur:'en';
   set(subj);
   const ja=jaSec();
-  if(s==='ja'){if(ja){ja.classList.remove('hidden');drawJa()}$('unit-hero')?.classList.add('hidden');window.scrollTo(0,0)}
+  if(s==='ja'){if(ja){ja.classList.remove('hidden');window.JA?JA.draw():drawJa()}$('unit-hero')?.classList.add('hidden');window.scrollTo(0,0)}
   else if(ja)ja.classList.add('hidden');
   const nb=$('nav-subj');if(nb)nb.classList.toggle('active',s==='zh'||s==='ja');
 };
 
-setupNav();
+setupNav();setupSwitch();
 document.body.dataset.subject='en';
-window.addEventListener('load',()=>setTimeout(setupNav,0));
-window.Mimi={hub,open,home,stats,set,saved,subjects:SUBJ,current:()=>cur};
+window.addEventListener('load',()=>setTimeout(()=>{setupNav();setupSwitch()},0));
+window.Mimi={tab:tabGo,drawJa,hub,open,home,stats,set,saved,subjects:SUBJ,current:()=>cur};
 })();

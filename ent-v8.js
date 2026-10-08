@@ -6,7 +6,7 @@ const sb=(CFG.url&&CFG.anonKey&&window.supabase)?window.supabase.createClient(CF
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 const toast=m=>{try{showToast(m)}catch(e){alert(m)}};
 let students=null,isHost=false,dip=null,anns=[],wTab='un',depth=0,popping=false,warned=0;
-const E8=window.ENT8={};
+const E8=window.ENT8={};E8.sb=sb;E8.isHost=()=>isHost;
 
 /* ---------- CSS ---------- */
 document.head.insertAdjacentHTML('beforeend',`<style>
@@ -147,7 +147,7 @@ function bar(){const a=anns[0],b=$('ann-bar');if(!b)return;b.innerHTML=a&&LS.get
 E8.dismiss=id=>{LS.setItem('PE_ANN',String(id));bar()};
 E8.postAnn=async()=>{const t=($('ann-in')?.value||'').trim();if(!t)return;const{error}=await sb.from('announcements').insert({text:t});if(error)return toast('Lỗi: '+error.message);toast('Đã đăng thông báo');loadAnns()};
 E8.delAnn=async id=>{await sb.from('announcements').delete().eq('id',id);loadAnns()};
-async function checkHost(){if(!sb)return;try{const{data}=await sb.auth.getSession();isHost=data.session?.user?.email===HOSTMAIL;if(currentSection==='account')render()}catch(e){}}
+async function checkHost(){if(!sb)return;try{const{data}=await sb.auth.getSession();isHost=data.session?.user?.email===HOSTMAIL;window.dispatchEvent(new Event('ent-host'));if(currentSection==='account')render()}catch(e){}}
 if(sb)sb.auth.onAuthStateChange(()=>checkHost());
 
 /* ---------- PWA ---------- */
