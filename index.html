@@ -13,8 +13,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Mimi">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="apple-touch-icon" href="icon-192.png">
-    <link rel="icon" type="image/png" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
     <style>
         /* PWA/mobile refinements */
         html { -webkit-text-size-adjust: 100%; }
@@ -2367,9 +2367,9 @@ const medal=i=>['🥇','🥈','🥉'][i]||String(i+1);
 function render(rows){const b=$('mp-leaderboard');if(!b)return;b.innerHTML=rows?.length?rows.map((r,i)=>`<div class="mp-rank-row ${user&&r.user_id===user.id?'me':''}"><span class="mp-rank-badge">${medal(i)}</span><b class="text-sm truncate">${esc(r.display_name)}</b><b class="text-sm text-rose-500">${Number(r.weekly_xp||0)} XP</b></div>`).join(''):'<div class="rounded-2xl bg-gray-50 p-4 text-center text-xs text-gray-400">Chưa có ai ghi XP tuần này 🌱</div>'}
 async function refresh(){if(!sb||!user)return render([]);try{const {data,error}=await sb.rpc('get_weekly_leaderboard');if(error)throw error;render(data)}catch(e){console.warn(e)}}
 X.refresh=refresh;
-window.ent303AwardXP=async(k,ref)=>{if(!sb||!user)return;try{await sb.rpc('record_study_event',{p_kind:k,p_ref:ref||null});refresh()}catch(e){}};
+window.ent303AwardXP=async k=>{if(!sb||!user)return;try{await sb.rpc('record_study_event',{p_kind:k});refresh()}catch(e){}};
 window.ENT303MP={openAuth:(m)=>{X.mode(m||'login');$('au-skip').innerText=LS.getItem('PE_GUEST')?'Để sau':'Dùng thử không cần tài khoản';modal(true)},refresh,logout:X.logout,user:()=>user};
-const oM=window.markWordLearned;if(oM)window.markWordLearned=function(w){oM(w);window.ent303AwardXP('vocab_learned','en:'+(typeof w==='string'?w:(w&&w.word)||JSON.stringify(w)).slice(0,50))};
+const oM=window.markWordLearned;if(oM)window.markWordLearned=function(w){oM(w);window.ent303AwardXP('vocab_learned')};
 /* ---------- level + hooks ---------- */
 function level(){const n=(typeof learnedCardsSet!=='undefined'?learnedCardsSet.size:0),lv=Math.floor(n/10)+1;if($('lv-chip')){$('lv-chip').innerText='Lv.'+lv;$('lv-xp').innerText=(n%10)+'/10 từ';$('lv-bar').style.width=(n%10)*10+'%'}}
 const oR=window.renderHomeStats;window.renderHomeStats=function(){oR&&oR();level();X.quote();name()};
@@ -2938,11 +2938,7 @@ window.addEventListener('load',()=>setTimeout(()=>{
 
 <script src="ent-v8.js"></script>
 <script src="hsk1-data.js"></script>
-<script src="write.js"></script>
-<script src="hsk1-listen.js"></script>
 <script src="hsk1-app.js"></script>
-<script src="ja-app.js"></script>
 <script src="mimi.js"></script>
-<script src="app-redesign.js"></script>
 </body>
 </html>

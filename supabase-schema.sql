@@ -1,4 +1,4 @@
--- Dán toàn bộ vào Supabase → SQL Editor → Run. Chạy lại nhiều lần cũng an toàn.
+-- Dán toàn bộ vào Supabase → SQL Editor → Run (chạy 1 lần)
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   display_name text not null default 'Bạn học',
@@ -12,34 +12,24 @@ create table if not exists public.study_events (
   user_id uuid not null references auth.users(id) on delete cascade,
   kind text not null, xp integer not null, created_at timestamptz not null default now()
 );
--- ref: mã từ/bài để mỗi từ chỉ được cộng XP "học từ" 1 lần
-alter table public.study_events add column if not exists ref text;
-drop index if exists public.study_events_once;
-create unique index study_events_once on public.study_events(user_id,kind,ref) where kind in ('vocab_learned','write_done') and ref is not null;
-create index if not exists study_events_user_time on public.study_events(user_id,created_at);
-
 alter table public.profiles enable row level security;
 alter table public.study_events enable row level security;
--- Chỉ đọc được hồ sơ CỦA MÌNH (bảng xếp hạng đi qua hàm get_weekly_leaderboard bên dưới)
-drop policy if exists p_sel on public.profiles; create policy p_sel on public.profiles for select to authenticated using (auth.uid()=id);
+drop policy if exists p_sel on public.profiles; create policy p_sel on public.profiles for select to authenticated using (true);
 drop policy if exists p_ins on public.profiles; create policy p_ins on public.profiles for insert to authenticated with check (auth.uid()=id);
 drop policy if exists p_upd on public.profiles; create policy p_upd on public.profiles for update to authenticated using (auth.uid()=id) with check (auth.uid()=id);
-
--- Bỏ hàm cũ (1 tham số) để tránh trùng tên
-drop function if exists public.record_study_event(text);
-create or replace function public.record_study_event(p_kind text, p_ref text default null) returns json
+create or replace function public.record_study_event(p_kind text) returns json
 language plpgsql security definer set search_path=public as $$
-declare uid uuid:=auth.uid(); pts int;
+declare uid uuid:=auth.uid(); pts int; today_xp int;
 begin
   if uid is null then raise exception 'not_authenticated'; end if;
-  pts:=case p_kind when 'vocab_learned' then 2 when 'vocab_correct' then 2 when 'grammar_correct' then 3 when 'quiz_complete_80' then 25 when 'quiz_complete_100' then 50 when 'write_done' then 3 else 0 end;
+  pts:=case p_kind when 'vocab_learned' then 2 when 'vocab_correct' then 2 when 'grammar_correct' then 3 when 'quiz_complete_80' then 25 when 'quiz_complete_100' then 50 else 0 end;
   if pts<=0 then raise exception 'invalid_event'; end if;
-  -- Không còn giới hạn XP/ngày. Riêng "học từ" chỉ tính 1 lần cho mỗi từ.
-  insert into study_events(user_id,kind,xp,ref) values(uid,p_kind,pts,left(p_ref,64)) on conflict do nothing;
+  select coalesce(sum(xp),0) into today_xp from study_events where user_id=uid and created_at>=(date_trunc('day',now() at time zone 'Asia/Ho_Chi_Minh') at time zone 'Asia/Ho_Chi_Minh');
+  if today_xp>=300 then return json_build_object('ok',false); end if;
+  insert into study_events(user_id,kind,xp) values(uid,p_kind,least(pts,300-today_xp));
   return json_build_object('ok',true);
 end $$;
-grant execute on function public.record_study_event(text,text) to authenticated;
-
+grant execute on function public.record_study_event(text) to authenticated;
 create or replace function public.get_weekly_leaderboard()
 returns table(user_id uuid, display_name text, weekly_xp bigint)
 language sql security definer set search_path=public as $$
