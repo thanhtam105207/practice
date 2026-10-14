@@ -136,12 +136,12 @@ function merge(base){let n=0;for(const u of Object.keys(base).filter(k=>/^\d+$/.
    const mine=old.filter(x=>x.custom&&!x.host&&!bk.has(KEYF(x)));l[k]=[...nb,...mine];n+=nb.length}}
  try{LS.setItem('ENT303_USER_UNITS_DATA',JSON.stringify(unitsData))}catch(e){}return n}
 E8.pull=async function(force){if(!sb)return;try{const{data,error}=await sb.from('host_content').select('data,updated_at').eq('id',1).maybeSingle();if(error||!data)return;
-  const st=LS.getItem('PE_HOSTVER');if(!force&&st===data.updated_at)return;if(isHost&&!force)return;
-  hostQ=data.data.__questions||[];injectQ();merge(data.data);LS.setItem('PE_HOSTVER',data.updated_at);try{switchUnit(currentUnit)}catch(e){}if(force)toast('Đã tải nội dung mới nhất')}catch(e){console.warn(e)}};
+  const st=LS.getItem('ENT303_HOSTVER');if(!force&&st===data.updated_at)return;if(isHost&&!force)return;
+  hostQ=data.data.__questions||[];injectQ();merge(data.data);LS.setItem('ENT303_HOSTVER',data.updated_at);try{switchUnit(currentUnit)}catch(e){}if(force)toast('Đã tải nội dung mới nhất')}catch(e){console.warn(e)}};
 E8.publish=async function(){if(!isHost)return;if(!confirm('Xuất bản toàn bộ nội dung hiện tại cho mọi tài khoản?'))return;
  const d=JSON.parse(JSON.stringify(unitsData));d.__questions=[...hostQ,...getQ()];Object.values(d).forEach(u=>LISTS.forEach(k=>(u[k]||[]).forEach(x=>{if(x.custom)x.host=true})));
  const{error}=await sb.from('host_content').upsert({id:1,data:d,updated_at:new Date().toISOString()});
- if(error)toast('Lỗi: '+error.message);else{LS.removeItem('PE_HOSTVER');toast('Đã xuất bản cho cả lớp ✅')}};
+ if(error)toast('Lỗi: '+error.message);else{LS.removeItem('ENT303_HOSTVER');toast('Đã xuất bản cho cả lớp ✅')}};
 async function loadAnns(){if(!sb)return;try{const{data}=await sb.from('announcements').select('*').order('created_at',{ascending:false}).limit(5);anns=data||[];bar();if(currentSection==='account')render()}catch(e){}}
 function bar(){const a=anns[0],b=$('ann-bar');if(!b)return;b.innerHTML=a&&LS.getItem('PE_ANN')!==String(a.id)?`<div class="ann-in"><span>📣</span><span class="flex-1">${esc(a.text)}</span><button onclick="ENT8.dismiss(${a.id})">✕</button></div>`:''}
 E8.dismiss=id=>{LS.setItem('PE_ANN',String(id));bar()};
@@ -152,6 +152,6 @@ if(sb)sb.auth.onAuthStateChange(()=>checkHost());
 
 /* ---------- PWA ---------- */
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
-addEventListener('load',()=>setTimeout(async()=>{setup();injectQ();await checkHost();E8.pull();loadAnns()},900));
+addEventListener('load',()=>setTimeout(async()=>{try{LS.removeItem('PE_HOSTVER')}catch(e){}setup();injectQ();await checkHost();E8.pull();loadAnns();document.addEventListener('visibilitychange',()=>{if(!document.hidden)E8.pull()})},900));
 })();
 /* hsk1-data.js, hsk1-app.js và mimi.js được nạp trực tiếp bằng <script> trong index.html (đúng thứ tự). */
