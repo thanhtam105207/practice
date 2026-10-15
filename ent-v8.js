@@ -86,10 +86,24 @@ const qCard=()=>`<div class="ac-card"><h3>➕ Câu hỏi của tôi</h3><p class
 <div class="wl">${getQ().length?getQ().map(x=>`<div>${esc(x.q)} <button class="text-rose-500 text-xs" onclick="ENT8.delQ(${x.id})">xóa</button></div>`).join(''):'<div class="text-gray-400">Chưa có câu nào.</div>'}</div></div>`;
 
 /* ---------- Host: danh sách học viên ---------- */
-E8.loadStu=async()=>{if(!sb||!isHost)return;const{data,error}=await sb.rpc('get_students');if(error){students=[];return toast('Chưa chạy supabase-students.sql: '+error.message)}students=data||[];render()};
+const logged=()=>!!(window.ENT303MP&&ENT303MP.user&&ENT303MP.user());
+let acts=null,autoLoaded=false;
+E8.loadStu=async()=>{if(!sb)return;const{data,error}=await sb.rpc('get_students');if(error){students=[];return toast('Chưa chạy supabase-activity.sql: '+error.message)}students=data||[];render()};
+E8.loadAct=async()=>{if(!sb)return;const{data,error}=await sb.rpc('get_activity',{p_limit:500});if(error){acts=[];return toast('Chưa chạy supabase-activity.sql: '+error.message)}acts=data||[];render()};
+E8.refreshClass=()=>{E8.loadStu();E8.loadAct()};
+const TZ='Asia/Ho_Chi_Minh',KL={vocab_learned:'học từ mới',vocab_correct:'trả lời đúng từ vựng',grammar_correct:'trả lời đúng ngữ pháp',quiz_complete_80:'hoàn thành quiz (≥80%)',quiz_complete_100:'hoàn thành quiz (100%)',write_done:'luyện viết'};
+const fDay=t=>new Date(t).toLocaleDateString('vi-VN',{timeZone:TZ,weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});
+const fHour=t=>new Date(t).toLocaleTimeString('vi-VN',{timeZone:TZ,hour:'2-digit',minute:'2-digit',hour12:false});
+function actGroups(){const g=[],last={};for(const e of acts||[]){const t=+new Date(e.created_at),k=e.display_name+'|'+e.kind,L=last[k];if(L&&L.from-t<=600000){L.from=t;L.n++;L.xp+=e.xp}else{const o={name:e.display_name,kind:e.kind,from:t,to:t,n:1,xp:e.xp};last[k]=o;g.push(o)}}return g}
+const actCard=()=>{if(!logged())return'';
+ let body;if(!acts)body='<div class="text-gray-400">Đang tải...</div>';else if(!acts.length)body='<div class="text-gray-400">Chưa có hoạt động nào.</div>';else{
+  const tot={};for(const e of acts){const d=fDay(e.created_at);tot[d]=tot[d]||{};tot[d][e.display_name]=(tot[d][e.display_name]||0)+e.xp}
+  let cur='';body=actGroups().map(g=>{const d=fDay(g.to);let h='';if(d!==cur){cur=d;h=`<div class="font-extrabold mt-3 text-rose-600">📅 ${esc(d)}</div><div class="text-xs text-gray-500 mb-1">Tổng ngày: ${Object.entries(tot[d]).sort((a,b)=>b[1]-a[1]).map(([n,x])=>esc(n)+' '+x+' XP').join(' · ')}</div>`}
+   const a=fHour(g.from),b=fHour(g.to);return h+`<div><small class="text-gray-400">${a}${g.n>1&&a!==b?'–'+b:''}</small> <b>${esc(g.name)}</b> ${KL[g.kind]||esc(g.kind)}${g.n>1?' ×'+g.n:''} <b class="text-rose-500">+${g.xp} XP</b></div>`}).join('')}
+ return `<div class="ac-card"><h3>🕒 Hoạt động của lớp</h3><p class="text-xs text-gray-500 mb-2">Giờ Việt Nam. Các lần làm liên tiếp trong 10 phút được gộp thành một dòng.</p><button class="ac-btn" onclick="ENT8.refreshClass()">🔄 Làm mới</button><div class="wl" style="max-height:420px;overflow:auto">${body}</div></div>`};
 const dt=x=>x?new Date(x).toLocaleDateString('vi-VN'):'—';
-const stuCard=()=>!isHost?'':`<div class="ac-card"><h3>👥 Học viên đã đăng ký ${students?'('+students.length+')':''}</h3><button class="ac-btn" onclick="ENT8.loadStu()">${students?'🔄 Làm mới':'Xem danh sách'}</button>
-<div class="wl">${students?(students.length?students.map(x=>`<div><b>${esc(x.display_name)}</b> — ${x.total_xp} XP <small class="text-gray-400">· đăng ký ${dt(x.registered_at)} · hoạt động ${dt(x.last_active)}</small></div>`).join(''):'<div class="text-gray-400">Chưa có học viên.</div>'):'<div class="text-gray-400">Bấm "Xem danh sách".</div>'}</div></div>`;
+const stuCard=()=>!logged()?'<div class="ac-card"><h3>👥 Thành viên lớp</h3><p class="text-xs text-gray-400">Đăng nhập để xem danh sách và hoạt động của cả lớp.</p></div>':`<div class="ac-card"><h3>👥 Thành viên lớp ${students?'('+students.length+')':''}</h3><button class="ac-btn" onclick="ENT8.refreshClass()">🔄 Làm mới</button>
+<div class="wl">${students?(students.length?students.map(x=>`<div><b>${esc(x.display_name)}</b> — ${x.total_xp} XP <small class="text-gray-400">· đăng ký ${dt(x.registered_at)} · hoạt động ${dt(x.last_active)}</small></div>`).join(''):'<div class="text-gray-400">Chưa có thành viên.</div>'):'<div class="text-gray-400">Đang tải...</div>'}</div></div>`;
 
 /* ---------- Tài khoản ---------- */
 const GUIDE=[['Bắt đầu nhanh','<p>Từ vựng: bấm vào một từ để xem đầy đủ. Thẻ: lật thẻ rồi chọn Đã thuộc / Chưa thuộc. Quiz: chọn kiểu quiz, làm xong sẽ có XP. Ngữ pháp: đọc công thức rồi bấm “Luyện tập”.</p>'],
@@ -108,7 +122,7 @@ function wordsList(){const v=(unitsData[currentUnit]?.vocab||[]);
  const t=(k,l)=>`<button class="ac-btn ${wTab===k?'pri':''}" onclick="ENT8.tab('${k}')">${l}</button>`;
  return `<div class="ac-card"><h3>📊 Từ của tôi (${esc(unitsData[currentUnit]?.title||'')})</h3><div class="flex flex-wrap gap-2">${t('ok','✅ Đã thuộc')}${t('no','❌ Chưa thuộc')}${t('un','🆕 Chưa học')}</div><div class="wl">${f.length?f.map(x=>`<div><b>${esc(x.word)}</b> — ${esc(x.def||'')}</div>`).join(''):'<div class="text-gray-400">Chưa có từ nào.</div>'}</div></div>`}
 E8.tab=k=>{wTab=k;render()};
-function render(){const a=$('account-section');if(!a)return;const n=LS.getItem('ENT303_NAME')||'Khách',on=!!(window.ENT303MP&&ENT303MP.user&&ENT303MP.user());
+function render(){const a=$('account-section');if(!a)return;if(!autoLoaded&&logged()){autoLoaded=true;setTimeout(E8.refreshClass,0)}const n=LS.getItem('ENT303_NAME')||'Khách',on=!!(window.ENT303MP&&ENT303MP.user&&ENT303MP.user());
  const vs=enV(),cur=pick();
  a.innerHTML=`<div class="ac-card"><div class="flex items-center justify-between gap-3 flex-wrap"><div><h3>👤 ${esc(n)} ${isHost?'<span class="ac-btn pri" style="padding:2px 8px">HOST</span>':''}</h3><p class="text-xs text-gray-500">${on?'Đã đăng nhập, dữ liệu được đồng bộ.':'Chưa đăng nhập — dữ liệu chỉ lưu trên máy này.'}</p></div>
  ${on?'<button class="ac-btn" onclick="COLX.logout()">Đăng xuất</button>':'<button class="ac-btn pri" onclick="COLX.login()">Đăng nhập / tạo tài khoản</button>'}</div></div>
@@ -117,6 +131,7 @@ function render(){const a=$('account-section');if(!a)return;const n=LS.getItem('
  ${isHost?'<div class="ac-card"><h3>🛠 Công cụ Host</h3><p class="text-xs text-gray-500 mb-2">Sửa từ/ngữ pháp bằng nút ⋮ như bình thường, rồi bấm Xuất bản để mọi tài khoản nhận thay đổi.</p><div class="flex flex-wrap gap-2"><button class="ac-btn pri" onclick="ENT8.publish()">📤 Xuất bản cho cả lớp</button><button class="ac-btn" onclick="ENT8.pull(true)">⬇ Tải lại bản đã xuất bản</button></div></div>':''}
  <div class="ac-card"><h3>🌸 Chọn môn học</h3><p class="text-xs text-gray-500 mb-2">English • 中文 (HSK) • 日本語 (N5) — 3 môn ngang hàng trong Mimi.</p><button class="ac-btn pri" onclick="COLX.gate()">Mở Mimi</button></div>
  ${stuCard()}
+ ${actCard()}
  ${wordsList()}
  ${qCard()}
  <div class="ac-card"><h3>🎨 Giao diện & giọng đọc</h3><div class="flex flex-wrap gap-2 items-center"><button class="ac-btn" onclick="ENTX.openTheme()">🎨 Chủ đề / nền</button><button class="ac-btn" onclick="changeFont(-1)">A−</button><button class="ac-btn" onclick="changeFont(1)">A+</button></div>

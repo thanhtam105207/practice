@@ -637,7 +637,7 @@ return{all:D,next,flat,pool};
 
             <!-- 5. INTERACTIVE SLIDE QUIZ SYSTEM -->
             <div id="quiz-section" class="hidden flex flex-col items-center justify-center min-h-[500px]">
-                <div id="quiz-mode-picker" class="w-full max-w-4xl space-y-5"><div class="text-center"><div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 text-purple-700 border border-purple-100 text-xs font-extrabold">🧠 KHU ÔN TẬP</div><h2 class="text-2xl sm:text-3xl font-extrabold text-slateCustom mt-3">Ôn gì hôm nay?</h2><p class="text-sm text-gray-500 mt-2">Chọn phạm vi trước, rồi mới chọn dạng bài.</p></div><div class="bg-white rounded-[28px] border border-rose-100 shadow-sm p-5 sm:p-6"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4"><div><p class="text-xs font-extrabold uppercase tracking-wider text-gray-400">Bước 1</p><h3 class="text-lg font-extrabold text-slateCustom">Chọn nhóm từ</h3></div><span id="quiz-scope-label" class="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-full">Toàn bộ từ của Unit</span></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><button id="scope-unlearned-btn" onclick="chooseQuizScope('unlearned')" class="quiz-choice"><div class="flex items-center gap-3"><span class="w-11 h-11 rounded-2xl bg-amber-50 flex items-center justify-center text-xl">🐣</span><div><b class="block text-sm">Từ chưa thuộc</b><small class="text-xs text-gray-500"><span id="quiz-unlearned-count">0</span> từ đã đánh dấu chưa thuộc</small></div></div></button><button id="scope-all-btn" onclick="chooseQuizScope('all')" class="quiz-choice selected"><div class="flex items-center gap-3"><span class="w-11 h-11 rounded-2xl bg-rose-50 flex items-center justify-center text-xl">🌈</span><div><b class="block text-sm">Toàn bộ từ</b><small class="text-xs text-gray-500"><span id="quiz-all-count">0</span> từ trong Unit hiện tại</small></div></div></button></div></div><div class="bg-white rounded-[28px] border border-rose-100 shadow-sm p-5 sm:p-6"><p class="text-xs font-extrabold uppercase tracking-wider text-gray-400">Bước 2</p><h3 class="text-lg font-extrabold text-slateCustom mt-1 mb-4">Chọn dạng bài</h3><div class="grid grid-cols-1 md:grid-cols-4 gap-3"><button onclick="launchQuiz('slide')" class="quiz-choice"><span class="text-3xl">🎯</span><b class="block mt-3 text-sm">Quiz Slide</b><span class="text-xs text-gray-500">Chọn nghĩa đúng</span></button><button onclick="launchQuiz('fast')" class="quiz-choice"><span class="text-3xl">⚡</span><b class="block mt-3 text-sm">Quiz 2 cột</b><span class="text-xs text-gray-500">Nghĩa → gõ từ tiếng Anh</span></button><button onclick="launchQuiz('listen')" class="quiz-choice"><span class="text-3xl">🎧</span><b class="block mt-3 text-sm">Nghe chép</b><span class="text-xs text-gray-500">Nghe phát âm → gõ từ</span></button><button onclick="openGrammarQuizPicker()" class="quiz-choice"><span class="text-3xl">📖</span><b class="block mt-3 text-sm">Quiz Ngữ pháp</b><span class="text-xs text-gray-500">10 câu • 3 dạng • luôn khác</span></button></div></div></div>                <div id="quiz-run-area" class="hidden w-full max-w-2xl bg-white rounded-3xl shadow-lg border border-rose-100 p-6 sm:p-8 space-y-6 relative overflow-hidden">
+                <div id="quiz-mode-picker" class="w-full max-w-4xl space-y-5"><div class="text-center"><div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 text-purple-700 border border-purple-100 text-xs font-extrabold">🧠 KHU ÔN TẬP</div><h2 class="text-2xl sm:text-3xl font-extrabold text-slateCustom mt-3">Ôn gì hôm nay?</h2><p class="text-sm text-gray-500 mt-2">Chọn phạm vi trước, rồi mới chọn dạng bài.</p></div><div class="bg-white rounded-[28px] border border-rose-100 shadow-sm p-5 sm:p-6"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4"><div><p class="text-xs font-extrabold uppercase tracking-wider text-gray-400">Bước 1</p><h3 class="text-lg font-extrabold text-slateCustom">Chọn nhóm từ</h3></div><span id="quiz-scope-label" class="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-full">Toàn bộ từ của Unit</span></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><button id="scope-unlearned-btn" onclick="chooseQuizScope('unlearned')" class="quiz-choice"><div class="flex items-center gap-3"><span class="w-11 h-11 rounded-2xl bg-amber-50 flex items-center justify-center text-xl">🐣</span><div><b class="block text-sm">Từ chưa thuộc</b><small class="text-xs text-gray-500"><span id="quiz-unlearned-count">0</span> từ đã đánh dấu chưa thuộc</small></div></div></button><button id="scope-all-btn" onclick="chooseQuizScope('all')" class="quiz-choice selected"><div class="flex items-center gap-3"><span class="w-11 h-11 rounded-2xl bg-rose-50 flex items-center justify-center text-xl">🌈</span><div><b class="block text-sm">Toàn bộ từ</b><small class="text-xs text-gray-500"><span id="quiz-all-count">0</span> từ trong Unit hiện tại</small></div></div></button></div></div><div class="bg-white rounded-[28px] border border-rose-100 shadow-sm p-5 sm:p-6"><p class="text-xs font-extrabold uppercase tracking-wider text-gray-400">Bước 2</p><h3 class="text-lg font-extrabold text-slateCustom mt-1 mb-4">Chọn dạng bài</h3><div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"><button onclick="launchQuiz('slide')" class="quiz-choice"><span class="text-3xl">🎯</span><b class="block mt-3 text-sm">Quiz Slide</b><span class="text-xs text-gray-500">Chọn nghĩa đúng</span></button><button onclick="launchQuiz('slide_en')" class="quiz-choice"><span class="text-3xl">🔤</span><b class="block mt-3 text-sm">Quiz Anh–Anh</b><span class="text-xs text-gray-500">Từ → chọn 1–4 nghĩa tiếng Anh</span></button><button onclick="launchQuiz('fast')" class="quiz-choice"><span class="text-3xl">⚡</span><b class="block mt-3 text-sm">Quiz 2 cột</b><span class="text-xs text-gray-500">Nghĩa → gõ từ tiếng Anh</span></button><button onclick="launchQuiz('listen')" class="quiz-choice"><span class="text-3xl">🎧</span><b class="block mt-3 text-sm">Nghe chép</b><span class="text-xs text-gray-500">Nghe phát âm → gõ từ</span></button><button onclick="openGrammarQuizPicker()" class="quiz-choice"><span class="text-3xl">📖</span><b class="block mt-3 text-sm">Quiz Ngữ pháp</b><span class="text-xs text-gray-500">10 câu • 3 dạng • luôn khác</span></button></div></div></div>                <div id="quiz-run-area" class="hidden w-full max-w-2xl bg-white rounded-3xl shadow-lg border border-rose-100 p-6 sm:p-8 space-y-6 relative overflow-hidden">
                     <div class="flex justify-between items-center border-b border-gray-100 pb-4">
                         <div class="flex items-center gap-3">
                             <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-bold uppercase tracking-wider">Slide Quiz</span>
@@ -998,7 +998,7 @@ localStorage.setItem('ENT303_PDF_V6','1');localStorage.setItem('ENT303_USER_UNIT
         let userWrongSlides = [];
         let userCorrectSlides = [];
         let quizScope = localStorage.getItem('ENT303_QUIZ_SCOPE') || 'all';
-        let activeQuizMode = null;
+        let activeQuizMode = null; let quizSlideVariant = 'vi';
         let fastQuizItems = [];
         let fastQuizCorrectCount = 0;
         let fastQuizWrongCount = 0;
@@ -1039,7 +1039,7 @@ localStorage.setItem('ENT303_PDF_V6','1');localStorage.setItem('ENT303_USER_UNIT
         function updateQuizPicker(){ const all=unitsData[currentUnit]?.vocab||[]; const un=all.filter(v=>unlearnedCardsSet.has(v.word)); document.getElementById('quiz-all-count')&&(document.getElementById('quiz-all-count').innerText=all.length); document.getElementById('quiz-unlearned-count')&&(document.getElementById('quiz-unlearned-count').innerText=un.length); document.getElementById('quiz-scope-label')&&(document.getElementById('quiz-scope-label').innerText=quizScope==='unlearned'?`Từ chưa thuộc • ${un.length} từ`:`Toàn bộ từ • ${all.length} từ`); document.getElementById('scope-unlearned-btn')?.classList.toggle('selected',quizScope==='unlearned'); document.getElementById('scope-all-btn')?.classList.toggle('selected',quizScope==='all'); }
         function chooseQuizScope(scope){ quizScope=scope; localStorage.setItem('ENT303_QUIZ_SCOPE',scope); updateQuizPicker(); if(scope==='unlearned'&&!getQuizVocabList().length) showToast('Hiện Unit này chưa có từ nào được đánh dấu "chưa thuộc".'); }
         function getQuizVocabList(){ const all=[...(unitsData[currentUnit]?.vocab||[])]; return quizScope==='unlearned'?all.filter(v=>unlearnedCardsSet.has(v.word)):all; }
-        function launchQuiz(mode){ const pool=getQuizVocabList(); if(!pool.length){showToast('Không có từ trong nhóm ôn tập này.');return;} activeQuizMode=mode; if(mode==='slide'){currentSection='quiz';document.getElementById('quiz-mode-picker').classList.add('hidden');document.getElementById('quiz-run-area').classList.remove('hidden');initSlideQuizEngine();} else if(mode==='fast'){currentSection='fastquiz';document.getElementById('quiz-section').classList.add('hidden');document.getElementById('fastquiz-section').classList.remove('hidden');updateBottomNav('fastquiz');renderFastQuizRows();} else {currentSection='listenquiz';document.getElementById('quiz-section').classList.add('hidden');document.getElementById('listenquiz-section').classList.remove('hidden');updateBottomNav('listenquiz');initListeningQuiz();} }
+        function launchQuiz(mode){ if(mode==='slide_en'){ const n=getQuizVocabList().filter(v=>enOf(v)).length; if(!n||enAll().length<4){showToast('Cần ít nhất 4 từ có nghĩa tiếng Anh (trường en) để làm Quiz Anh–Anh, và nhóm từ này phải có từ như vậy.');return;} quizSlideVariant='en'; mode='slide'; } else if(mode==='slide'){ quizSlideVariant='vi'; } const pool=getQuizVocabList(); if(!pool.length){showToast('Không có từ trong nhóm ôn tập này.');return;} activeQuizMode=mode; if(mode==='slide'){currentSection='quiz';document.getElementById('quiz-mode-picker').classList.add('hidden');document.getElementById('quiz-run-area').classList.remove('hidden');initSlideQuizEngine();} else if(mode==='fast'){currentSection='fastquiz';document.getElementById('quiz-section').classList.add('hidden');document.getElementById('fastquiz-section').classList.remove('hidden');updateBottomNav('fastquiz');renderFastQuizRows();} else {currentSection='listenquiz';document.getElementById('quiz-section').classList.add('hidden');document.getElementById('listenquiz-section').classList.remove('hidden');updateBottomNav('listenquiz');initListeningQuiz();} }
 
         // RENDER TỪ VỰNG: chỉ hiện từ, IPA, loại, nghĩa, âm thanh. Rê chuột / chạm để xem đầy đủ.
         const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -1065,6 +1065,7 @@ localStorage.setItem('ENT303_PDF_V6','1');localStorage.setItem('ENT303_USER_UNIT
                         </div>
                         ${v.phonetic ? `<p class="text-xs font-semibold text-amber-700 mt-0.5">${esc(v.phonetic)}</p>` : ''}
                         <p class="text-sm font-semibold text-rose-600 mt-1">${esc(v.def)}</p>
+                        ${(v.en||(v.meanings&&v.meanings[0]&&v.meanings[0].en))?`<p class="text-xs font-medium text-gray-500 mt-0.5">${esc(v.en||v.meanings[0].en)}</p>`:''}
                     </div>
                     ${v.image ? `<img src="${esc(v.image)}" alt="Ảnh gợi nhớ cho ${esc(v.word)}" class="vocab-memory-image" loading="lazy">` : ''}
                     <div class="flex flex-col gap-2 items-end shrink-0">
@@ -1739,7 +1740,34 @@ small talk | expression | nói chuyện xã giao`
         }
 
                 // SLIDE QUIZ ENGINE
+        const enOf = v => String((v && (v.en || (v.meanings && v.meanings[0] && v.meanings[0].en))) || '').trim();
+        function enAll() { const a = []; Object.keys(unitsData).forEach(u => { const vv = unitsData[u] && unitsData[u].vocab; if (Array.isArray(vv)) vv.forEach(v => { if (enOf(v)) a.push(v); }); }); return a; }
+        function initEnSlideQuiz() {
+            document.getElementById('quiz-result-modal').classList.add('hidden');
+            const list = getQuizVocabList().filter(v => enOf(v));
+            const everyone = enAll();
+            quizSlidesList = []; currentQuizSlideIndex = 0; quizScore = 0; userWrongSlides = []; userCorrectSlides = [];
+            list.forEach(v => {
+                const ans = enOf(v);
+                const pickD = src => [...new Set(src.filter(x => x.word !== v.word).map(enOf).filter(d => d && d.toLowerCase() !== ans.toLowerCase()))].sort(() => Math.random() - 0.5);
+                let ds = pickD(list).slice(0, 3);
+                if (ds.length < 3) ds = [...new Set([...ds, ...pickD(everyone)])].slice(0, 3);
+                quizSlidesList.push({
+                    type: "mc_en_en",
+                    title: "Chọn nghĩa Tiếng Anh chuẩn xác:",
+                    questionText: `<span class="text-rose-600 font-extrabold text-2xl">${esc(v.word)}</span> (${esc(v.pos || 'n')})${v.phonetic ? ` <span class="text-sm text-amber-700 font-semibold">${esc(v.phonetic)}</span>` : ''}`,
+                    targetWord: v.word,
+                    correctAnswer: ans,
+                    options: [ans, ...ds].sort(() => Math.random() - 0.5)
+                });
+            });
+            quizSlidesList.sort(() => Math.random() - 0.5);
+            document.getElementById('quiz-slide-total').innerText = quizSlidesList.length;
+            renderCurrentSlideContent();
+        }
+
         function initSlideQuizEngine() {
+            if (quizSlideVariant === 'en') return initEnSlideQuiz();
             document.getElementById('quiz-result-modal').classList.add('hidden');
             const vocabList = getQuizVocabList();
             const grammarList = quizScope === 'all' ? (unitsData[currentUnit].grammarQuestions || []) : [];

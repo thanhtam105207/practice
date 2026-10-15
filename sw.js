@@ -1,4 +1,4 @@
-const CACHE='mimi-v26-20261014';
+const CACHE='mimi-v28-20261015';
 const APP=['./','./index.html','./ent-v8.js','./hsk1-data.js','./hsk1-app.js','./ja-app.js','./ja-minna.js','./ja-minna-data1.js','./host-studio.js','./hsk1-listen.js','./mimi.js','./write.js','./mimi-ux.js','./hoc-ngoai-ngu.html','./supabase-config.js','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
 const CDN=/^https:\/\/(cdn\.jsdelivr\.net|cdn\.tailwindcss\.com|cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)\//;
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>Promise.all(APP.map(u=>c.add(u).catch(()=>{})))).then(()=>self.skipWaiting())));
