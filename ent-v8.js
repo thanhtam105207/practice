@@ -88,9 +88,24 @@ const qCard=()=>`<div class="ac-card"><h3>➕ Câu hỏi của tôi</h3><p class
 /* ---------- Host: danh sách học viên ---------- */
 const logged=()=>!!(window.ENT303MP&&ENT303MP.user&&ENT303MP.user());
 let acts=null,autoLoaded=false;
-E8.loadStu=async()=>{if(!sb)return;const{data,error}=await sb.rpc('get_students');if(error){students=[];return toast('Chưa chạy supabase-activity.sql: '+error.message)}students=data||[];render()};
-E8.loadAct=async()=>{if(!sb)return;const{data,error}=await sb.rpc('get_activity',{p_limit:500});if(error){acts=[];return toast('Chưa chạy supabase-activity.sql: '+error.message)}acts=data||[];render()};
-E8.refreshClass=()=>{E8.loadStu();E8.loadAct()};
+let hist=null,histWho='',sqlWarned=false;
+const warn=m=>{if(sqlWarned)return;sqlWarned=true;toast(m)};
+E8.loadStu=async()=>{if(!sb)return;const{data,error}=await sb.rpc('get_students');if(error){students=[];return warn('Chưa chạy supabase-activity.sql: '+error.message)}students=data||[];render()};
+E8.loadAct=async()=>{if(!sb)return;const{data,error}=await sb.rpc('get_activity',{p_limit:500});if(error){acts=[];return warn('Chưa chạy supabase-activity.sql: '+error.message)}acts=data||[];render()};
+E8.logAttempt=async(kind,score,total,unit)=>{if(!sb||!logged()||!(total>0))return;try{await sb.rpc('log_quiz_attempt',{p_kind:kind,p_unit:String(unit||''),p_score:Math.max(0,score|0),p_total:total|0})}catch(x){}};
+E8.loadHist=async()=>{if(!sb)return;const{data,error}=await sb.rpc('get_quiz_history',{p_limit:500});if(error){hist=[];return warn('Chưa chạy supabase-history.sql: '+error.message)}hist=data||[];render()};
+E8.setHistWho=v=>{histWho=v;render()};
+E8.refreshClass=()=>{E8.loadStu();E8.loadAct();E8.loadHist()};
+const QL={slide:'Quiz Slide',slide_en:'Quiz Anh–Anh',fast:'Quiz 2 cột',listen:'Nghe chép',grammar:'Quiz Ngữ pháp'};
+const histCard=()=>{if(!logged())return'';
+ let body;if(!hist)body='<div class="text-gray-400">Đang tải...</div>';else{
+  const names=[...new Set(hist.map(x=>x.display_name))].sort((a,b)=>a.localeCompare(b,'vi'));
+  const rows=hist.filter(x=>!histWho||x.display_name===histWho);
+  const sel=`<select class="ac-btn" onchange="ENT8.setHistWho(this.value)"><option value="">Tất cả mọi người</option>${names.map(n=>`<option value="${esc(n)}"${n===histWho?' selected':''}>${esc(n)}</option>`).join('')}</select>`;
+  let cur='';const list=!rows.length?'<div class="text-gray-400 mt-2">Chưa có lượt làm bài nào.</div>':rows.map(x=>{const d=fDay(x.created_at);let h='';if(d!==cur){cur=d;const n=rows.filter(y=>fDay(y.created_at)===d).length;h=`<div class="font-extrabold mt-3 text-rose-600">📅 ${esc(d)} <small class="text-gray-400 font-normal">· ${n} lượt</small></div>`}
+   const pc=Math.round(x.score*100/x.total);return h+`<div><small class="text-gray-400">${fHour(x.created_at)}</small> <b>${esc(x.display_name)}</b> ${QL[x.kind]||esc(x.kind)}${x.unit?' · '+esc(x.unit):''} — <b class="${pc>=80?'text-emerald-600':pc>=50?'text-amber-600':'text-rose-500'}">${x.score}/${x.total} (${pc}%)</b></div>`}).join('');
+  body=sel+list}
+ return `<div class="ac-card"><h3>📝 Lịch sử làm bài</h3><p class="text-xs text-gray-500 mb-2">Mỗi lần ai làm xong một bài quiz: giờ Việt Nam, dạng quiz, Unit, số câu đúng. Bài làm dở chưa xong thì chưa ghi.</p><button class="ac-btn" onclick="ENT8.refreshClass()">🔄 Làm mới</button><div class="wl" style="max-height:460px;overflow:auto">${body}</div></div>`};
 const TZ='Asia/Ho_Chi_Minh',KL={vocab_learned:'học từ mới',vocab_correct:'trả lời đúng từ vựng',grammar_correct:'trả lời đúng ngữ pháp',quiz_complete_80:'hoàn thành quiz (≥80%)',quiz_complete_100:'hoàn thành quiz (100%)',write_done:'luyện viết'};
 const fDay=t=>new Date(t).toLocaleDateString('vi-VN',{timeZone:TZ,weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});
 const fHour=t=>new Date(t).toLocaleTimeString('vi-VN',{timeZone:TZ,hour:'2-digit',minute:'2-digit',hour12:false});
@@ -131,6 +146,7 @@ function render(){const a=$('account-section');if(!a)return;if(!autoLoaded&&logg
  ${isHost?'<div class="ac-card"><h3>🛠 Công cụ Host</h3><p class="text-xs text-gray-500 mb-2">Sửa từ/ngữ pháp bằng nút ⋮ như bình thường, rồi bấm Xuất bản để mọi tài khoản nhận thay đổi.</p><div class="flex flex-wrap gap-2"><button class="ac-btn pri" onclick="ENT8.publish()">📤 Xuất bản cho cả lớp</button><button class="ac-btn" onclick="ENT8.pull(true)">⬇ Tải lại bản đã xuất bản</button></div></div>':''}
  <div class="ac-card"><h3>🌸 Chọn môn học</h3><p class="text-xs text-gray-500 mb-2">English • 中文 (HSK) • 日本語 (N5) — 3 môn ngang hàng trong Mimi.</p><button class="ac-btn pri" onclick="COLX.gate()">Mở Mimi</button></div>
  ${stuCard()}
+ ${histCard()}
  ${actCard()}
  ${wordsList()}
  ${qCard()}
